@@ -1,0 +1,45 @@
+name: Auto Release (Lite)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build plugin zip
+        run: |
+          set -euo pipefail
+          rm -rf dist
+          mkdir -p dist/simple-task-manager-lite
+          rsync -av \
+            --exclude=".git" \
+            --exclude=".github" \
+            --exclude="*.zip" \
+            ./ dist/simple-task-manager-lite/
+          cd dist
+          zip -r simple-task-manager-lite.zip simple-task-manager-lite
+
+      - name: Publish/update auto-latest release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: auto-latest
+          name: Auto Latest Build
+          body: |
+            Automatic build from main branch.
+            Commit: ${{ github.sha }}
+          artifacts: dist/simple-task-manager-lite.zip
+          allowUpdates: true
+          replacesArtifacts: true
+          makeLatest: false
+          prerelease: true
