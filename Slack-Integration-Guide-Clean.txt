@@ -1,0 +1,148 @@
+SLACK INTEGRATION GUIDE
+Simple Task Management v1.8.0
+
+1) WHAT THIS INTEGRATION DOES
+- Create tasks from Slack using a slash command.
+- Assign those tasks to mapped WordPress users.
+- Send Slack notification when a task is assigned.
+- Works on Slack Free plan.
+
+2) PREREQUISITES
+- WordPress site must be public and HTTPS.
+- Plugin v1.8.0 installed and active.
+- Admin access to WordPress and Slack workspace.
+
+3) WORDPRESS SETUP (FIRST)
+1. Open WordPress Admin -> Task Manager -> Settings.
+2. Go to section: Slack Integration.
+3. Enable:
+   - Enable Slack Integration
+   - Allow Task Create From Slack Command
+   - Notify On Assignment
+4. Copy Slack Command Endpoint shown in settings.
+
+Example endpoint:
+https://yourdomain.com/wp-json/stm/v1/slack-command
+
+4) CREATE SLACK APP
+1. Open: https://api.slack.com/apps
+2. Click Create New App -> From scratch.
+3. Enter app name (example: Task Manager Bot).
+4. Select your workspace.
+
+5) CREATE SLASH COMMAND
+1. In Slack app settings, open Slash Commands.
+2. Click Create New Command.
+3. Command example: /taskassign
+4. Request URL: your plugin endpoint URL.
+5. Add short description and usage hint.
+6. Save.
+
+6) ENABLE BOT TOKEN (FOR NOTIFICATIONS)
+1. Open Slack app -> OAuth & Permissions.
+2. Under Bot Token Scopes, add: chat:write
+3. Click Install to Workspace (or Reinstall if prompted).
+4. Copy Bot User OAuth Token (starts with xoxb-).
+
+7) GET SIGNING SECRET
+1. Open Slack app -> Basic Information.
+2. Copy Signing Secret from App Credentials.
+
+8) GET CHANNEL ID
+1. Open Slack channel in web app.
+2. Copy channel ID from URL (example: C0123456789).
+3. If private channel, invite the app first.
+
+9) FILL PLUGIN SLACK SETTINGS
+Back in Task Manager -> Settings -> Slack Integration:
+1. Paste Slack Signing Secret.
+2. Paste Slack Bot Token (xoxb-...).
+3. Enter Slack Channel ID (C...).
+4. Save settings.
+
+10) MAP USERS (REQUIRED)
+In User Mapping (WordPress -> Slack User ID):
+1. For each WordPress user, set Slack User ID (U...).
+2. Save settings.
+
+How to get Slack User ID:
+- Open member profile in Slack and copy member ID.
+
+11) SLACK COMMAND FORMAT
+Use this format in Slack:
+@username|Task title|Description|due:YYYY-MM-DD|priority:high|reward:20
+
+Notes:
+- priority allowed: low, medium, high
+- due and reward are optional
+- if reward missing, plugin default reward is used
+
+Example:
+@aman|Prepare monthly report|Collect data and submit summary|due:2026-03-10|priority:high|reward:30
+
+12) WHAT HAPPENS AFTER COMMAND
+- Plugin verifies Slack request signature.
+- Plugin checks allowed channel (if channel ID is set).
+- Plugin resolves assignee using mapping.
+- Task is created in WordPress.
+- Slack assignment notification is posted.
+
+13) TROUBLESHOOTING
+A) Invalid Slack signature
+- Recheck Signing Secret in plugin settings.
+- Verify slash command Request URL is exact.
+
+B) Command not allowed in this channel
+- Use configured channel or update Slack Channel ID.
+
+C) Assignee not mapped
+- Add Slack user ID (U...) in mapping table.
+
+D) Notifications not posting
+- Confirm bot token starts with xoxb-
+- Confirm chat:write scope is added
+- Reinstall app after scope change
+- Invite app to the target channel
+
+E) Endpoint not reachable
+- Site must be public via HTTPS
+- Check firewall/security plugin rules for /wp-json/
+
+14) SECURITY BEST PRACTICES
+- Keep Signing Secret and Bot Token private.
+- Rotate tokens if exposed.
+- Restrict command usage to one channel.
+- Keep WordPress and plugin updated.
+
+15) IMPORTANT OFFICIAL LINKS
+Slack apps:
+https://api.slack.com/apps
+
+Slash commands:
+https://api.slack.com/interactivity/slash-commands
+
+Verify Slack requests:
+https://api.slack.com/authentication/verifying-requests-from-slack
+
+chat.postMessage API:
+https://api.slack.com/methods/chat.postMessage
+
+OAuth v2:
+https://api.slack.com/authentication/oauth-v2
+
+Slack scopes:
+https://api.slack.com/scopes
+
+WordPress REST API:
+https://developer.wordpress.org/rest-api/
+
+16) QUICK CHECKLIST
+[ ] Plugin v1.8.0 active
+[ ] Slack integration enabled
+[ ] Slash command created
+[ ] Endpoint URL set
+[ ] Signing secret set
+[ ] Bot token set
+[ ] Channel ID set
+[ ] User mapping completed
+[ ] Test command successful

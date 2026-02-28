@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="1280" viewBox="0 0 1280 1280" role="img" aria-label="WordPress style plain icon with transparent check">
+  <defs>
+    <mask id="checkCutout" maskUnits="userSpaceOnUse" x="0" y="0" width="1280" height="1280">
+      <rect x="0" y="0" width="1280" height="1280" fill="#000"/>
+      <rect x="24" y="56" width="1232" height="1168" rx="264" ry="264" fill="#fff"/>
+      <path d="M350 636L570 856L940 486" fill="none" stroke="#000" stroke-width="192" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+
+  <rect x="0" y="0" width="1280" height="1280" fill="#aaaeb1" mask="url(#checkCutout)"/>
+</svg>
