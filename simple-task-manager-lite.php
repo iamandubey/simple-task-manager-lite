@@ -1299,6 +1299,7 @@ final class STM_Simple_Task_Management {
                 self::redirect_with_notice('error', 'Reset leaderboard is available in Pro.', 'stm-task-manager-settings');
             }
             delete_metadata('user', 0, self::USER_POINTS_META, '', true);
+            delete_metadata('user', 0, self::LEGACY_USER_POINTS_META, '', true);
             self::redirect_with_notice('success', 'Leaderboard points reset for all users.', 'stm-task-manager-settings');
         }
 
@@ -1309,6 +1310,7 @@ final class STM_Simple_Task_Management {
             }
 
             delete_user_meta($user_id, self::USER_POINTS_META);
+            delete_user_meta($user_id, self::LEGACY_USER_POINTS_META);
             self::redirect_with_notice('success', 'User removed from leaderboard.', 'stm-task-manager-settings');
         }
 
@@ -1320,7 +1322,7 @@ final class STM_Simple_Task_Management {
                 self::redirect_with_notice('error', 'Please select a user.', 'stm-task-manager-settings');
             }
 
-            update_user_meta($user_id, self::USER_POINTS_META, $points);
+            self::update_user_points($user_id, $points);
             self::redirect_with_notice('success', 'Leaderboard points updated.', 'stm-task-manager-settings');
         }
 
