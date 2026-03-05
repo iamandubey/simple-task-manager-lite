@@ -1298,7 +1298,7 @@ final class STM_Simple_Task_Management {
 
         if ('reset_all' === $operation) {
             if (! self::is_leaderboard_reset_available()) {
-                self::redirect_with_notice('error', 'Reset leaderboard is available in Pro.', 'stm-task-manager-settings');
+                self::redirect_with_notice('error', 'Reset leaderboard is currently unavailable.', 'stm-task-manager-settings');
             }
             delete_metadata('user', 0, self::USER_POINTS_META, '', true);
             delete_metadata('user', 0, self::LEGACY_USER_POINTS_META, '', true);
@@ -1333,7 +1333,7 @@ final class STM_Simple_Task_Management {
 
     public static function handle_task_data_tools() {
         if (! self::is_data_tools_available()) {
-            self::redirect_with_notice('error', 'Task Data Tools are available in Pro.');
+            self::redirect_with_notice('error', 'Task Data Tools are currently unavailable.');
         }
 
         if (! self::current_user_can_manage_settings()) {
@@ -1871,7 +1871,7 @@ final class STM_Simple_Task_Management {
 
     public static function handle_submit_overdue_reason() {
         if (! self::is_overdue_workflow_available()) {
-            self::redirect_with_notice('error', 'Overdue workflow is available in Pro.');
+            self::redirect_with_notice('error', 'Overdue workflow is currently unavailable.');
         }
 
         if (! self::current_user_can_manage_tasks()) {
@@ -1943,7 +1943,7 @@ final class STM_Simple_Task_Management {
 
     public static function handle_review_overdue_reason() {
         if (! self::is_overdue_workflow_available()) {
-            self::redirect_with_notice('error', 'Overdue workflow is available in Pro.');
+            self::redirect_with_notice('error', 'Overdue workflow is currently unavailable.');
         }
 
         if (! self::current_user_can_manage_settings()) {
