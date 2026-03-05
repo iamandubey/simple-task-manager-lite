@@ -2339,48 +2339,18 @@ final class STM_Simple_Task_Management {
         $guest_btn_radius = (int) $settings['guest_login_button_radius'];
 
         if (! is_user_logged_in()) {
+            self::enqueue_frontend_guest_assets();
             $login_url = self::frontend_login_url($tasks_page_url);
+            $guest_style_vars = sprintf(
+                '--neuratm-guest-btn-start:%1$s;--neuratm-guest-btn-end:%2$s;--neuratm-guest-btn-text:%3$s;--neuratm-guest-btn-radius:%4$dpx;',
+                (string) $guest_btn_start,
+                (string) $guest_btn_end,
+                (string) $guest_btn_text,
+                (int) $guest_btn_radius
+            );
             ob_start();
             ?>
-            <div class="stm-front stm-front-guest">
-                <style>
-                    .stm-front { font-family: "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; color:#1e293b; }
-                    .stm-front-guest {
-                        background:
-                            radial-gradient(circle at 0% 0%, rgba(56,189,248,.16), transparent 45%),
-                            radial-gradient(circle at 100% 100%, rgba(167,139,250,.15), transparent 50%),
-                            #f8fafc;
-                        border:1px solid #dbeafe;
-                        border-radius:20px;
-                        padding:26px;
-                        box-shadow:0 16px 40px rgba(30,41,59,.08);
-                    }
-                    .stm-guest-wrap { max-width:760px; margin:0 auto; text-align:center; }
-                    .stm-guest-icon {
-                        width:64px; height:64px; border-radius:16px; margin:0 auto 14px;
-                        display:grid; place-items:center; font-size:28px;
-                        background:linear-gradient(135deg, #e0f2fe, #ede9fe);
-                        border:1px solid #bfdbfe;
-                    }
-                    .stm-guest-title { margin:0 0 8px; font-size:32px; line-height:1.1; color:#0f172a; font-weight:800; }
-                    .stm-guest-sub { margin:0 auto 16px; max-width:560px; color:#475569; font-size:16px; }
-                    .stm-guest-btn {
-                        display:inline-flex; align-items:center; gap:8px; text-decoration:none;
-                        background:linear-gradient(90deg, <?php echo esc_attr($guest_btn_start); ?>, <?php echo esc_attr($guest_btn_end); ?>);
-                        color:<?php echo esc_attr($guest_btn_text); ?>; border-radius:<?php echo esc_attr((string) $guest_btn_radius); ?>px; padding:12px 18px; font-weight:700;
-                        box-shadow:0 10px 26px rgba(37,99,235,.24);
-                    }
-                    .stm-guest-note { margin-top:12px; font-size:13px; color:#64748b; }
-                    .stm-guest-credit { margin-top:16px; font-size:12px; opacity:.56; color:#334155; }
-                    .stm-guest-credit a { color:inherit; text-decoration:none; transition:opacity .16s ease, color .16s ease; }
-                    .stm-guest-credit a:hover { opacity:1; color:#0f172a; }
-                    @media (max-width: 640px) {
-                        .stm-front-guest { padding:18px; border-radius:14px; }
-                        .stm-guest-title { font-size:26px; }
-                        .stm-guest-sub { font-size:15px; }
-                        .stm-guest-btn { width:100%; justify-content:center; }
-                    }
-                </style>
+            <div class="stm-front stm-front-guest" style="<?php echo esc_attr($guest_style_vars); ?>">
                 <div class="stm-guest-wrap">
                     <div class="stm-guest-icon">🔐</div>
                     <h2 class="stm-guest-title"><?php echo esc_html($guest_login_title); ?></h2>
