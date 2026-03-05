@@ -17,9 +17,12 @@ if (! defined('ABSPATH')) {
 
 final class STM_Simple_Task_Management {
     const VERSION           = '1.0.0';
-    const OPTION_SETTINGS   = 'stm_settings';
-    const OPTION_DB_VERSION = 'stm_db_version';
-    const USER_POINTS_META  = 'stm_reward_points';
+    const OPTION_SETTINGS   = 'neuratm_settings';
+    const LEGACY_OPTION_SETTINGS = 'stm_settings';
+    const OPTION_DB_VERSION = 'neuratm_db_version';
+    const LEGACY_OPTION_DB_VERSION = 'stm_db_version';
+    const USER_POINTS_META  = 'neuratm_reward_points';
+    const LEGACY_USER_POINTS_META = 'stm_reward_points';
     const LITE_BUILD        = true;
 
     public static function init() {
@@ -176,6 +179,9 @@ final class STM_Simple_Task_Management {
 
     public static function maybe_upgrade() {
         $stored_version = get_option(self::OPTION_DB_VERSION, '0.0.0');
+        if ('0.0.0' === $stored_version) {
+            $stored_version = get_option(self::LEGACY_OPTION_DB_VERSION, '0.0.0');
+        }
 
         if (version_compare((string) $stored_version, self::VERSION, '<')) {
             self::run_db_migration();
@@ -237,6 +243,9 @@ final class STM_Simple_Task_Management {
         dbDelta($sql_logs);
 
         update_option(self::OPTION_DB_VERSION, self::VERSION);
+        if (false !== get_option(self::LEGACY_OPTION_DB_VERSION, false)) {
+            delete_option(self::LEGACY_OPTION_DB_VERSION);
+        }
     }
 
     private static function table_name() {
