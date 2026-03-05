@@ -98,6 +98,77 @@ final class STM_Simple_Task_Management {
         );
     }
 
+    private static function enqueue_frontend_guest_assets() {
+        wp_enqueue_style(
+            'neuratm-frontend-guest',
+            plugins_url('assets/frontend-guest.css', __FILE__),
+            array(),
+            self::VERSION
+        );
+    }
+
+    private static function enqueue_frontend_dashboard_assets($open_task_dialog_on_load, $auto_refresh_enabled, $auto_refresh_ms, $auto_refresh_only_visible) {
+        wp_enqueue_style(
+            'neuratm-frontend-dashboard',
+            plugins_url('assets/frontend-dashboard.css', __FILE__),
+            array('dashicons'),
+            self::VERSION
+        );
+
+        wp_enqueue_script(
+            'neuratm-frontend-dashboard',
+            plugins_url('assets/frontend-dashboard.js', __FILE__),
+            array(),
+            self::VERSION,
+            true
+        );
+
+        wp_add_inline_script(
+            'neuratm-frontend-dashboard',
+            'window.neuratmFrontendConfig = ' . wp_json_encode(
+                array(
+                    'openTaskDialogOnLoad' => (bool) $open_task_dialog_on_load,
+                    'showDetailsText'      => __('Show details', 'neura-task-manager'),
+                    'hideDetailsText'      => __('Hide details', 'neura-task-manager'),
+                    'autoRefreshEnabled'   => (bool) $auto_refresh_enabled,
+                    'autoRefreshMs'        => (int) $auto_refresh_ms,
+                    'autoRefreshOnlyVisible' => (bool) $auto_refresh_only_visible,
+                )
+            ) . ';',
+            'before'
+        );
+    }
+
+    private static function enqueue_admin_dashboard_assets($open_task_dialog_on_load, $auto_refresh_enabled, $auto_refresh_ms, $auto_refresh_only_visible) {
+        wp_enqueue_style(
+            'neuratm-admin-dashboard',
+            plugins_url('assets/admin-dashboard.css', __FILE__),
+            array('dashicons'),
+            self::VERSION
+        );
+
+        wp_enqueue_script(
+            'neuratm-admin-dashboard',
+            plugins_url('assets/admin-dashboard.js', __FILE__),
+            array(),
+            self::VERSION,
+            true
+        );
+
+        wp_add_inline_script(
+            'neuratm-admin-dashboard',
+            'window.neuratmAdminConfig = ' . wp_json_encode(
+                array(
+                    'openTaskDialogOnLoad' => (bool) $open_task_dialog_on_load,
+                    'autoRefreshEnabled'   => (bool) $auto_refresh_enabled,
+                    'autoRefreshMs'        => (int) $auto_refresh_ms,
+                    'autoRefreshOnlyVisible' => (bool) $auto_refresh_only_visible,
+                )
+            ) . ';',
+            'before'
+        );
+    }
+
     public static function activate() {
         self::run_db_migration();
         self::ensure_default_settings();
@@ -1326,41 +1397,29 @@ final class STM_Simple_Task_Management {
         <head>
             <meta charset="utf-8" />
             <title>Task Export</title>
-            <style>
-                body { font-family: Arial, sans-serif; margin: 20px; color: #111827; }
-                h1 { margin: 0 0 10px; font-size: 20px; }
-                p.meta { margin: 0 0 14px; color: #475569; font-size: 12px; }
-                table { border-collapse: collapse; width: 100%; table-layout: fixed; }
-                th, td { border: 1px solid #cbd5e1; padding: 8px; font-size: 12px; text-align: left; vertical-align: top; word-wrap: break-word; }
-                th { background: #f1f5f9; font-weight: 700; }
-                .print-note { margin-bottom: 12px; font-size: 12px; color: #334155; }
-                @media print {
-                    .print-note { display: none; }
-                }
-            </style>
         </head>
-        <body>
-            <h1>Simple Task Management - Task Export</h1>
-            <p class="meta">Generated: <?php echo esc_html(current_time('Y-m-d H:i:s')); ?></p>
+        <body style="font-family:Arial,sans-serif;margin:20px;color:#111827;">
+            <h1 style="margin:0 0 10px;font-size:20px;">Simple Task Management - Task Export</h1>
+            <p style="margin:0 0 14px;color:#475569;font-size:12px;">Generated: <?php echo esc_html(current_time('Y-m-d H:i:s')); ?></p>
             <?php if ($pdf_ready) : ?>
-                <p class="print-note">Use your browser Print option and select "Save as PDF".</p>
+                <p style="margin-bottom:12px;font-size:12px;color:#334155;">Use your browser Print option and select "Save as PDF".</p>
             <?php endif; ?>
-            <table>
+            <table style="border-collapse:collapse;width:100%;table-layout:fixed;">
                 <thead>
                     <tr>
                         <?php foreach ($headers as $header_col) : ?>
-                            <th><?php echo esc_html((string) $header_col); ?></th>
+                            <th style="border:1px solid #cbd5e1;padding:8px;font-size:12px;text-align:left;vertical-align:top;word-wrap:break-word;background:#f1f5f9;font-weight:700;"><?php echo esc_html((string) $header_col); ?></th>
                         <?php endforeach; ?>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if (empty($rows)) : ?>
-                        <tr><td colspan="<?php echo esc_attr((string) count($headers)); ?>">No task data found.</td></tr>
+                        <tr><td colspan="<?php echo esc_attr((string) count($headers)); ?>" style="border:1px solid #cbd5e1;padding:8px;font-size:12px;text-align:left;vertical-align:top;word-wrap:break-word;">No task data found.</td></tr>
                     <?php else : ?>
                         <?php foreach ($rows as $row) : ?>
                             <tr>
                                 <?php foreach ($headers as $header_col) : ?>
-                                    <td><?php echo esc_html(isset($row[$header_col]) ? (string) $row[$header_col] : ''); ?></td>
+                                    <td style="border:1px solid #cbd5e1;padding:8px;font-size:12px;text-align:left;vertical-align:top;word-wrap:break-word;"><?php echo esc_html(isset($row[$header_col]) ? (string) $row[$header_col] : ''); ?></td>
                                 <?php endforeach; ?>
                             </tr>
                         <?php endforeach; ?>
