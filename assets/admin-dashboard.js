@@ -71,13 +71,13 @@
         function refreshUrl() {
             try {
                 var u = new URL(window.location.href);
-                u.searchParams.set('stm_refresh', String(Date.now()));
+                u.searchParams.set('neuratm_refresh', String(Date.now()));
                 return u.toString();
             } catch (e) {
                 var href = window.location.href;
-                var cleaned = href.replace(/([?&])stm_refresh=[^&]*/g, '$1').replace(/[?&]$/, '');
+                var cleaned = href.replace(/([?&])neuratm_refresh=[^&]*/g, '$1').replace(/[?&]$/, '');
                 var sep = cleaned.indexOf('?') === -1 ? '?' : '&';
-                return cleaned + sep + 'stm_refresh=' + Date.now();
+                return cleaned + sep + 'neuratm_refresh=' + Date.now();
             }
         }
 
