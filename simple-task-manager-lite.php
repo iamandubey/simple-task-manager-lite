@@ -2037,7 +2037,7 @@ final class STM_Simple_Task_Management {
 
     private static function get_user_points($user_id) {
         $user_id = (int) $user_id;
-        $points = (int) get_user_meta($user_id, self::USER_POINTS_META, true);
+        $points = self::get_user_points($user_id);
         if (0 === $points) {
             $points = (int) get_user_meta($user_id, self::LEGACY_USER_POINTS_META, true);
         }
@@ -2108,8 +2108,8 @@ final class STM_Simple_Task_Management {
 
         global $wpdb;
 
-        $current_points = (int) get_user_meta($user_id, self::USER_POINTS_META, true);
-        update_user_meta($user_id, self::USER_POINTS_META, $current_points + $points);
+        $current_points = self::get_user_points($user_id);
+        self::update_user_points($user_id, $current_points + $points);
 
         // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
         $wpdb->insert(
@@ -2678,7 +2678,7 @@ final class STM_Simple_Task_Management {
                                     <li><?php echo esc_html__('No points yet', 'neura-task-manager'); ?></li>
                                 <?php else : ?>
                                     <?php foreach ($leaderboard as $index => $row_user) : ?>
-                                        <li><span><?php echo esc_html(self::medal_for_rank($index + 1) . ' ' . $row_user->display_name); ?></span><strong class="points"><?php echo esc_html((string) (int) get_user_meta($row_user->ID, self::USER_POINTS_META, true)); ?></strong></li>
+                                        <li><span><?php echo esc_html(self::medal_for_rank($index + 1) . ' ' . $row_user->display_name); ?></span><strong class="points"><?php echo esc_html((string) self::get_user_points($row_user->ID)); ?></strong></li>
                                     <?php endforeach; ?>
                                 <?php endif; ?>
                             </ul>
@@ -2880,7 +2880,7 @@ final class STM_Simple_Task_Management {
                             <li><?php echo esc_html__('No points yet', 'neura-task-manager'); ?></li>
                         <?php else : ?>
                             <?php foreach ($leaderboard as $index => $row_user) : ?>
-                                <li><span><?php echo esc_html(self::medal_for_rank($index + 1) . ' ' . $row_user->display_name); ?></span><strong class="points"><?php echo esc_html((string) (int) get_user_meta($row_user->ID, self::USER_POINTS_META, true)); ?></strong></li>
+                                <li><span><?php echo esc_html(self::medal_for_rank($index + 1) . ' ' . $row_user->display_name); ?></span><strong class="points"><?php echo esc_html((string) self::get_user_points($row_user->ID)); ?></strong></li>
                             <?php endforeach; ?>
                         <?php endif; ?>
                     </ul>
@@ -3174,7 +3174,7 @@ final class STM_Simple_Task_Management {
                                                     <?php endif; ?>
                                                     <?php echo esc_html($row_user->display_name); ?>
                                                 </span>
-                                                <strong class="stm-points"><?php echo esc_html((string) (int) get_user_meta($row_user->ID, self::USER_POINTS_META, true)); ?></strong>
+                                                <strong class="stm-points"><?php echo esc_html((string) self::get_user_points($row_user->ID)); ?></strong>
                                             </li>
                                         <?php endforeach; ?>
                                     </ul>
@@ -3469,7 +3469,7 @@ final class STM_Simple_Task_Management {
                                         <?php if ($rank > 3) : ?><?php echo esc_html('#' . $rank); ?><?php endif; ?>
                                         <?php echo esc_html($row_user->display_name); ?>
                                     </span>
-                                    <strong class="stm-points"><?php echo esc_html((string) (int) get_user_meta($row_user->ID, self::USER_POINTS_META, true)); ?></strong>
+                                    <strong class="stm-points"><?php echo esc_html((string) self::get_user_points($row_user->ID)); ?></strong>
                                 </li>
                             <?php endforeach; ?>
                         </ul>
@@ -4016,7 +4016,7 @@ final class STM_Simple_Task_Management {
                                 <option value=""><?php echo esc_html__('Select user from leaderboard', 'neura-task-manager'); ?></option>
                                 <?php foreach ($leaderboard_users as $lb_user) : ?>
                                     <option value="<?php echo esc_attr((string) $lb_user->ID); ?>">
-                                        <?php echo esc_html($lb_user->display_name . ' (' . (int) get_user_meta($lb_user->ID, self::USER_POINTS_META, true) . ' pts)'); ?>
+                                        <?php echo esc_html($lb_user->display_name . ' (' . (int) self::get_user_points($lb_user->ID) . ' pts)'); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -4035,7 +4035,7 @@ final class STM_Simple_Task_Management {
                                 <option value=""><?php echo esc_html__('Select user', 'neura-task-manager'); ?></option>
                                 <?php foreach ($assignable_users as $assignable_user) : ?>
                                     <option value="<?php echo esc_attr((string) $assignable_user->ID); ?>">
-                                        <?php echo esc_html($assignable_user->display_name . ' (' . (int) get_user_meta($assignable_user->ID, self::USER_POINTS_META, true) . ' pts)'); ?>
+                                        <?php echo esc_html($assignable_user->display_name . ' (' . (int) self::get_user_points($assignable_user->ID) . ' pts)'); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
