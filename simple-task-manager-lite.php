@@ -50,35 +50,23 @@ final class STM_Simple_Task_Management {
     }
 
     private static function is_slack_available() {
-        return (bool) apply_filters('stm_lite_is_feature_available', ! self::LITE_BUILD, 'slack_integration');
+        return true;
     }
 
     private static function is_data_tools_available() {
-        return (bool) apply_filters('stm_lite_is_feature_available', ! self::LITE_BUILD, 'task_exports');
+        return true;
     }
 
     private static function is_overdue_workflow_available() {
-        return (bool) apply_filters('stm_lite_is_feature_available', ! self::LITE_BUILD, 'overdue_approval_workflow');
+        return true;
     }
 
     private static function is_leaderboard_reset_available() {
-        return (bool) apply_filters('stm_lite_is_feature_available', ! self::LITE_BUILD, 'leaderboard_reset');
+        return true;
     }
 
     private static function is_pro_feature_available($feature_key) {
-        if (! self::LITE_BUILD) {
-            return true;
-        }
-
-        $pro_features = array(
-            'custom_dashboard_title',
-            'guest_style_controls',
-            'auto_refresh_controls',
-            'tasks_per_page_control',
-        );
-
-        $default_enabled = ! in_array($feature_key, $pro_features, true);
-        return (bool) apply_filters('stm_lite_is_feature_available', $default_enabled, $feature_key);
+        return true;
     }
 
     private static function pro_upgrade_url() {
@@ -459,14 +447,24 @@ final class STM_Simple_Task_Management {
 
     public static function register_rest_routes() {
         register_rest_route(
-            'stm/v1',
+            'neura-task-manager/v1',
             '/slack-command',
             array(
                 'methods'             => 'POST',
                 'callback'            => array(__CLASS__, 'handle_slack_command'),
-                'permission_callback' => '__return_true',
+                'permission_callback' => array(__CLASS__, 'slack_permission_callback'),
             )
         );
+    }
+
+    public static function slack_permission_callback($request) {
+        $settings = self::get_settings();
+
+        if (empty($settings['slack_enabled']) || empty($settings['slack_allow_create_from_command'])) {
+            return false;
+        }
+
+        return self::slack_verify_request($request, $settings);
     }
 
     private static function slack_default_created_by() {
