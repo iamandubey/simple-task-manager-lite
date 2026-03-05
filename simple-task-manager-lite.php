@@ -72,10 +72,6 @@ final class STM_Simple_Task_Management {
         return true;
     }
 
-    private static function pro_upgrade_url() {
-        return 'https://wpneura.com/simple-task-manager/';
-    }
-
     private static function menu_icon_url() {
         $icon_url = plugins_url('assets/wp-check-transparent.svg', __FILE__);
         return apply_filters('stm_lite_menu_icon_url', $icon_url);
