@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: Simple Task Management Lite
+ * Plugin Name: Neura Task Manager
  * Plugin URI:  https://wpneura.com/docs/simple-task-manager/
  * Description: A task management plugin for WordPress admin with assignment, rewards, and role-based access.
  * Version:     1.0.0
  * Author:      Aman Dubey
  * License:     GPL-2.0-or-later
- * Text Domain: simple-task-manager-lite
+ * Text Domain: neura-task-manager
  * Requires at least: 6.0
  * Requires PHP: 7.4
  */
@@ -947,12 +947,12 @@ final class STM_Simple_Task_Management {
     private static function user_name($user_id) {
         $user_id = absint($user_id);
         if ($user_id < 1) {
-            return __('Unassigned', 'simple-task-manager-lite');
+            return __('Unassigned', 'neura-task-manager');
         }
 
         $user = get_user_by('id', $user_id);
         if (! $user) {
-            return __('Unknown user', 'simple-task-manager-lite');
+            return __('Unknown user', 'neura-task-manager');
         }
 
         return $user->display_name;
@@ -1090,8 +1090,8 @@ final class STM_Simple_Task_Management {
 
     public static function register_admin_menu() {
         add_menu_page(
-            __('Task Manager', 'simple-task-manager-lite'),
-            __('Task Manager', 'simple-task-manager-lite'),
+            __('Task Manager', 'neura-task-manager'),
+            __('Task Manager', 'neura-task-manager'),
             'read',
             'stm-task-manager',
             array(__CLASS__, 'render_admin_page'),
@@ -1101,8 +1101,8 @@ final class STM_Simple_Task_Management {
 
         add_submenu_page(
             'stm-task-manager',
-            __('Task Manager Settings', 'simple-task-manager-lite'),
-            __('Settings', 'simple-task-manager-lite'),
+            __('Task Manager Settings', 'neura-task-manager'),
+            __('Settings', 'neura-task-manager'),
             'read',
             'stm-task-manager-settings',
             array(__CLASS__, 'render_settings_page')
@@ -1111,7 +1111,7 @@ final class STM_Simple_Task_Management {
 
     public static function handle_save_settings() {
         if (! self::current_user_can_manage_settings()) {
-            wp_die(esc_html__('You are not allowed to manage settings.', 'simple-task-manager-lite'));
+            wp_die(esc_html__('You are not allowed to manage settings.', 'neura-task-manager'));
         }
 
         check_admin_referer('stm_save_settings');
@@ -1180,7 +1180,7 @@ final class STM_Simple_Task_Management {
 
     public static function handle_manage_leaderboard() {
         if (! self::current_user_can_manage_settings()) {
-            wp_die(esc_html__('You are not allowed to manage leaderboard.', 'simple-task-manager-lite'));
+            wp_die(esc_html__('You are not allowed to manage leaderboard.', 'neura-task-manager'));
         }
 
         check_admin_referer('stm_manage_leaderboard');
@@ -1226,7 +1226,7 @@ final class STM_Simple_Task_Management {
         }
 
         if (! self::current_user_can_manage_settings()) {
-            wp_die(esc_html__('You are not allowed to manage task data tools.', 'simple-task-manager-lite'));
+            wp_die(esc_html__('You are not allowed to manage task data tools.', 'neura-task-manager'));
         }
 
         check_admin_referer('stm_task_data_tools');
@@ -1527,7 +1527,7 @@ final class STM_Simple_Task_Management {
 
     public static function handle_save_task() {
         if (! self::current_user_can_manage_tasks()) {
-            wp_die(esc_html__('You are not allowed to perform this action.', 'simple-task-manager-lite'));
+            wp_die(esc_html__('You are not allowed to perform this action.', 'neura-task-manager'));
         }
 
         check_admin_referer('stm_save_task');
@@ -1652,7 +1652,7 @@ final class STM_Simple_Task_Management {
 
     public static function handle_delete_task() {
         if (! self::current_user_can_manage_tasks()) {
-            wp_die(esc_html__('You are not allowed to perform this action.', 'simple-task-manager-lite'));
+            wp_die(esc_html__('You are not allowed to perform this action.', 'neura-task-manager'));
         }
 
         check_admin_referer('stm_delete_task');
@@ -1686,7 +1686,7 @@ final class STM_Simple_Task_Management {
 
     public static function handle_update_status() {
         if (! self::current_user_can_manage_tasks() && ! self::current_user_can_access_frontend_dashboard()) {
-            wp_die(esc_html__('You are not allowed to perform this action.', 'simple-task-manager-lite'));
+            wp_die(esc_html__('You are not allowed to perform this action.', 'neura-task-manager'));
         }
 
         check_admin_referer('stm_update_status');
@@ -1776,7 +1776,7 @@ final class STM_Simple_Task_Management {
         }
 
         if (! self::current_user_can_manage_tasks()) {
-            wp_die(esc_html__('You are not allowed to perform this action.', 'simple-task-manager-lite'));
+            wp_die(esc_html__('You are not allowed to perform this action.', 'neura-task-manager'));
         }
 
         check_admin_referer('stm_submit_overdue_reason');
@@ -1848,7 +1848,7 @@ final class STM_Simple_Task_Management {
         }
 
         if (! self::current_user_can_manage_settings()) {
-            wp_die(esc_html__('You are not allowed to perform this action.', 'simple-task-manager-lite'));
+            wp_die(esc_html__('You are not allowed to perform this action.', 'neura-task-manager'));
         }
 
         check_admin_referer('stm_review_overdue_reason');
@@ -2035,17 +2035,17 @@ final class STM_Simple_Task_Management {
 
     private static function allowed_statuses() {
         return array(
-            'todo'        => __('To Do', 'simple-task-manager-lite'),
-            'in_progress' => __('In Progress', 'simple-task-manager-lite'),
-            'done'        => __('Done', 'simple-task-manager-lite'),
+            'todo'        => __('To Do', 'neura-task-manager'),
+            'in_progress' => __('In Progress', 'neura-task-manager'),
+            'done'        => __('Done', 'neura-task-manager'),
         );
     }
 
     private static function allowed_priorities() {
         return array(
-            'low'    => __('Low', 'simple-task-manager-lite'),
-            'medium' => __('Medium', 'simple-task-manager-lite'),
-            'high'   => __('High', 'simple-task-manager-lite'),
+            'low'    => __('Low', 'neura-task-manager'),
+            'medium' => __('Medium', 'neura-task-manager'),
+            'high'   => __('High', 'neura-task-manager'),
         );
     }
 
@@ -2351,7 +2351,7 @@ final class STM_Simple_Task_Management {
         }
 
         if (! self::current_user_can_access_frontend_dashboard()) {
-            return '<div class="stm-front"><p>' . esc_html__('You are not allowed to view this dashboard.', 'simple-task-manager-lite') . '</p></div>';
+            return '<div class="stm-front"><p>' . esc_html__('You are not allowed to view this dashboard.', 'neura-task-manager') . '</p></div>';
         }
 
         $statuses   = self::allowed_statuses();
@@ -2367,7 +2367,7 @@ final class STM_Simple_Task_Management {
         $editing_id = isset($_GET['edit_task']) ? absint($_GET['edit_task']) : 0;
         $editing_task = $editing_id ? self::get_task($editing_id) : null;
         if ($editing_task && ! self::current_user_can_edit_task_item($editing_task)) {
-            return '<div class="stm-front"><p>' . esc_html__('You are not allowed to edit this task.', 'simple-task-manager-lite') . '</p></div>';
+            return '<div class="stm-front"><p>' . esc_html__('You are not allowed to edit this task.', 'neura-task-manager') . '</p></div>';
         }
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -2699,55 +2699,55 @@ final class STM_Simple_Task_Management {
                 <div class="stm-head">
                     <h3 class="stm-title"><?php echo esc_html($dashboard_title); ?></h3>
                     <div class="stm-head-right">
-                        <a class="stm-top-link" href="<?php echo esc_url($tasks_page_url); ?>"><?php echo esc_html__('Tasks Home', 'simple-task-manager-lite'); ?></a>
-                        <a class="stm-top-link" href="<?php echo esc_url($frontend_refresh_url); ?>"><?php echo esc_html__('Refresh', 'simple-task-manager-lite'); ?></a>
-                        <div class="stm-user"><?php echo esc_html(wp_get_current_user()->display_name); ?> · <strong><?php echo esc_html__('Points', 'simple-task-manager-lite'); ?>: <?php echo esc_html((string) $my_points); ?></strong></div>
+                        <a class="stm-top-link" href="<?php echo esc_url($tasks_page_url); ?>"><?php echo esc_html__('Tasks Home', 'neura-task-manager'); ?></a>
+                        <a class="stm-top-link" href="<?php echo esc_url($frontend_refresh_url); ?>"><?php echo esc_html__('Refresh', 'neura-task-manager'); ?></a>
+                        <div class="stm-user"><?php echo esc_html(wp_get_current_user()->display_name); ?> · <strong><?php echo esc_html__('Points', 'neura-task-manager'); ?>: <?php echo esc_html((string) $my_points); ?></strong></div>
                     </div>
                 </div>
 
                 <div class="stm-metrics">
-                    <div class="stm-metric m1"><h4><?php echo esc_html__('To Do', 'simple-task-manager-lite'); ?></h4><div class="v"><?php echo esc_html((string) $todo); ?></div></div>
-                    <div class="stm-metric m2"><h4><?php echo esc_html__('In Progress', 'simple-task-manager-lite'); ?></h4><div class="v"><?php echo esc_html((string) $progress); ?></div></div>
-                    <div class="stm-metric m3"><h4><?php echo esc_html__('Completed', 'simple-task-manager-lite'); ?></h4><div class="v"><?php echo esc_html((string) $done); ?></div></div>
-                    <div class="stm-metric m4"><h4><?php echo esc_html__('My Reward Points', 'simple-task-manager-lite'); ?></h4><div class="v"><?php echo esc_html((string) $my_points); ?></div></div>
+                    <div class="stm-metric m1"><h4><?php echo esc_html__('To Do', 'neura-task-manager'); ?></h4><div class="v"><?php echo esc_html((string) $todo); ?></div></div>
+                    <div class="stm-metric m2"><h4><?php echo esc_html__('In Progress', 'neura-task-manager'); ?></h4><div class="v"><?php echo esc_html((string) $progress); ?></div></div>
+                    <div class="stm-metric m3"><h4><?php echo esc_html__('Completed', 'neura-task-manager'); ?></h4><div class="v"><?php echo esc_html((string) $done); ?></div></div>
+                    <div class="stm-metric m4"><h4><?php echo esc_html__('My Reward Points', 'neura-task-manager'); ?></h4><div class="v"><?php echo esc_html((string) $my_points); ?></div></div>
                 </div>
 
                 <div class="stm-quick-actions">
                     <?php if ($is_settings_manager) : ?>
                         <button type="button" class="quick-btn" id="stmf-open-task-dialog">
                             <span class="dashicons dashicons-plus-alt2"></span>
-                            <?php echo esc_html($editing_task ? __('Edit Task', 'simple-task-manager-lite') : __('Add New Task', 'simple-task-manager-lite')); ?>
+                            <?php echo esc_html($editing_task ? __('Edit Task', 'neura-task-manager') : __('Add New Task', 'neura-task-manager')); ?>
                         </button>
                     <?php endif; ?>
                     <button type="button" class="quick-btn secondary" id="stmf-open-leaderboard-dialog">
                         <span class="dashicons dashicons-awards"></span>
-                        <?php echo esc_html__('Leaderboard', 'simple-task-manager-lite'); ?>
+                        <?php echo esc_html__('Leaderboard', 'neura-task-manager'); ?>
                     </button>
                 </div>
 
                 <?php if (! empty($overdue_tasks)) : ?>
                     <div class="stm-wrap" style="margin-bottom:12px;">
-                        <h4 style="margin:0 0 10px;"><?php echo esc_html__('Overdue Tasks - Submit Reason', 'simple-task-manager-lite'); ?></h4>
+                        <h4 style="margin:0 0 10px;"><?php echo esc_html__('Overdue Tasks - Submit Reason', 'neura-task-manager'); ?></h4>
                         <?php foreach ($overdue_tasks as $overdue_task) : ?>
                             <div class="overdue-card">
                                 <h5><?php echo esc_html($overdue_task->title); ?> (<?php echo esc_html($overdue_task->due_date); ?>)</h5>
                                 <?php if ('pending' === $overdue_task->overdue_status) : ?>
-                                    <p style="margin:0 0 8px;"><?php echo esc_html__('Reason submitted and pending review by admin/editor.', 'simple-task-manager-lite'); ?></p>
+                                    <p style="margin:0 0 8px;"><?php echo esc_html__('Reason submitted and pending review by admin/editor.', 'neura-task-manager'); ?></p>
                                     <div style="font-size:13px;color:#475569;"><?php echo esc_html((string) $overdue_task->overdue_reason); ?></div>
                                 <?php else : ?>
-                                    <p style="margin:0 0 8px;"><?php echo esc_html__('Task is overdue. Submit reason for late completion/review.', 'simple-task-manager-lite'); ?></p>
+                                    <p style="margin:0 0 8px;"><?php echo esc_html__('Task is overdue. Submit reason for late completion/review.', 'neura-task-manager'); ?></p>
                                     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
                                         <input type="hidden" name="action" value="stm_submit_overdue_reason">
                                         <input type="hidden" name="task_id" value="<?php echo esc_attr((string) (int) $overdue_task->id); ?>">
                                         <input type="hidden" name="stm_return" value="<?php echo esc_attr($base_return_url); ?>">
                                         <?php wp_nonce_field('stm_submit_overdue_reason'); ?>
-                                        <textarea class="overdue-reason" name="overdue_reason" required placeholder="<?php echo esc_attr__('Why was this task delayed?', 'simple-task-manager-lite'); ?>"><?php echo esc_textarea((string) $overdue_task->overdue_reason); ?></textarea>
+                                        <textarea class="overdue-reason" name="overdue_reason" required placeholder="<?php echo esc_attr__('Why was this task delayed?', 'neura-task-manager'); ?>"><?php echo esc_textarea((string) $overdue_task->overdue_reason); ?></textarea>
                                         <div style="margin-top:8px;">
-                                            <button type="submit" class="tiny"><?php echo esc_html__('Submit Reason', 'simple-task-manager-lite'); ?></button>
-                                            <span style="font-size:12px;color:#64748b;margin-left:8px;"><?php echo esc_html__('Current status:', 'simple-task-manager-lite'); ?> <?php echo esc_html($overdue_task->overdue_status ? $overdue_task->overdue_status : 'none'); ?></span>
+                                            <button type="submit" class="tiny"><?php echo esc_html__('Submit Reason', 'neura-task-manager'); ?></button>
+                                            <span style="font-size:12px;color:#64748b;margin-left:8px;"><?php echo esc_html__('Current status:', 'neura-task-manager'); ?> <?php echo esc_html($overdue_task->overdue_status ? $overdue_task->overdue_status : 'none'); ?></span>
                                         </div>
                                         <?php if ($overdue_ok_id === (int) $overdue_task->id) : ?>
-                                            <div style="margin-top:8px;color:#15803d;font-size:12px;font-weight:600;"><?php echo esc_html__('Overdue reason submitted for review.', 'simple-task-manager-lite'); ?></div>
+                                            <div style="margin-top:8px;color:#15803d;font-size:12px;font-weight:600;"><?php echo esc_html__('Overdue reason submitted for review.', 'neura-task-manager'); ?></div>
                                         <?php endif; ?>
                                     </form>
                                 <?php endif; ?>
@@ -2758,15 +2758,15 @@ final class STM_Simple_Task_Management {
 
                 <?php if (! empty($pending_overdue)) : ?>
                     <div class="stm-wrap" style="margin-bottom:12px;">
-                        <h4 style="margin:0 0 10px;"><?php echo esc_html__('Overdue Reviews (Admin/Editor)', 'simple-task-manager-lite'); ?></h4>
+                        <h4 style="margin:0 0 10px;"><?php echo esc_html__('Overdue Reviews (Admin/Editor)', 'neura-task-manager'); ?></h4>
                         <?php foreach ($pending_overdue as $pending_task) : ?>
                             <div class="review-card">
                                 <strong><?php echo esc_html($pending_task->title); ?></strong>
                                 <div style="font-size:12px;color:#475569;margin-top:4px;">
-                                    <?php echo esc_html__('Assigned By:', 'simple-task-manager-lite'); ?> <?php echo esc_html(self::user_name((int) $pending_task->created_by)); ?>
-                                    · <?php echo esc_html__('Assigned To:', 'simple-task-manager-lite'); ?> <?php echo esc_html(self::user_name((int) $pending_task->assigned_to)); ?>
+                                    <?php echo esc_html__('Assigned By:', 'neura-task-manager'); ?> <?php echo esc_html(self::user_name((int) $pending_task->created_by)); ?>
+                                    · <?php echo esc_html__('Assigned To:', 'neura-task-manager'); ?> <?php echo esc_html(self::user_name((int) $pending_task->assigned_to)); ?>
                                 </div>
-                                <div style="font-size:13px;margin:6px 0;"><?php echo esc_html__('Reason:', 'simple-task-manager-lite'); ?> <?php echo esc_html((string) $pending_task->overdue_reason); ?></div>
+                                <div style="font-size:13px;margin:6px 0;"><?php echo esc_html__('Reason:', 'neura-task-manager'); ?> <?php echo esc_html((string) $pending_task->overdue_reason); ?></div>
                                 <?php
                                 $accept_url = wp_nonce_url(
                                     add_query_arg(
@@ -2793,8 +2793,8 @@ final class STM_Simple_Task_Management {
                                     'stm_review_overdue_reason'
                                 );
                                 ?>
-                                <a class="tiny" href="<?php echo esc_url($accept_url); ?>">✅ <?php echo esc_html__('Accept', 'simple-task-manager-lite'); ?></a>
-                                <a class="tiny" href="<?php echo esc_url($reject_url); ?>">❌ <?php echo esc_html__('Reject', 'simple-task-manager-lite'); ?></a>
+                                <a class="tiny" href="<?php echo esc_url($accept_url); ?>">✅ <?php echo esc_html__('Accept', 'neura-task-manager'); ?></a>
+                                <a class="tiny" href="<?php echo esc_url($reject_url); ?>">❌ <?php echo esc_html__('Reject', 'neura-task-manager'); ?></a>
                             </div>
                         <?php endforeach; ?>
                     </div>
@@ -2810,23 +2810,23 @@ final class STM_Simple_Task_Management {
                                 <input type="hidden" name="task_id" value="<?php echo esc_attr($editing_task ? (int) $editing_task->id : 0); ?>" />
                                 <input type="hidden" name="stm_return" value="<?php echo esc_attr($base_return_url); ?>" />
                                 <?php wp_nonce_field('stm_save_task'); ?>
-                                <p><input class="stm-input" name="title" required placeholder="<?php echo esc_attr__('Task title', 'simple-task-manager-lite'); ?>" value="<?php echo esc_attr($editing_task ? $editing_task->title : ''); ?>"></p>
-                                <p><textarea class="stm-textarea stm-input" name="description" placeholder="<?php echo esc_attr__('Description', 'simple-task-manager-lite'); ?>"><?php echo esc_textarea($editing_task ? $editing_task->description : ''); ?></textarea></p>
-                                <p><select class="stm-select stm-input" name="assigned_to"><option value="0"><?php echo esc_html__('Unassigned', 'simple-task-manager-lite'); ?></option><?php foreach ($assignable_users as $assignable_user) : ?><option value="<?php echo esc_attr((string) $assignable_user->ID); ?>" <?php selected($editing_task ? (int) $editing_task->assigned_to : 0, (int) $assignable_user->ID); ?>><?php echo esc_html($assignable_user->display_name); ?></option><?php endforeach; ?></select></p>
+                                <p><input class="stm-input" name="title" required placeholder="<?php echo esc_attr__('Task title', 'neura-task-manager'); ?>" value="<?php echo esc_attr($editing_task ? $editing_task->title : ''); ?>"></p>
+                                <p><textarea class="stm-textarea stm-input" name="description" placeholder="<?php echo esc_attr__('Description', 'neura-task-manager'); ?>"><?php echo esc_textarea($editing_task ? $editing_task->description : ''); ?></textarea></p>
+                                <p><select class="stm-select stm-input" name="assigned_to"><option value="0"><?php echo esc_html__('Unassigned', 'neura-task-manager'); ?></option><?php foreach ($assignable_users as $assignable_user) : ?><option value="<?php echo esc_attr((string) $assignable_user->ID); ?>" <?php selected($editing_task ? (int) $editing_task->assigned_to : 0, (int) $assignable_user->ID); ?>><?php echo esc_html($assignable_user->display_name); ?></option><?php endforeach; ?></select></p>
                                 <p><input class="stm-input" name="due_date" type="date" value="<?php echo esc_attr($editing_task ? $editing_task->due_date : ''); ?>" <?php echo ! empty($settings['require_due_date']) ? 'required' : ''; ?>></p>
                                 <p><select class="stm-select stm-input" name="priority"><?php foreach ($priorities as $priority_key => $priority_label) : ?><option value="<?php echo esc_attr($priority_key); ?>" <?php selected($editing_task ? $editing_task->priority : $settings['default_priority'], $priority_key); ?>><?php echo esc_html($priority_label); ?></option><?php endforeach; ?></select></p>
-                                <p><input class="stm-input" type="number" min="0" name="reward_points" placeholder="<?php echo esc_attr__('Reward Points', 'simple-task-manager-lite'); ?>" value="<?php echo esc_attr($editing_task ? (string) $editing_task->reward_points : (string) self::default_reward_for_priority($settings['default_priority'])); ?>"></p>
-                                <button type="submit"><?php echo esc_html($editing_task ? __('Update Task', 'simple-task-manager-lite') : __('Create Task', 'simple-task-manager-lite')); ?></button>
-                                <?php if ($editing_task) : ?><a class="btn-secondary tiny" href="<?php echo esc_url($base_return_url); ?>"><?php echo esc_html__('Cancel', 'simple-task-manager-lite'); ?></a><?php endif; ?>
+                                <p><input class="stm-input" type="number" min="0" name="reward_points" placeholder="<?php echo esc_attr__('Reward Points', 'neura-task-manager'); ?>" value="<?php echo esc_attr($editing_task ? (string) $editing_task->reward_points : (string) self::default_reward_for_priority($settings['default_priority'])); ?>"></p>
+                                <button type="submit"><?php echo esc_html($editing_task ? __('Update Task', 'neura-task-manager') : __('Create Task', 'neura-task-manager')); ?></button>
+                                <?php if ($editing_task) : ?><a class="btn-secondary tiny" href="<?php echo esc_url($base_return_url); ?>"><?php echo esc_html__('Cancel', 'neura-task-manager'); ?></a><?php endif; ?>
                             </form>
                         </div>
                         <?php endif; ?>
 
                         <div class="stm-wrap">
-                            <h4 style="margin:0 0 10px;"><?php echo esc_html__('Leaderboard', 'simple-task-manager-lite'); ?></h4>
+                            <h4 style="margin:0 0 10px;"><?php echo esc_html__('Leaderboard', 'neura-task-manager'); ?></h4>
                             <ul class="leader">
                                 <?php if (empty($leaderboard)) : ?>
-                                    <li><?php echo esc_html__('No points yet', 'simple-task-manager-lite'); ?></li>
+                                    <li><?php echo esc_html__('No points yet', 'neura-task-manager'); ?></li>
                                 <?php else : ?>
                                     <?php foreach ($leaderboard as $index => $row_user) : ?>
                                         <li><span><?php echo esc_html(self::medal_for_rank($index + 1) . ' ' . $row_user->display_name); ?></span><strong class="points"><?php echo esc_html((string) (int) get_user_meta($row_user->ID, self::USER_POINTS_META, true)); ?></strong></li>
@@ -2840,16 +2840,16 @@ final class STM_Simple_Task_Management {
 
                     <div class="stm-wrap">
                         <form method="get" action="<?php echo esc_url($base_return_url); ?>" class="stm-filter <?php echo $show_admin_employee_filter ? '' : 'no-employee'; ?>">
-                            <input type="search" name="stmf_search" value="<?php echo esc_attr($search); ?>" placeholder="<?php echo esc_attr__('Search tasks...', 'simple-task-manager-lite'); ?>">
+                            <input type="search" name="stmf_search" value="<?php echo esc_attr($search); ?>" placeholder="<?php echo esc_attr__('Search tasks...', 'neura-task-manager'); ?>">
                             <select name="stmf_status">
-                                <option value=""><?php echo esc_html__('All Status', 'simple-task-manager-lite'); ?></option>
+                                <option value=""><?php echo esc_html__('All Status', 'neura-task-manager'); ?></option>
                                 <?php foreach ($statuses as $status_key => $status_label) : ?>
                                     <option value="<?php echo esc_attr($status_key); ?>" <?php selected($status, $status_key); ?>><?php echo esc_html($status_label); ?></option>
                                 <?php endforeach; ?>
                             </select>
                             <?php if ($show_admin_employee_filter) : ?>
                                 <select name="stmf_assigned_user_filter">
-                                    <option value="0"><?php echo esc_html__('All Employees', 'simple-task-manager-lite'); ?></option>
+                                    <option value="0"><?php echo esc_html__('All Employees', 'neura-task-manager'); ?></option>
                                     <?php foreach ($assignable_users as $assignable_user) : ?>
                                         <option value="<?php echo esc_attr((string) $assignable_user->ID); ?>" <?php selected($assigned_user_filter, (int) $assignable_user->ID); ?>>
                                             <?php echo esc_html($assignable_user->display_name); ?>
@@ -2857,26 +2857,26 @@ final class STM_Simple_Task_Management {
                                     <?php endforeach; ?>
                                 </select>
                             <?php endif; ?>
-                            <button type="submit"><?php echo esc_html__('Apply', 'simple-task-manager-lite'); ?></button>
+                            <button type="submit"><?php echo esc_html__('Apply', 'neura-task-manager'); ?></button>
                         </form>
 
                         <div class="table-wrap">
                             <table>
                                 <thead>
                                     <tr>
-                                        <th><?php echo esc_html__('Task', 'simple-task-manager-lite'); ?></th>
-                                        <th><?php echo esc_html__('Assigned By', 'simple-task-manager-lite'); ?></th>
-                                        <?php if ($show_assigned_to) : ?><th><?php echo esc_html__('Assigned To', 'simple-task-manager-lite'); ?></th><?php endif; ?>
-                                        <th><?php echo esc_html__('Priority', 'simple-task-manager-lite'); ?></th>
-                                        <th><?php echo esc_html__('Status', 'simple-task-manager-lite'); ?></th>
-                                        <th><?php echo esc_html__('Due', 'simple-task-manager-lite'); ?></th>
-                                        <th><?php echo esc_html__('Reward', 'simple-task-manager-lite'); ?></th>
-                                        <th><?php echo esc_html__('Actions', 'simple-task-manager-lite'); ?></th>
+                                        <th><?php echo esc_html__('Task', 'neura-task-manager'); ?></th>
+                                        <th><?php echo esc_html__('Assigned By', 'neura-task-manager'); ?></th>
+                                        <?php if ($show_assigned_to) : ?><th><?php echo esc_html__('Assigned To', 'neura-task-manager'); ?></th><?php endif; ?>
+                                        <th><?php echo esc_html__('Priority', 'neura-task-manager'); ?></th>
+                                        <th><?php echo esc_html__('Status', 'neura-task-manager'); ?></th>
+                                        <th><?php echo esc_html__('Due', 'neura-task-manager'); ?></th>
+                                        <th><?php echo esc_html__('Reward', 'neura-task-manager'); ?></th>
+                                        <th><?php echo esc_html__('Actions', 'neura-task-manager'); ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php if (empty($tasks)) : ?>
-                                        <tr><td colspan="<?php echo esc_attr($show_assigned_to ? '8' : '7'); ?>"><?php echo esc_html__('No tasks found.', 'simple-task-manager-lite'); ?></td></tr>
+                                        <tr><td colspan="<?php echo esc_attr($show_assigned_to ? '8' : '7'); ?>"><?php echo esc_html__('No tasks found.', 'neura-task-manager'); ?></td></tr>
                                     <?php else : ?>
                                         <?php foreach ($tasks as $task) : ?>
                                             <tr>
@@ -2889,9 +2889,9 @@ final class STM_Simple_Task_Management {
                                                 <td class="points">+<?php echo esc_html((string) (int) $task->reward_points); ?></td>
                                                 <td class="table-actions">
                                                     <button type="button" class="tiny view action-icon stmf-view-btn"
-                                                        data-tip="<?php echo esc_attr__('View Task', 'simple-task-manager-lite'); ?>"
-                                                        title="<?php echo esc_attr__('View Task', 'simple-task-manager-lite'); ?>"
-                                                        aria-label="<?php echo esc_attr__('View Task', 'simple-task-manager-lite'); ?>"
+                                                        data-tip="<?php echo esc_attr__('View Task', 'neura-task-manager'); ?>"
+                                                        title="<?php echo esc_attr__('View Task', 'neura-task-manager'); ?>"
+                                                        aria-label="<?php echo esc_attr__('View Task', 'neura-task-manager'); ?>"
                                                         data-title="<?php echo esc_attr($task->title); ?>"
                                                         data-description="<?php echo esc_attr((string) $task->description); ?>"
                                                         data-assignedby="<?php echo esc_attr(self::user_name((int) $task->created_by)); ?>"
@@ -2904,16 +2904,16 @@ final class STM_Simple_Task_Management {
                                                     </button>
                                                     <?php
                                                     $base_action_args = array('stm_return' => $base_return_url, 'task_id' => (int) $task->id);
-                                                    if ('todo' === $task->status) { $next_status = 'in_progress'; $next_label = __('Start', 'simple-task-manager-lite'); $next_icon = 'dashicons-controls-play'; }
-                                                    elseif ('in_progress' === $task->status) { $next_status = 'done'; $next_label = __('Complete', 'simple-task-manager-lite'); $next_icon = 'dashicons-yes-alt'; }
-                                                    else { $next_status = 'todo'; $next_label = __('Reopen', 'simple-task-manager-lite'); $next_icon = 'dashicons-update'; }
+                                                    if ('todo' === $task->status) { $next_status = 'in_progress'; $next_label = __('Start', 'neura-task-manager'); $next_icon = 'dashicons-controls-play'; }
+                                                    elseif ('in_progress' === $task->status) { $next_status = 'done'; $next_label = __('Complete', 'neura-task-manager'); $next_icon = 'dashicons-yes-alt'; }
+                                                    else { $next_status = 'todo'; $next_label = __('Reopen', 'neura-task-manager'); $next_icon = 'dashicons-update'; }
                                                     $status_url = wp_nonce_url(add_query_arg(array_merge($base_action_args, array('action' => 'stm_update_status', 'status' => $next_status)), admin_url('admin-post.php')), 'stm_update_status');
                                                     $delete_url = wp_nonce_url(add_query_arg(array_merge($base_action_args, array('action' => 'stm_delete_task')), admin_url('admin-post.php')), 'stm_delete_task');
                                                     $edit_url = add_query_arg('edit_task', (int) $task->id, $base_return_url);
                                                     ?>
-                                                    <?php if (self::current_user_can_edit_task_item($task)) : ?><a class="tiny edit action-icon" data-tip="<?php echo esc_attr__('Edit Task', 'simple-task-manager-lite'); ?>" title="<?php echo esc_attr__('Edit Task', 'simple-task-manager-lite'); ?>" aria-label="<?php echo esc_attr__('Edit Task', 'simple-task-manager-lite'); ?>" href="<?php echo esc_url($edit_url); ?>"><span class="dashicons dashicons-edit"></span></a><?php endif; ?>
+                                                    <?php if (self::current_user_can_edit_task_item($task)) : ?><a class="tiny edit action-icon" data-tip="<?php echo esc_attr__('Edit Task', 'neura-task-manager'); ?>" title="<?php echo esc_attr__('Edit Task', 'neura-task-manager'); ?>" aria-label="<?php echo esc_attr__('Edit Task', 'neura-task-manager'); ?>" href="<?php echo esc_url($edit_url); ?>"><span class="dashicons dashicons-edit"></span></a><?php endif; ?>
                                                     <?php if (self::current_user_can_change_task_status_item($task)) : ?><a class="tiny status action-icon" data-tip="<?php echo esc_attr($next_label); ?>" title="<?php echo esc_attr($next_label); ?>" aria-label="<?php echo esc_attr($next_label); ?>" href="<?php echo esc_url($status_url); ?>"><span class="dashicons <?php echo esc_attr($next_icon); ?>"></span></a><?php endif; ?>
-                                                    <?php if (self::current_user_can_delete_task_item($task)) : ?><a class="tiny delete action-icon" data-tip="<?php echo esc_attr__('Delete Task', 'simple-task-manager-lite'); ?>" title="<?php echo esc_attr__('Delete Task', 'simple-task-manager-lite'); ?>" aria-label="<?php echo esc_attr__('Delete Task', 'simple-task-manager-lite'); ?>" href="<?php echo esc_url($delete_url); ?>" onclick="return confirm('Delete this task?');"><span class="dashicons dashicons-trash"></span></a><?php endif; ?>
+                                                    <?php if (self::current_user_can_delete_task_item($task)) : ?><a class="tiny delete action-icon" data-tip="<?php echo esc_attr__('Delete Task', 'neura-task-manager'); ?>" title="<?php echo esc_attr__('Delete Task', 'neura-task-manager'); ?>" aria-label="<?php echo esc_attr__('Delete Task', 'neura-task-manager'); ?>" href="<?php echo esc_url($delete_url); ?>" onclick="return confirm('Delete this task?');"><span class="dashicons dashicons-trash"></span></a><?php endif; ?>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -2924,7 +2924,7 @@ final class STM_Simple_Task_Management {
 
                         <div class="task-cards">
                             <?php if (empty($tasks)) : ?>
-                                <p><?php echo esc_html__('No tasks found.', 'simple-task-manager-lite'); ?></p>
+                                <p><?php echo esc_html__('No tasks found.', 'neura-task-manager'); ?></p>
                             <?php else : ?>
                                 <?php foreach ($tasks as $task) : ?>
                                     <?php
@@ -2937,17 +2937,17 @@ final class STM_Simple_Task_Management {
                                                 <h5><?php echo esc_html($task->title); ?></h5>
                                                 <span class="stm-badge <?php echo esc_attr($status_badge_class); ?>"><?php echo esc_html($status_label); ?></span>
                                             </div>
-                                            <button type="button" class="task-toggle stm-task-toggle" aria-expanded="false"><?php echo esc_html__('Show details', 'simple-task-manager-lite'); ?></button>
+                                            <button type="button" class="task-toggle stm-task-toggle" aria-expanded="false"><?php echo esc_html__('Show details', 'neura-task-manager'); ?></button>
                                         </div>
                                         <div class="task-details">
                                         <?php if (! empty($task->description)) : ?><div class="desc"><?php echo esc_html($task->description); ?></div><?php endif; ?>
                                         <div class="task-grid">
-                                            <div><span class="k"><?php echo esc_html__('Assigned By', 'simple-task-manager-lite'); ?></span><?php echo esc_html(self::user_name((int) $task->created_by)); ?></div>
-                                            <?php if ($show_assigned_to) : ?><div><span class="k"><?php echo esc_html__('Assigned To', 'simple-task-manager-lite'); ?></span><?php echo esc_html(self::user_name((int) $task->assigned_to)); ?></div><?php endif; ?>
-                                            <div><span class="k"><?php echo esc_html__('Priority', 'simple-task-manager-lite'); ?></span><span class="stm-badge <?php echo esc_attr(self::priority_badge_class($task->priority)); ?>"><?php echo esc_html(isset($priorities[$task->priority]) ? $priorities[$task->priority] : $task->priority); ?></span></div>
-                                            <div><span class="k"><?php echo esc_html__('Status', 'simple-task-manager-lite'); ?></span><span class="stm-badge <?php echo esc_attr($status_badge_class); ?>"><?php echo esc_html($status_label); ?></span></div>
-                                            <div><span class="k"><?php echo esc_html__('Due', 'simple-task-manager-lite'); ?></span><?php echo esc_html($task->due_date ? $task->due_date : 'No due date'); ?></div>
-                                            <div><span class="k"><?php echo esc_html__('Reward', 'simple-task-manager-lite'); ?></span><span class="points">+<?php echo esc_html((string) (int) $task->reward_points); ?></span></div>
+                                            <div><span class="k"><?php echo esc_html__('Assigned By', 'neura-task-manager'); ?></span><?php echo esc_html(self::user_name((int) $task->created_by)); ?></div>
+                                            <?php if ($show_assigned_to) : ?><div><span class="k"><?php echo esc_html__('Assigned To', 'neura-task-manager'); ?></span><?php echo esc_html(self::user_name((int) $task->assigned_to)); ?></div><?php endif; ?>
+                                            <div><span class="k"><?php echo esc_html__('Priority', 'neura-task-manager'); ?></span><span class="stm-badge <?php echo esc_attr(self::priority_badge_class($task->priority)); ?>"><?php echo esc_html(isset($priorities[$task->priority]) ? $priorities[$task->priority] : $task->priority); ?></span></div>
+                                            <div><span class="k"><?php echo esc_html__('Status', 'neura-task-manager'); ?></span><span class="stm-badge <?php echo esc_attr($status_badge_class); ?>"><?php echo esc_html($status_label); ?></span></div>
+                                            <div><span class="k"><?php echo esc_html__('Due', 'neura-task-manager'); ?></span><?php echo esc_html($task->due_date ? $task->due_date : 'No due date'); ?></div>
+                                            <div><span class="k"><?php echo esc_html__('Reward', 'neura-task-manager'); ?></span><span class="points">+<?php echo esc_html((string) (int) $task->reward_points); ?></span></div>
                                         </div>
                                         <div class="task-actions">
                                             <button type="button" class="tiny view stmf-view-btn"
@@ -2960,20 +2960,20 @@ final class STM_Simple_Task_Management {
                                                 data-due="<?php echo esc_attr($task->due_date ? $task->due_date : 'No due date'); ?>"
                                                 data-reward="<?php echo esc_attr((string) (int) $task->reward_points); ?>">
                                                 <span class="dashicons dashicons-visibility"></span>
-                                                <?php echo esc_html__('View', 'simple-task-manager-lite'); ?>
+                                                <?php echo esc_html__('View', 'neura-task-manager'); ?>
                                             </button>
                                             <?php
                                             $base_action_args_m = array('stm_return' => $base_return_url, 'task_id' => (int) $task->id);
-                                            if ('todo' === $task->status) { $next_status_m = 'in_progress'; $next_label_m = __('Start', 'simple-task-manager-lite'); $next_icon_m = 'dashicons-controls-play'; }
-                                            elseif ('in_progress' === $task->status) { $next_status_m = 'done'; $next_label_m = __('Complete', 'simple-task-manager-lite'); $next_icon_m = 'dashicons-yes-alt'; }
-                                            else { $next_status_m = 'todo'; $next_label_m = __('Reopen', 'simple-task-manager-lite'); $next_icon_m = 'dashicons-update'; }
+                                            if ('todo' === $task->status) { $next_status_m = 'in_progress'; $next_label_m = __('Start', 'neura-task-manager'); $next_icon_m = 'dashicons-controls-play'; }
+                                            elseif ('in_progress' === $task->status) { $next_status_m = 'done'; $next_label_m = __('Complete', 'neura-task-manager'); $next_icon_m = 'dashicons-yes-alt'; }
+                                            else { $next_status_m = 'todo'; $next_label_m = __('Reopen', 'neura-task-manager'); $next_icon_m = 'dashicons-update'; }
                                             $status_url_m = wp_nonce_url(add_query_arg(array_merge($base_action_args_m, array('action' => 'stm_update_status', 'status' => $next_status_m)), admin_url('admin-post.php')), 'stm_update_status');
                                             $delete_url_m = wp_nonce_url(add_query_arg(array_merge($base_action_args_m, array('action' => 'stm_delete_task')), admin_url('admin-post.php')), 'stm_delete_task');
                                             $edit_url_m = add_query_arg('edit_task', (int) $task->id, $base_return_url);
                                             ?>
-                                            <?php if (self::current_user_can_edit_task_item($task)) : ?><a class="tiny edit" href="<?php echo esc_url($edit_url_m); ?>"><span class="dashicons dashicons-edit"></span><?php echo esc_html__('Edit', 'simple-task-manager-lite'); ?></a><?php endif; ?>
+                                            <?php if (self::current_user_can_edit_task_item($task)) : ?><a class="tiny edit" href="<?php echo esc_url($edit_url_m); ?>"><span class="dashicons dashicons-edit"></span><?php echo esc_html__('Edit', 'neura-task-manager'); ?></a><?php endif; ?>
                                             <?php if (self::current_user_can_change_task_status_item($task)) : ?><a class="tiny status" href="<?php echo esc_url($status_url_m); ?>"><span class="dashicons <?php echo esc_attr($next_icon_m); ?>"></span><?php echo esc_html($next_label_m); ?></a><?php endif; ?>
-                                            <?php if (self::current_user_can_delete_task_item($task)) : ?><a class="tiny delete" href="<?php echo esc_url($delete_url_m); ?>" onclick="return confirm('Delete this task?');"><span class="dashicons dashicons-trash"></span><?php echo esc_html__('Delete', 'simple-task-manager-lite'); ?></a><?php endif; ?>
+                                            <?php if (self::current_user_can_delete_task_item($task)) : ?><a class="tiny delete" href="<?php echo esc_url($delete_url_m); ?>" onclick="return confirm('Delete this task?');"><span class="dashicons dashicons-trash"></span><?php echo esc_html__('Delete', 'neura-task-manager'); ?></a><?php endif; ?>
                                         </div>
                                         </div>
                                     </article>
@@ -3000,8 +3000,8 @@ final class STM_Simple_Task_Management {
             <?php if ($is_settings_manager) : ?>
             <dialog id="stmf-task-dialog">
                 <div class="stm-dialog-head">
-                    <strong><?php echo esc_html($editing_task ? __('Edit Task', 'simple-task-manager-lite') : __('Add New Task', 'simple-task-manager-lite')); ?></strong>
-                    <button type="button" class="tiny" id="stmf-task-close"><?php echo esc_html__('Close', 'simple-task-manager-lite'); ?></button>
+                    <strong><?php echo esc_html($editing_task ? __('Edit Task', 'neura-task-manager') : __('Add New Task', 'neura-task-manager')); ?></strong>
+                    <button type="button" class="tiny" id="stmf-task-close"><?php echo esc_html__('Close', 'neura-task-manager'); ?></button>
                 </div>
                 <div class="stm-dialog-body">
                     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
@@ -3009,26 +3009,26 @@ final class STM_Simple_Task_Management {
                         <input type="hidden" name="task_id" value="<?php echo esc_attr($editing_task ? (int) $editing_task->id : 0); ?>" />
                         <input type="hidden" name="stm_return" value="<?php echo esc_attr($base_return_url); ?>" />
                         <?php wp_nonce_field('stm_save_task'); ?>
-                        <p><input class="stm-input" name="title" required placeholder="<?php echo esc_attr__('Task title', 'simple-task-manager-lite'); ?>" value="<?php echo esc_attr($editing_task ? $editing_task->title : ''); ?>"></p>
-                        <p><textarea class="stm-textarea stm-input" name="description" placeholder="<?php echo esc_attr__('Description', 'simple-task-manager-lite'); ?>"><?php echo esc_textarea($editing_task ? $editing_task->description : ''); ?></textarea></p>
-                        <p><select class="stm-select stm-input" name="assigned_to"><option value="0"><?php echo esc_html__('Unassigned', 'simple-task-manager-lite'); ?></option><?php foreach ($assignable_users as $assignable_user) : ?><option value="<?php echo esc_attr((string) $assignable_user->ID); ?>" <?php selected($editing_task ? (int) $editing_task->assigned_to : 0, (int) $assignable_user->ID); ?>><?php echo esc_html($assignable_user->display_name); ?></option><?php endforeach; ?></select></p>
+                        <p><input class="stm-input" name="title" required placeholder="<?php echo esc_attr__('Task title', 'neura-task-manager'); ?>" value="<?php echo esc_attr($editing_task ? $editing_task->title : ''); ?>"></p>
+                        <p><textarea class="stm-textarea stm-input" name="description" placeholder="<?php echo esc_attr__('Description', 'neura-task-manager'); ?>"><?php echo esc_textarea($editing_task ? $editing_task->description : ''); ?></textarea></p>
+                        <p><select class="stm-select stm-input" name="assigned_to"><option value="0"><?php echo esc_html__('Unassigned', 'neura-task-manager'); ?></option><?php foreach ($assignable_users as $assignable_user) : ?><option value="<?php echo esc_attr((string) $assignable_user->ID); ?>" <?php selected($editing_task ? (int) $editing_task->assigned_to : 0, (int) $assignable_user->ID); ?>><?php echo esc_html($assignable_user->display_name); ?></option><?php endforeach; ?></select></p>
                         <p><input class="stm-input" name="due_date" type="date" value="<?php echo esc_attr($editing_task ? $editing_task->due_date : ''); ?>" <?php echo ! empty($settings['require_due_date']) ? 'required' : ''; ?>></p>
                         <p><select class="stm-select stm-input" name="priority"><?php foreach ($priorities as $priority_key => $priority_label) : ?><option value="<?php echo esc_attr($priority_key); ?>" <?php selected($editing_task ? $editing_task->priority : $settings['default_priority'], $priority_key); ?>><?php echo esc_html($priority_label); ?></option><?php endforeach; ?></select></p>
-                        <p><input class="stm-input" type="number" min="0" name="reward_points" placeholder="<?php echo esc_attr__('Reward Points', 'simple-task-manager-lite'); ?>" value="<?php echo esc_attr($editing_task ? (string) $editing_task->reward_points : (string) self::default_reward_for_priority($settings['default_priority'])); ?>"></p>
-                        <button type="submit"><?php echo esc_html($editing_task ? __('Update Task', 'simple-task-manager-lite') : __('Create Task', 'simple-task-manager-lite')); ?></button>
+                        <p><input class="stm-input" type="number" min="0" name="reward_points" placeholder="<?php echo esc_attr__('Reward Points', 'neura-task-manager'); ?>" value="<?php echo esc_attr($editing_task ? (string) $editing_task->reward_points : (string) self::default_reward_for_priority($settings['default_priority'])); ?>"></p>
+                        <button type="submit"><?php echo esc_html($editing_task ? __('Update Task', 'neura-task-manager') : __('Create Task', 'neura-task-manager')); ?></button>
                     </form>
                 </div>
             </dialog>
             <?php endif; ?>
             <dialog id="stmf-leader-dialog">
                 <div class="stm-dialog-head">
-                    <strong><?php echo esc_html__('Leaderboard', 'simple-task-manager-lite'); ?></strong>
-                    <button type="button" class="tiny" id="stmf-leader-close"><?php echo esc_html__('Close', 'simple-task-manager-lite'); ?></button>
+                    <strong><?php echo esc_html__('Leaderboard', 'neura-task-manager'); ?></strong>
+                    <button type="button" class="tiny" id="stmf-leader-close"><?php echo esc_html__('Close', 'neura-task-manager'); ?></button>
                 </div>
                 <div class="stm-dialog-body">
                     <ul class="leader">
                         <?php if (empty($leaderboard)) : ?>
-                            <li><?php echo esc_html__('No points yet', 'simple-task-manager-lite'); ?></li>
+                            <li><?php echo esc_html__('No points yet', 'neura-task-manager'); ?></li>
                         <?php else : ?>
                             <?php foreach ($leaderboard as $index => $row_user) : ?>
                                 <li><span><?php echo esc_html(self::medal_for_rank($index + 1) . ' ' . $row_user->display_name); ?></span><strong class="points"><?php echo esc_html((string) (int) get_user_meta($row_user->ID, self::USER_POINTS_META, true)); ?></strong></li>
@@ -3040,10 +3040,10 @@ final class STM_Simple_Task_Management {
             <dialog id="stmf-view-dialog">
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid #e2e8f0;">
                     <strong id="stmf-v-title"></strong>
-                    <button type="button" class="tiny" id="stmf-v-close"><?php echo esc_html__('Close', 'simple-task-manager-lite'); ?></button>
+                    <button type="button" class="tiny" id="stmf-v-close"><?php echo esc_html__('Close', 'neura-task-manager'); ?></button>
                 </div>
                 <div style="padding:12px;">
-                    <p><strong><?php echo esc_html__('Task To Do:', 'simple-task-manager-lite'); ?></strong></p>
+                    <p><strong><?php echo esc_html__('Task To Do:', 'neura-task-manager'); ?></strong></p>
                     <p id="stmf-v-desc"></p>
                 </div>
             </dialog>
@@ -3083,8 +3083,8 @@ final class STM_Simple_Task_Management {
                     if (!dialog) { return; }
                     var closeBtn = document.getElementById('stmf-v-close');
                     var btns = document.querySelectorAll('.stmf-view-btn');
-                    var showDetailsText = '<?php echo esc_js(__('Show details', 'simple-task-manager-lite')); ?>';
-                    var hideDetailsText = '<?php echo esc_js(__('Hide details', 'simple-task-manager-lite')); ?>';
+                    var showDetailsText = '<?php echo esc_js(__('Show details', 'neura-task-manager')); ?>';
+                    var hideDetailsText = '<?php echo esc_js(__('Hide details', 'neura-task-manager')); ?>';
                     btns.forEach(function(btn) {
                         btn.addEventListener('click', function() {
                             document.getElementById('stmf-v-title').textContent = btn.getAttribute('data-title') || '';
@@ -3152,7 +3152,7 @@ final class STM_Simple_Task_Management {
 
     public static function render_admin_page() {
         if (! self::current_user_can_manage_tasks()) {
-            wp_die(esc_html__('You are not allowed to access this page.', 'simple-task-manager-lite'));
+            wp_die(esc_html__('You are not allowed to access this page.', 'neura-task-manager'));
         }
 
         $statuses         = self::allowed_statuses();
@@ -3487,12 +3487,12 @@ final class STM_Simple_Task_Management {
                 <div class="stm-top">
                     <h1 class="stm-title"><?php echo esc_html($dashboard_title); ?></h1>
                     <div class="stm-top-right">
-                        <a class="stm-top-link" href="<?php echo esc_url(self::frontend_tasks_home_url()); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Tasks Home', 'simple-task-manager-lite'); ?></a>
-                        <a class="stm-top-link" href="<?php echo esc_url(add_query_arg('stm_refresh', time(), admin_url('admin.php?page=stm-task-manager'))); ?>"><?php echo esc_html__('Refresh', 'simple-task-manager-lite'); ?></a>
+                        <a class="stm-top-link" href="<?php echo esc_url(self::frontend_tasks_home_url()); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Tasks Home', 'neura-task-manager'); ?></a>
+                        <a class="stm-top-link" href="<?php echo esc_url(add_query_arg('stm_refresh', time(), admin_url('admin.php?page=stm-task-manager'))); ?>"><?php echo esc_html__('Refresh', 'neura-task-manager'); ?></a>
                         <div class="stm-user-chip">
                             <span class="dashicons dashicons-admin-users" style="font-size:16px;line-height:1.1;"></span>
                             <?php echo esc_html(wp_get_current_user()->display_name); ?>
-                            · <span class="stm-points-strong"><?php echo esc_html__('Points:', 'simple-task-manager-lite'); ?> <?php echo esc_html((string) $my_points); ?></span>
+                            · <span class="stm-points-strong"><?php echo esc_html__('Points:', 'neura-task-manager'); ?> <?php echo esc_html((string) $my_points); ?></span>
                         </div>
                     </div>
                 </div>
@@ -3500,22 +3500,22 @@ final class STM_Simple_Task_Management {
                 <div class="stm-metrics">
                     <div class="stm-metric stm-card-todo">
                         <span class="stm-metric-icon dashicons dashicons-clipboard"></span>
-                        <span class="stm-metric-label"><?php echo esc_html__('To Do', 'simple-task-manager-lite'); ?></span>
+                        <span class="stm-metric-label"><?php echo esc_html__('To Do', 'neura-task-manager'); ?></span>
                         <span class="stm-metric-value"><?php echo esc_html((string) $count_todo); ?></span>
                     </div>
                     <div class="stm-metric stm-card-progress">
                         <span class="stm-metric-icon dashicons dashicons-update"></span>
-                        <span class="stm-metric-label"><?php echo esc_html__('In Progress', 'simple-task-manager-lite'); ?></span>
+                        <span class="stm-metric-label"><?php echo esc_html__('In Progress', 'neura-task-manager'); ?></span>
                         <span class="stm-metric-value"><?php echo esc_html((string) $count_in_progress); ?></span>
                     </div>
                     <div class="stm-metric stm-card-done">
                         <span class="stm-metric-icon dashicons dashicons-yes-alt"></span>
-                        <span class="stm-metric-label"><?php echo esc_html__('Completed', 'simple-task-manager-lite'); ?></span>
+                        <span class="stm-metric-label"><?php echo esc_html__('Completed', 'neura-task-manager'); ?></span>
                         <span class="stm-metric-value"><?php echo esc_html((string) $count_done); ?></span>
                     </div>
                     <div class="stm-metric stm-card-points">
                         <span class="stm-metric-icon dashicons dashicons-awards"></span>
-                        <span class="stm-metric-label"><?php echo esc_html__('My Reward Points', 'simple-task-manager-lite'); ?></span>
+                        <span class="stm-metric-label"><?php echo esc_html__('My Reward Points', 'neura-task-manager'); ?></span>
                         <span class="stm-metric-value"><?php echo esc_html((string) $my_points); ?></span>
                     </div>
                 </div>
@@ -3524,27 +3524,27 @@ final class STM_Simple_Task_Management {
                     <?php if ($is_settings_manager) : ?>
                         <button type="button" class="stm-btn stm-btn-primary" id="stm-open-task-dialog">
                             <span class="dashicons dashicons-plus-alt2" style="font-size:14px;line-height:1.2;"></span>
-                            <?php echo esc_html($task ? __('Edit Task', 'simple-task-manager-lite') : __('Add New Task', 'simple-task-manager-lite')); ?>
+                            <?php echo esc_html($task ? __('Edit Task', 'neura-task-manager') : __('Add New Task', 'neura-task-manager')); ?>
                         </button>
                     <?php endif; ?>
                     <button type="button" class="stm-btn stm-btn-secondary" id="stm-open-leaderboard-dialog">
                         <span class="dashicons dashicons-awards" style="font-size:14px;line-height:1.2;"></span>
-                        <?php echo esc_html__('Leaderboard', 'simple-task-manager-lite'); ?>
+                        <?php echo esc_html__('Leaderboard', 'neura-task-manager'); ?>
                     </button>
                 </div>
 
                 <?php if (! empty($pending_overdue_admin)) : ?>
                     <div class="stm-card" style="margin-bottom:14px;">
-                        <div class="stm-card-header"><?php echo esc_html__('Pending Overdue Reason Reviews', 'simple-task-manager-lite'); ?></div>
+                        <div class="stm-card-header"><?php echo esc_html__('Pending Overdue Reason Reviews', 'neura-task-manager'); ?></div>
                         <div class="stm-card-body">
                             <?php foreach ($pending_overdue_admin as $pending_item) : ?>
                                 <div style="border:1px solid #fde68a;background:#fffbeb;border-radius:10px;padding:10px;margin-bottom:8px;">
                                     <strong><?php echo esc_html($pending_item->title); ?></strong>
                                     <div style="font-size:12px;color:#475569;margin-top:4px;">
-                                        <?php echo esc_html__('Assigned By:', 'simple-task-manager-lite'); ?> <?php echo esc_html(self::user_name((int) $pending_item->created_by)); ?>
-                                        · <?php echo esc_html__('Assigned To:', 'simple-task-manager-lite'); ?> <?php echo esc_html(self::user_name((int) $pending_item->assigned_to)); ?>
+                                        <?php echo esc_html__('Assigned By:', 'neura-task-manager'); ?> <?php echo esc_html(self::user_name((int) $pending_item->created_by)); ?>
+                                        · <?php echo esc_html__('Assigned To:', 'neura-task-manager'); ?> <?php echo esc_html(self::user_name((int) $pending_item->assigned_to)); ?>
                                     </div>
-                                    <div style="margin:4px 0 8px;"><?php echo esc_html__('Reason:', 'simple-task-manager-lite'); ?> <?php echo esc_html((string) $pending_item->overdue_reason); ?></div>
+                                    <div style="margin:4px 0 8px;"><?php echo esc_html__('Reason:', 'neura-task-manager'); ?> <?php echo esc_html((string) $pending_item->overdue_reason); ?></div>
                                     <?php
                                     $accept_u = wp_nonce_url(
                                         add_query_arg(
@@ -3569,8 +3569,8 @@ final class STM_Simple_Task_Management {
                                         'stm_review_overdue_reason'
                                     );
                                     ?>
-                                    <a class="stm-btn stm-btn-status" href="<?php echo esc_url($accept_u); ?>">✅ <?php echo esc_html__('Accept', 'simple-task-manager-lite'); ?></a>
-                                    <a class="stm-btn stm-btn-delete" href="<?php echo esc_url($reject_u); ?>">❌ <?php echo esc_html__('Reject', 'simple-task-manager-lite'); ?></a>
+                                    <a class="stm-btn stm-btn-status" href="<?php echo esc_url($accept_u); ?>">✅ <?php echo esc_html__('Accept', 'neura-task-manager'); ?></a>
+                                    <a class="stm-btn stm-btn-delete" href="<?php echo esc_url($reject_u); ?>">❌ <?php echo esc_html__('Reject', 'neura-task-manager'); ?></a>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -3589,20 +3589,20 @@ final class STM_Simple_Task_Management {
                                     <?php wp_nonce_field('stm_save_task'); ?>
 
                                     <div class="stm-form-row">
-                                        <label for="stm-title"><?php echo esc_html__('Task Title', 'simple-task-manager-lite'); ?></label>
+                                        <label for="stm-title"><?php echo esc_html__('Task Title', 'neura-task-manager'); ?></label>
                                         <input id="stm-title" name="title" type="text" class="stm-input" required value="<?php echo esc_attr($task ? $task->title : ''); ?>" />
                                     </div>
 
                                     <div class="stm-form-row">
-                                        <label for="stm-description"><?php echo esc_html__('Description', 'simple-task-manager-lite'); ?></label>
+                                        <label for="stm-description"><?php echo esc_html__('Description', 'neura-task-manager'); ?></label>
                                         <textarea id="stm-description" name="description" class="stm-textarea"><?php echo esc_textarea($task ? $task->description : ''); ?></textarea>
                                     </div>
 
                                     <div class="stm-grid-2">
                                         <div class="stm-form-row">
-                                            <label for="stm-assigned-to"><?php echo esc_html__('Assign To', 'simple-task-manager-lite'); ?></label>
+                                            <label for="stm-assigned-to"><?php echo esc_html__('Assign To', 'neura-task-manager'); ?></label>
                                             <select id="stm-assigned-to" name="assigned_to" class="stm-select">
-                                                <option value="0"><?php echo esc_html__('Unassigned', 'simple-task-manager-lite'); ?></option>
+                                                <option value="0"><?php echo esc_html__('Unassigned', 'neura-task-manager'); ?></option>
                                                 <?php foreach ($assignable_users as $assignable_user) : ?>
                                                     <option value="<?php echo esc_attr((string) $assignable_user->ID); ?>" <?php selected($task ? (int) $task->assigned_to : 0, (int) $assignable_user->ID); ?>>
                                                         <?php echo esc_html($assignable_user->display_name); ?>
@@ -3611,14 +3611,14 @@ final class STM_Simple_Task_Management {
                                             </select>
                                         </div>
                                         <div class="stm-form-row">
-                                            <label for="stm-due-date"><?php echo esc_html__('Due Date', 'simple-task-manager-lite'); ?></label>
+                                            <label for="stm-due-date"><?php echo esc_html__('Due Date', 'neura-task-manager'); ?></label>
                                             <input id="stm-due-date" name="due_date" type="date" class="stm-input" value="<?php echo esc_attr($task ? $task->due_date : ''); ?>" <?php echo ! empty($settings['require_due_date']) ? 'required' : ''; ?> />
                                         </div>
                                     </div>
 
                                     <div class="stm-grid-2">
                                         <div class="stm-form-row">
-                                            <label for="stm-priority"><?php echo esc_html__('Priority', 'simple-task-manager-lite'); ?></label>
+                                            <label for="stm-priority"><?php echo esc_html__('Priority', 'neura-task-manager'); ?></label>
                                             <select id="stm-priority" name="priority" class="stm-select">
                                                 <?php foreach ($priorities as $priority_key => $priority_label) : ?>
                                                     <option value="<?php echo esc_attr($priority_key); ?>" <?php selected($task ? $task->priority : $settings['default_priority'], $priority_key); ?>>
@@ -3628,17 +3628,17 @@ final class STM_Simple_Task_Management {
                                             </select>
                                         </div>
                                         <div class="stm-form-row">
-                                            <label for="stm-reward-points"><?php echo esc_html__('Reward Points', 'simple-task-manager-lite'); ?></label>
+                                            <label for="stm-reward-points"><?php echo esc_html__('Reward Points', 'neura-task-manager'); ?></label>
                                             <input id="stm-reward-points" name="reward_points" type="number" min="0" class="stm-input" value="<?php echo esc_attr($task ? (string) $task->reward_points : (string) self::default_reward_for_priority($settings['default_priority'])); ?>" />
                                         </div>
                                     </div>
 
                                     <button type="submit" class="stm-btn stm-btn-primary">
                                         <span class="dashicons dashicons-plus-alt2" style="font-size:14px;line-height:1.2;"></span>
-                                        <?php echo esc_html($task ? __('Update Task', 'simple-task-manager-lite') : __('Create Task', 'simple-task-manager-lite')); ?>
+                                        <?php echo esc_html($task ? __('Update Task', 'neura-task-manager') : __('Create Task', 'neura-task-manager')); ?>
                                     </button>
                                     <?php if ($task) : ?>
-                                        <a class="stm-btn stm-btn-secondary" href="<?php echo esc_url(admin_url('admin.php?page=stm-task-manager')); ?>"><?php echo esc_html__('Cancel', 'simple-task-manager-lite'); ?></a>
+                                        <a class="stm-btn stm-btn-secondary" href="<?php echo esc_url(admin_url('admin.php?page=stm-task-manager')); ?>"><?php echo esc_html__('Cancel', 'neura-task-manager'); ?></a>
                                     <?php endif; ?>
                                 </form>
                             </div>
@@ -3646,10 +3646,10 @@ final class STM_Simple_Task_Management {
                         <?php endif; ?>
 
                         <div class="stm-card">
-                            <div class="stm-card-header"><?php echo esc_html__('Leaderboard', 'simple-task-manager-lite'); ?></div>
+                            <div class="stm-card-header"><?php echo esc_html__('Leaderboard', 'neura-task-manager'); ?></div>
                             <div class="stm-card-body">
                                 <?php if (empty($leaderboard)) : ?>
-                                    <p><?php echo esc_html__('No points earned yet.', 'simple-task-manager-lite'); ?></p>
+                                    <p><?php echo esc_html__('No points earned yet.', 'neura-task-manager'); ?></p>
                                 <?php else : ?>
                                     <ul class="stm-leader-list">
                                         <?php foreach ($leaderboard as $index => $row_user) : ?>
@@ -3672,20 +3672,20 @@ final class STM_Simple_Task_Management {
                     </div>
 
                     <div class="stm-card">
-                        <div class="stm-card-header"><?php echo esc_html__('Active Tasks', 'simple-task-manager-lite'); ?></div>
+                        <div class="stm-card-header"><?php echo esc_html__('Active Tasks', 'neura-task-manager'); ?></div>
                         <div class="stm-card-body">
                             <form method="get" class="stm-filter-row">
                                 <input type="hidden" name="page" value="stm-task-manager" />
-                                <input type="search" name="task_search" class="stm-search" value="<?php echo esc_attr($search_term); ?>" placeholder="<?php echo esc_attr__('Search task title or description...', 'simple-task-manager-lite'); ?>" />
+                                <input type="search" name="task_search" class="stm-search" value="<?php echo esc_attr($search_term); ?>" placeholder="<?php echo esc_attr__('Search task title or description...', 'neura-task-manager'); ?>" />
                                 <select name="status_filter" class="stm-select" style="width:auto;min-width:160px;">
-                                    <option value=""><?php echo esc_html__('All Status', 'simple-task-manager-lite'); ?></option>
+                                    <option value=""><?php echo esc_html__('All Status', 'neura-task-manager'); ?></option>
                                     <?php foreach ($statuses as $status_key => $status_label) : ?>
                                         <option value="<?php echo esc_attr($status_key); ?>" <?php selected($status_filter, $status_key); ?>><?php echo esc_html($status_label); ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <?php if ($show_admin_employee_filter) : ?>
                                     <select name="assigned_user_filter" class="stm-select" style="width:auto;min-width:200px;">
-                                        <option value="0"><?php echo esc_html__('All Employees', 'simple-task-manager-lite'); ?></option>
+                                        <option value="0"><?php echo esc_html__('All Employees', 'neura-task-manager'); ?></option>
                                         <?php foreach ($assignable_users as $assignable_user) : ?>
                                             <option value="<?php echo esc_attr((string) $assignable_user->ID); ?>" <?php selected($assigned_user_filter, (int) $assignable_user->ID); ?>>
                                                 <?php echo esc_html($assignable_user->display_name); ?>
@@ -3695,7 +3695,7 @@ final class STM_Simple_Task_Management {
                                 <?php endif; ?>
                                 <button class="stm-btn stm-btn-primary" type="submit">
                                     <span class="dashicons dashicons-search" style="font-size:14px;line-height:1.2;"></span>
-                                    <?php echo esc_html__('Apply', 'simple-task-manager-lite'); ?>
+                                    <?php echo esc_html__('Apply', 'neura-task-manager'); ?>
                                 </button>
                             </form>
 
@@ -3703,19 +3703,19 @@ final class STM_Simple_Task_Management {
                                 <table class="widefat striped">
                                     <thead>
                                         <tr>
-                                            <th><?php echo esc_html__('Task Name', 'simple-task-manager-lite'); ?></th>
-                                            <th><?php echo esc_html__('Assigned By', 'simple-task-manager-lite'); ?></th>
-                                            <?php if ($show_assigned_to) : ?><th><?php echo esc_html__('Assigned To', 'simple-task-manager-lite'); ?></th><?php endif; ?>
-                                            <th><?php echo esc_html__('Priority', 'simple-task-manager-lite'); ?></th>
-                                            <th><?php echo esc_html__('Status', 'simple-task-manager-lite'); ?></th>
-                                            <th><?php echo esc_html__('Due Date', 'simple-task-manager-lite'); ?></th>
-                                            <th><?php echo esc_html__('Reward', 'simple-task-manager-lite'); ?></th>
-                                            <th><?php echo esc_html__('Actions', 'simple-task-manager-lite'); ?></th>
+                                            <th><?php echo esc_html__('Task Name', 'neura-task-manager'); ?></th>
+                                            <th><?php echo esc_html__('Assigned By', 'neura-task-manager'); ?></th>
+                                            <?php if ($show_assigned_to) : ?><th><?php echo esc_html__('Assigned To', 'neura-task-manager'); ?></th><?php endif; ?>
+                                            <th><?php echo esc_html__('Priority', 'neura-task-manager'); ?></th>
+                                            <th><?php echo esc_html__('Status', 'neura-task-manager'); ?></th>
+                                            <th><?php echo esc_html__('Due Date', 'neura-task-manager'); ?></th>
+                                            <th><?php echo esc_html__('Reward', 'neura-task-manager'); ?></th>
+                                            <th><?php echo esc_html__('Actions', 'neura-task-manager'); ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php if (empty($tasks)) : ?>
-                                            <tr><td colspan="<?php echo esc_attr($show_assigned_to ? '8' : '7'); ?>"><?php echo esc_html__('No tasks found.', 'simple-task-manager-lite'); ?></td></tr>
+                                            <tr><td colspan="<?php echo esc_attr($show_assigned_to ? '8' : '7'); ?>"><?php echo esc_html__('No tasks found.', 'neura-task-manager'); ?></td></tr>
                                         <?php else : ?>
                                             <?php foreach ($tasks as $item) : ?>
                                                 <tr>
@@ -3737,9 +3737,9 @@ final class STM_Simple_Task_Management {
                                                     <td>
                                                         <div class="stm-action-group">
                                                             <button type="button" class="stm-btn stm-btn-view action-icon stm-view-btn"
-                                                                data-tip="<?php echo esc_attr__('View Task', 'simple-task-manager-lite'); ?>"
-                                                                title="<?php echo esc_attr__('View Task', 'simple-task-manager-lite'); ?>"
-                                                                aria-label="<?php echo esc_attr__('View Task', 'simple-task-manager-lite'); ?>"
+                                                                data-tip="<?php echo esc_attr__('View Task', 'neura-task-manager'); ?>"
+                                                                title="<?php echo esc_attr__('View Task', 'neura-task-manager'); ?>"
+                                                                aria-label="<?php echo esc_attr__('View Task', 'neura-task-manager'); ?>"
                                                                 data-title="<?php echo esc_attr($item->title); ?>"
                                                                 data-description="<?php echo esc_attr((string) $item->description); ?>"
                                                                 data-assignedby="<?php echo esc_attr(self::user_name((int) $item->created_by)); ?>"
@@ -3752,7 +3752,7 @@ final class STM_Simple_Task_Management {
                                                             </button>
 
                                                             <?php if (self::current_user_can_edit_task_item($item)) : ?>
-                                                                <a class="stm-btn stm-btn-edit action-icon" data-tip="<?php echo esc_attr__('Edit Task', 'simple-task-manager-lite'); ?>" title="<?php echo esc_attr__('Edit Task', 'simple-task-manager-lite'); ?>" aria-label="<?php echo esc_attr__('Edit Task', 'simple-task-manager-lite'); ?>" href="<?php echo esc_url(add_query_arg(array('page' => 'stm-task-manager', 'edit_task' => (int) $item->id), admin_url('admin.php'))); ?>">
+                                                                <a class="stm-btn stm-btn-edit action-icon" data-tip="<?php echo esc_attr__('Edit Task', 'neura-task-manager'); ?>" title="<?php echo esc_attr__('Edit Task', 'neura-task-manager'); ?>" aria-label="<?php echo esc_attr__('Edit Task', 'neura-task-manager'); ?>" href="<?php echo esc_url(add_query_arg(array('page' => 'stm-task-manager', 'edit_task' => (int) $item->id), admin_url('admin.php'))); ?>">
                                                                     <span class="dashicons dashicons-edit" style="font-size:14px;line-height:1.2;"></span>
                                                                 </a>
                                                             <?php endif; ?>
@@ -3761,15 +3761,15 @@ final class STM_Simple_Task_Management {
                                                                 <?php
                                                                 if ('todo' === $item->status) {
                                                                     $next_status = 'in_progress';
-                                                                    $next_label  = __('Start', 'simple-task-manager-lite');
+                                                                    $next_label  = __('Start', 'neura-task-manager');
                                                                     $next_icon   = 'dashicons-controls-play';
                                                                 } elseif ('in_progress' === $item->status) {
                                                                     $next_status = 'done';
-                                                                    $next_label  = __('Complete', 'simple-task-manager-lite');
+                                                                    $next_label  = __('Complete', 'neura-task-manager');
                                                                     $next_icon   = 'dashicons-yes-alt';
                                                                 } else {
                                                                     $next_status = 'todo';
-                                                                    $next_label  = __('Reopen', 'simple-task-manager-lite');
+                                                                    $next_label  = __('Reopen', 'neura-task-manager');
                                                                     $next_icon   = 'dashicons-update';
                                                                 }
 
@@ -3803,7 +3803,7 @@ final class STM_Simple_Task_Management {
                                                                     'stm_delete_task'
                                                                 );
                                                                 ?>
-                                                                <a class="stm-btn stm-btn-delete action-icon" data-tip="<?php echo esc_attr__('Delete Task', 'simple-task-manager-lite'); ?>" title="<?php echo esc_attr__('Delete Task', 'simple-task-manager-lite'); ?>" aria-label="<?php echo esc_attr__('Delete Task', 'simple-task-manager-lite'); ?>" href="<?php echo esc_url($delete_url); ?>" onclick="return confirm('Delete this task?');">
+                                                                <a class="stm-btn stm-btn-delete action-icon" data-tip="<?php echo esc_attr__('Delete Task', 'neura-task-manager'); ?>" title="<?php echo esc_attr__('Delete Task', 'neura-task-manager'); ?>" aria-label="<?php echo esc_attr__('Delete Task', 'neura-task-manager'); ?>" href="<?php echo esc_url($delete_url); ?>" onclick="return confirm('Delete this task?');">
                                                                     <span class="dashicons dashicons-trash" style="font-size:14px;line-height:1.2;"></span>
                                                                 </a>
                                                             <?php endif; ?>
@@ -3818,7 +3818,7 @@ final class STM_Simple_Task_Management {
 
                             <div class="stm-task-cards">
                                 <?php if (empty($tasks)) : ?>
-                                    <p><?php echo esc_html__('No tasks found.', 'simple-task-manager-lite'); ?></p>
+                                    <p><?php echo esc_html__('No tasks found.', 'neura-task-manager'); ?></p>
                                 <?php else : ?>
                                     <?php foreach ($tasks as $item) : ?>
                                         <div class="stm-task-item">
@@ -3828,13 +3828,13 @@ final class STM_Simple_Task_Management {
                                             <?php endif; ?>
 
                                             <div class="stm-task-grid">
-                                                <div><span class="stm-k"><?php echo esc_html__('Assigned By', 'simple-task-manager-lite'); ?></span><br><?php echo esc_html(self::user_name((int) $item->created_by)); ?></div>
-                                                <?php if ($show_assigned_to) : ?><div><span class="stm-k"><?php echo esc_html__('Assigned To', 'simple-task-manager-lite'); ?></span><br><?php echo esc_html(self::user_name((int) $item->assigned_to)); ?></div><?php endif; ?>
-                                                <div><span class="stm-k"><?php echo esc_html__('Reward', 'simple-task-manager-lite'); ?></span><br><span class="stm-points">+<?php echo esc_html((string) (int) $item->reward_points); ?></span></div>
-                                                <div><span class="stm-k"><?php echo esc_html__('Priority', 'simple-task-manager-lite'); ?></span><br><span class="stm-badge <?php echo esc_attr(self::priority_badge_class($item->priority)); ?>"><?php echo esc_html(isset($priorities[$item->priority]) ? $priorities[$item->priority] : $item->priority); ?></span></div>
-                                                <div><span class="stm-k"><?php echo esc_html__('Status', 'simple-task-manager-lite'); ?></span><br><span class="stm-badge <?php echo esc_attr(self::status_badge_class($item->status)); ?>"><?php echo esc_html(isset($statuses[$item->status]) ? $statuses[$item->status] : $item->status); ?></span></div>
-                                                <div><span class="stm-k"><?php echo esc_html__('Due Date', 'simple-task-manager-lite'); ?></span><br><?php echo esc_html($item->due_date ? $item->due_date : 'No due date'); ?></div>
-                                                <div><span class="stm-k"><?php echo esc_html__('Updated', 'simple-task-manager-lite'); ?></span><br><?php echo esc_html(mysql2date('Y-m-d H:i', $item->updated_at)); ?></div>
+                                                <div><span class="stm-k"><?php echo esc_html__('Assigned By', 'neura-task-manager'); ?></span><br><?php echo esc_html(self::user_name((int) $item->created_by)); ?></div>
+                                                <?php if ($show_assigned_to) : ?><div><span class="stm-k"><?php echo esc_html__('Assigned To', 'neura-task-manager'); ?></span><br><?php echo esc_html(self::user_name((int) $item->assigned_to)); ?></div><?php endif; ?>
+                                                <div><span class="stm-k"><?php echo esc_html__('Reward', 'neura-task-manager'); ?></span><br><span class="stm-points">+<?php echo esc_html((string) (int) $item->reward_points); ?></span></div>
+                                                <div><span class="stm-k"><?php echo esc_html__('Priority', 'neura-task-manager'); ?></span><br><span class="stm-badge <?php echo esc_attr(self::priority_badge_class($item->priority)); ?>"><?php echo esc_html(isset($priorities[$item->priority]) ? $priorities[$item->priority] : $item->priority); ?></span></div>
+                                                <div><span class="stm-k"><?php echo esc_html__('Status', 'neura-task-manager'); ?></span><br><span class="stm-badge <?php echo esc_attr(self::status_badge_class($item->status)); ?>"><?php echo esc_html(isset($statuses[$item->status]) ? $statuses[$item->status] : $item->status); ?></span></div>
+                                                <div><span class="stm-k"><?php echo esc_html__('Due Date', 'neura-task-manager'); ?></span><br><?php echo esc_html($item->due_date ? $item->due_date : 'No due date'); ?></div>
+                                                <div><span class="stm-k"><?php echo esc_html__('Updated', 'neura-task-manager'); ?></span><br><?php echo esc_html(mysql2date('Y-m-d H:i', $item->updated_at)); ?></div>
                                             </div>
 
                                             <div class="stm-action-group">
@@ -3847,16 +3847,16 @@ final class STM_Simple_Task_Management {
                                                     data-status="<?php echo esc_attr(isset($statuses[$item->status]) ? $statuses[$item->status] : $item->status); ?>"
                                                     data-due="<?php echo esc_attr($item->due_date ? $item->due_date : 'No due date'); ?>"
                                                     data-reward="<?php echo esc_attr((string) (int) $item->reward_points); ?>">
-                                                    <?php echo esc_html__('View', 'simple-task-manager-lite'); ?>
+                                                    <?php echo esc_html__('View', 'neura-task-manager'); ?>
                                                 </button>
 
                                                 <?php if (self::current_user_can_edit_task_item($item)) : ?>
-                                                    <a class="stm-btn stm-btn-edit" href="<?php echo esc_url(add_query_arg(array('page' => 'stm-task-manager', 'edit_task' => (int) $item->id), admin_url('admin.php'))); ?>"><?php echo esc_html__('Edit', 'simple-task-manager-lite'); ?></a>
+                                                    <a class="stm-btn stm-btn-edit" href="<?php echo esc_url(add_query_arg(array('page' => 'stm-task-manager', 'edit_task' => (int) $item->id), admin_url('admin.php'))); ?>"><?php echo esc_html__('Edit', 'neura-task-manager'); ?></a>
                                                 <?php endif; ?>
 
                                                 <?php if (self::current_user_can_delete_task_item($item)) : ?>
                                                     <?php $delete_url_m = wp_nonce_url(add_query_arg(array('action' => 'stm_delete_task', 'task_id' => (int) $item->id), admin_url('admin-post.php')), 'stm_delete_task'); ?>
-                                                    <a class="stm-btn stm-btn-delete" href="<?php echo esc_url($delete_url_m); ?>" onclick="return confirm('Delete this task?');"><?php echo esc_html__('Delete', 'simple-task-manager-lite'); ?></a>
+                                                    <a class="stm-btn stm-btn-delete" href="<?php echo esc_url($delete_url_m); ?>" onclick="return confirm('Delete this task?');"><?php echo esc_html__('Delete', 'neura-task-manager'); ?></a>
                                                 <?php endif; ?>
                                             </div>
                                         </div>
@@ -3884,8 +3884,8 @@ final class STM_Simple_Task_Management {
             <?php if ($is_settings_manager) : ?>
             <dialog id="stm-task-dialog" class="stm-admin-dialog">
                 <div class="stm-dialog-head">
-                    <strong><?php echo esc_html($task ? __('Edit Task', 'simple-task-manager-lite') : __('Add New Task', 'simple-task-manager-lite')); ?></strong>
-                    <button type="button" class="stm-btn stm-btn-secondary" id="stm-close-task-dialog"><?php echo esc_html__('Close', 'simple-task-manager-lite'); ?></button>
+                    <strong><?php echo esc_html($task ? __('Edit Task', 'neura-task-manager') : __('Add New Task', 'neura-task-manager')); ?></strong>
+                    <button type="button" class="stm-btn stm-btn-secondary" id="stm-close-task-dialog"><?php echo esc_html__('Close', 'neura-task-manager'); ?></button>
                 </div>
                 <div class="stm-dialog-body">
                     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
@@ -3893,18 +3893,18 @@ final class STM_Simple_Task_Management {
                         <input type="hidden" name="task_id" value="<?php echo esc_attr($task ? (int) $task->id : 0); ?>" />
                         <?php wp_nonce_field('stm_save_task'); ?>
                         <div class="stm-form-row">
-                            <label><?php echo esc_html__('Task Title', 'simple-task-manager-lite'); ?></label>
+                            <label><?php echo esc_html__('Task Title', 'neura-task-manager'); ?></label>
                             <input name="title" type="text" class="stm-input" required value="<?php echo esc_attr($task ? $task->title : ''); ?>" />
                         </div>
                         <div class="stm-form-row">
-                            <label><?php echo esc_html__('Description', 'simple-task-manager-lite'); ?></label>
+                            <label><?php echo esc_html__('Description', 'neura-task-manager'); ?></label>
                             <textarea name="description" class="stm-textarea"><?php echo esc_textarea($task ? $task->description : ''); ?></textarea>
                         </div>
                         <div class="stm-grid-2">
                             <div class="stm-form-row">
-                                <label><?php echo esc_html__('Assign To', 'simple-task-manager-lite'); ?></label>
+                                <label><?php echo esc_html__('Assign To', 'neura-task-manager'); ?></label>
                                 <select name="assigned_to" class="stm-select">
-                                    <option value="0"><?php echo esc_html__('Unassigned', 'simple-task-manager-lite'); ?></option>
+                                    <option value="0"><?php echo esc_html__('Unassigned', 'neura-task-manager'); ?></option>
                                     <?php foreach ($assignable_users as $assignable_user) : ?>
                                         <option value="<?php echo esc_attr((string) $assignable_user->ID); ?>" <?php selected($task ? (int) $task->assigned_to : 0, (int) $assignable_user->ID); ?>>
                                             <?php echo esc_html($assignable_user->display_name); ?>
@@ -3913,13 +3913,13 @@ final class STM_Simple_Task_Management {
                                 </select>
                             </div>
                             <div class="stm-form-row">
-                                <label><?php echo esc_html__('Due Date', 'simple-task-manager-lite'); ?></label>
+                                <label><?php echo esc_html__('Due Date', 'neura-task-manager'); ?></label>
                                 <input name="due_date" type="date" class="stm-input" value="<?php echo esc_attr($task ? $task->due_date : ''); ?>" <?php echo ! empty($settings['require_due_date']) ? 'required' : ''; ?> />
                             </div>
                         </div>
                         <div class="stm-grid-2">
                             <div class="stm-form-row">
-                                <label><?php echo esc_html__('Priority', 'simple-task-manager-lite'); ?></label>
+                                <label><?php echo esc_html__('Priority', 'neura-task-manager'); ?></label>
                                 <select name="priority" class="stm-select">
                                     <?php foreach ($priorities as $priority_key => $priority_label) : ?>
                                         <option value="<?php echo esc_attr($priority_key); ?>" <?php selected($task ? $task->priority : $settings['default_priority'], $priority_key); ?>><?php echo esc_html($priority_label); ?></option>
@@ -3927,13 +3927,13 @@ final class STM_Simple_Task_Management {
                                 </select>
                             </div>
                             <div class="stm-form-row">
-                                <label><?php echo esc_html__('Reward Points', 'simple-task-manager-lite'); ?></label>
+                                <label><?php echo esc_html__('Reward Points', 'neura-task-manager'); ?></label>
                                 <input name="reward_points" type="number" min="0" class="stm-input" value="<?php echo esc_attr($task ? (string) $task->reward_points : (string) self::default_reward_for_priority($settings['default_priority'])); ?>" />
                             </div>
                         </div>
                         <button type="submit" class="stm-btn stm-btn-primary">
                             <span class="dashicons dashicons-plus-alt2" style="font-size:14px;line-height:1.2;"></span>
-                            <?php echo esc_html($task ? __('Update Task', 'simple-task-manager-lite') : __('Create Task', 'simple-task-manager-lite')); ?>
+                            <?php echo esc_html($task ? __('Update Task', 'neura-task-manager') : __('Create Task', 'neura-task-manager')); ?>
                         </button>
                     </form>
                 </div>
@@ -3941,12 +3941,12 @@ final class STM_Simple_Task_Management {
             <?php endif; ?>
             <dialog id="stm-leaderboard-dialog" class="stm-admin-dialog">
                 <div class="stm-dialog-head">
-                    <strong><?php echo esc_html__('Leaderboard', 'simple-task-manager-lite'); ?></strong>
-                    <button type="button" class="stm-btn stm-btn-secondary" id="stm-close-leaderboard-dialog"><?php echo esc_html__('Close', 'simple-task-manager-lite'); ?></button>
+                    <strong><?php echo esc_html__('Leaderboard', 'neura-task-manager'); ?></strong>
+                    <button type="button" class="stm-btn stm-btn-secondary" id="stm-close-leaderboard-dialog"><?php echo esc_html__('Close', 'neura-task-manager'); ?></button>
                 </div>
                 <div class="stm-dialog-body">
                     <?php if (empty($leaderboard)) : ?>
-                        <p><?php echo esc_html__('No points earned yet.', 'simple-task-manager-lite'); ?></p>
+                        <p><?php echo esc_html__('No points earned yet.', 'neura-task-manager'); ?></p>
                     <?php else : ?>
                         <ul class="stm-leader-list">
                             <?php foreach ($leaderboard as $index => $row_user) : ?>
@@ -3968,16 +3968,16 @@ final class STM_Simple_Task_Management {
             <dialog id="stm-view-dialog">
                 <div class="stm-dialog-head">
                     <strong id="stm-view-title"></strong>
-                    <button type="button" class="stm-btn stm-btn-secondary" id="stm-close-dialog"><?php echo esc_html__('Close', 'simple-task-manager-lite'); ?></button>
+                    <button type="button" class="stm-btn stm-btn-secondary" id="stm-close-dialog"><?php echo esc_html__('Close', 'neura-task-manager'); ?></button>
                 </div>
                 <div class="stm-dialog-body">
                     <p id="stm-view-description"></p>
-                    <p><strong><?php echo esc_html__('Assigned By:', 'simple-task-manager-lite'); ?></strong> <span id="stm-view-assignedby"></span></p>
-                    <?php if ($show_assigned_to) : ?><p><strong><?php echo esc_html__('Assigned To:', 'simple-task-manager-lite'); ?></strong> <span id="stm-view-assignedto"></span></p><?php endif; ?>
-                    <p><strong><?php echo esc_html__('Priority:', 'simple-task-manager-lite'); ?></strong> <span id="stm-view-priority"></span></p>
-                    <p><strong><?php echo esc_html__('Status:', 'simple-task-manager-lite'); ?></strong> <span id="stm-view-status"></span></p>
-                    <p><strong><?php echo esc_html__('Due Date:', 'simple-task-manager-lite'); ?></strong> <span id="stm-view-due"></span></p>
-                    <p><strong><?php echo esc_html__('Reward Points:', 'simple-task-manager-lite'); ?></strong> +<span id="stm-view-reward"></span></p>
+                    <p><strong><?php echo esc_html__('Assigned By:', 'neura-task-manager'); ?></strong> <span id="stm-view-assignedby"></span></p>
+                    <?php if ($show_assigned_to) : ?><p><strong><?php echo esc_html__('Assigned To:', 'neura-task-manager'); ?></strong> <span id="stm-view-assignedto"></span></p><?php endif; ?>
+                    <p><strong><?php echo esc_html__('Priority:', 'neura-task-manager'); ?></strong> <span id="stm-view-priority"></span></p>
+                    <p><strong><?php echo esc_html__('Status:', 'neura-task-manager'); ?></strong> <span id="stm-view-status"></span></p>
+                    <p><strong><?php echo esc_html__('Due Date:', 'neura-task-manager'); ?></strong> <span id="stm-view-due"></span></p>
+                    <p><strong><?php echo esc_html__('Reward Points:', 'neura-task-manager'); ?></strong> +<span id="stm-view-reward"></span></p>
                 </div>
             </dialog>
 
@@ -4083,7 +4083,7 @@ final class STM_Simple_Task_Management {
 
     public static function render_settings_page() {
         if (! self::current_user_can_manage_settings()) {
-            wp_die(esc_html__('You are not allowed to access settings.', 'simple-task-manager-lite'));
+            wp_die(esc_html__('You are not allowed to access settings.', 'neura-task-manager'));
         }
 
         $settings   = self::get_settings();
@@ -4110,7 +4110,7 @@ final class STM_Simple_Task_Management {
 
         ?>
         <div class="wrap">
-            <h1><?php echo esc_html__('Task Manager Settings', 'simple-task-manager-lite'); ?></h1>
+            <h1><?php echo esc_html__('Task Manager Settings', 'neura-task-manager'); ?></h1>
 
             <?php if ($notice_type && $notice_msg) : ?>
                 <div class="notice notice-<?php echo esc_attr('success' === $notice_type ? 'success' : 'error'); ?> is-dismissible">
@@ -4122,10 +4122,10 @@ final class STM_Simple_Task_Management {
                 <input type="hidden" name="action" value="stm_save_settings" />
                 <?php wp_nonce_field('stm_save_settings'); ?>
 
-                <h2><?php echo esc_html__('Access & Visibility', 'simple-task-manager-lite'); ?></h2>
+                <h2><?php echo esc_html__('Access & Visibility', 'neura-task-manager'); ?></h2>
                 <table class="form-table" role="presentation">
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Task Access Roles', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Task Access Roles', 'neura-task-manager'); ?></th>
                         <td>
                             <?php foreach ($roles as $role_key => $role_label) : ?>
                                 <label style="display:block;margin-bottom:4px;">
@@ -4136,7 +4136,7 @@ final class STM_Simple_Task_Management {
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Settings Access Roles', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Settings Access Roles', 'neura-task-manager'); ?></th>
                         <td>
                             <?php foreach ($roles as $role_key => $role_label) : ?>
                                 <label style="display:block;margin-bottom:4px;">
@@ -4147,39 +4147,39 @@ final class STM_Simple_Task_Management {
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-visibility"><?php echo esc_html__('Task Visibility', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-visibility"><?php echo esc_html__('Task Visibility', 'neura-task-manager'); ?></label></th>
                         <td>
                             <select id="stm-visibility" name="visibility">
-                                <option value="all" <?php selected($settings['visibility'], 'all'); ?>><?php echo esc_html__('Show all tasks', 'simple-task-manager-lite'); ?></option>
-                                <option value="own" <?php selected($settings['visibility'], 'own'); ?>><?php echo esc_html__('Show only created/assigned tasks (except settings managers)', 'simple-task-manager-lite'); ?></option>
+                                <option value="all" <?php selected($settings['visibility'], 'all'); ?>><?php echo esc_html__('Show all tasks', 'neura-task-manager'); ?></option>
+                                <option value="own" <?php selected($settings['visibility'], 'own'); ?>><?php echo esc_html__('Show only created/assigned tasks (except settings managers)', 'neura-task-manager'); ?></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Employees See Own Tasks Only', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Employees See Own Tasks Only', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="employee_own_tasks_only" value="1" <?php checked(! empty($settings['employee_own_tasks_only'])); ?> />
-                                <?php echo esc_html__('Non admin/editor users can only see tasks assigned to them or created by them.', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Non admin/editor users can only see tasks assigned to them or created by them.', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                 </table>
 
-                <h2><?php echo esc_html__('Frontend Dashboard', 'simple-task-manager-lite'); ?></h2>
+                <h2><?php echo esc_html__('Frontend Dashboard', 'neura-task-manager'); ?></h2>
                 <table class="form-table" role="presentation">
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Enable Frontend Dashboard', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Enable Frontend Dashboard', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="frontend_enabled" value="1" <?php checked(! empty($settings['frontend_enabled'])); ?> />
-                                <?php echo esc_html__('Allow selected roles to use dashboard shortcode on frontend.', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Allow selected roles to use dashboard shortcode on frontend.', 'neura-task-manager'); ?>
                             </label>
-                            <p class="description"><?php echo esc_html__('Use shortcode: [stm_frontend_dashboard]', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Use shortcode: [stm_frontend_dashboard]', 'neura-task-manager'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Frontend Roles', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Frontend Roles', 'neura-task-manager'); ?></th>
                         <td>
                             <?php foreach ($roles as $role_key => $role_label) : ?>
                                 <label style="display:block;margin-bottom:4px;">
@@ -4190,10 +4190,10 @@ final class STM_Simple_Task_Management {
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-frontend-page-id"><?php echo esc_html__('Frontend Dashboard Page', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-frontend-page-id"><?php echo esc_html__('Frontend Dashboard Page', 'neura-task-manager'); ?></label></th>
                         <td>
                             <select id="stm-frontend-page-id" name="frontend_page_id">
-                                <option value="0"><?php echo esc_html__('Select a page', 'simple-task-manager-lite'); ?></option>
+                                <option value="0"><?php echo esc_html__('Select a page', 'neura-task-manager'); ?></option>
                                 <?php foreach ($pages as $page) : ?>
                                     <option value="<?php echo esc_attr((string) $page->ID); ?>" <?php selected((int) $settings['frontend_page_id'], (int) $page->ID); ?>>
                                         <?php echo esc_html($page->post_title . ' (#' . $page->ID . ')'); ?>
@@ -4203,259 +4203,259 @@ final class STM_Simple_Task_Management {
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-frontend-tasks-home-url"><?php echo esc_html__('Tasks Home URL', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-frontend-tasks-home-url"><?php echo esc_html__('Tasks Home URL', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-frontend-tasks-home-url" type="url" name="frontend_tasks_home_url" value="<?php echo esc_attr((string) $settings['frontend_tasks_home_url']); ?>" class="regular-text" placeholder="https://example.com/tasks/" />
-                            <p class="description"><?php echo esc_html__('Optional. Used for Tasks Home button and forced user redirects. If empty, Frontend Dashboard Page URL is used.', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Optional. Used for Tasks Home button and forced user redirects. If empty, Frontend Dashboard Page URL is used.', 'neura-task-manager'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-frontend-login-url"><?php echo esc_html__('Login Page URL', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-frontend-login-url"><?php echo esc_html__('Login Page URL', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-frontend-login-url" type="url" name="frontend_login_url" value="<?php echo esc_attr((string) $settings['frontend_login_url']); ?>" class="regular-text" placeholder="https://example.com/login/" />
-                            <p class="description"><?php echo esc_html__('Optional. Used for frontend "Login To Continue" button. If empty, WordPress default login URL is used.', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Optional. Used for frontend "Login To Continue" button. If empty, WordPress default login URL is used.', 'neura-task-manager'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-frontend-login-redirect-param"><?php echo esc_html__('Login Redirect Parameter', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-frontend-login-redirect-param"><?php echo esc_html__('Login Redirect Parameter', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-frontend-login-redirect-param" type="text" name="frontend_login_redirect_param" value="<?php echo esc_attr((string) $settings['frontend_login_redirect_param']); ?>" class="regular-text" placeholder="redirect_to" />
-                            <p class="description"><?php echo esc_html__('Query parameter name used by your login page for redirect target. Default: redirect_to', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Query parameter name used by your login page for redirect target. Default: redirect_to', 'neura-task-manager'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-frontend-logout-redirect-url"><?php echo esc_html__('Logout Redirect URL', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-frontend-logout-redirect-url"><?php echo esc_html__('Logout Redirect URL', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-frontend-logout-redirect-url" type="url" name="frontend_logout_redirect_url" value="<?php echo esc_attr((string) $settings['frontend_logout_redirect_url']); ?>" class="regular-text" placeholder="https://example.com/logged-out/" />
-                            <p class="description"><?php echo esc_html__('Optional. If set, users will be redirected to this URL after logout.', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Optional. If set, users will be redirected to this URL after logout.', 'neura-task-manager'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-guest-login-title"><?php echo esc_html__('Guest Login Title', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-guest-login-title"><?php echo esc_html__('Guest Login Title', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-guest-login-title" type="text" name="guest_login_title" value="<?php echo esc_attr((string) $settings['guest_login_title']); ?>" class="regular-text" />
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-guest-login-subtitle"><?php echo esc_html__('Guest Login Subtitle', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-guest-login-subtitle"><?php echo esc_html__('Guest Login Subtitle', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-guest-login-subtitle" type="text" name="guest_login_subtitle" value="<?php echo esc_attr((string) $settings['guest_login_subtitle']); ?>" class="regular-text" />
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-guest-login-button-text"><?php echo esc_html__('Login Button Text', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-guest-login-button-text"><?php echo esc_html__('Login Button Text', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-guest-login-button-text" type="text" name="guest_login_button_text" value="<?php echo esc_attr((string) $settings['guest_login_button_text']); ?>" class="regular-text" />
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-guest-login-note"><?php echo esc_html__('Guest Login Note', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-guest-login-note"><?php echo esc_html__('Guest Login Note', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-guest-login-note" type="text" name="guest_login_note" value="<?php echo esc_attr((string) $settings['guest_login_note']); ?>" class="regular-text" />
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Login Button Style', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Login Button Style', 'neura-task-manager'); ?></th>
                         <td>
                             <label for="stm-guest-login-btn-start" style="margin-right:12px;">
-                                <?php echo esc_html__('Gradient Start', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Gradient Start', 'neura-task-manager'); ?>
                                 <input id="stm-guest-login-btn-start" type="color" name="guest_login_button_color_start" value="<?php echo esc_attr((string) $settings['guest_login_button_color_start']); ?>" <?php disabled($lock_guest_style); ?> />
                             </label>
                             <label for="stm-guest-login-btn-end" style="margin-right:12px;">
-                                <?php echo esc_html__('Gradient End', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Gradient End', 'neura-task-manager'); ?>
                                 <input id="stm-guest-login-btn-end" type="color" name="guest_login_button_color_end" value="<?php echo esc_attr((string) $settings['guest_login_button_color_end']); ?>" <?php disabled($lock_guest_style); ?> />
                             </label>
                             <label for="stm-guest-login-btn-text" style="margin-right:12px;">
-                                <?php echo esc_html__('Text Color', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Text Color', 'neura-task-manager'); ?>
                                 <input id="stm-guest-login-btn-text" type="color" name="guest_login_button_text_color" value="<?php echo esc_attr((string) $settings['guest_login_button_text_color']); ?>" <?php disabled($lock_guest_style); ?> />
                             </label>
                             <label for="stm-guest-login-btn-radius">
-                                <?php echo esc_html__('Radius', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Radius', 'neura-task-manager'); ?>
                                 <input id="stm-guest-login-btn-radius" type="number" min="0" max="30" step="1" name="guest_login_button_radius" value="<?php echo esc_attr((string) (int) $settings['guest_login_button_radius']); ?>" style="width:84px;" <?php disabled($lock_guest_style); ?> />
                             </label>
-                            <p class="description"><?php echo esc_html__('Customize the frontend guest login button style.', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Customize the frontend guest login button style.', 'neura-task-manager'); ?></p>
                             <?php if ($lock_guest_style) : ?>
-                                <p class="description"><strong><?php echo esc_html__('Pro feature:', 'simple-task-manager-lite'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock style controls', 'simple-task-manager-lite'); ?></a></p>
+                                <p class="description"><strong><?php echo esc_html__('Pro feature:', 'neura-task-manager'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock style controls', 'neura-task-manager'); ?></a></p>
                             <?php endif; ?>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Redirect After Login', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Redirect After Login', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="frontend_redirect" value="1" <?php checked(! empty($settings['frontend_redirect'])); ?> />
-                                <?php echo esc_html__('Redirect selected frontend roles to the frontend dashboard page after login.', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Redirect selected frontend roles to the frontend dashboard page after login.', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-dashboard-title"><?php echo esc_html__('Dashboard Title', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-dashboard-title"><?php echo esc_html__('Dashboard Title', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-dashboard-title" type="text" name="dashboard_title" value="<?php echo esc_attr((string) $settings['dashboard_title']); ?>" class="regular-text" <?php disabled($lock_dashboard_title); ?> />
-                            <p class="description"><?php echo esc_html__('Custom title shown on frontend and backend task dashboards.', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Custom title shown on frontend and backend task dashboards.', 'neura-task-manager'); ?></p>
                             <?php if ($lock_dashboard_title) : ?>
-                                <p class="description"><strong><?php echo esc_html__('Pro feature:', 'simple-task-manager-lite'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock custom dashboard title', 'simple-task-manager-lite'); ?></a></p>
+                                <p class="description"><strong><?php echo esc_html__('Pro feature:', 'neura-task-manager'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock custom dashboard title', 'neura-task-manager'); ?></a></p>
                             <?php endif; ?>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Force Tasks Page Only', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Force Tasks Page Only', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="frontend_force_tasks_only" value="1" <?php checked(! empty($settings['frontend_force_tasks_only'])); ?> />
-                                <?php echo esc_html__('Force selected frontend roles to always land on tasks page and block WordPress dashboard access (except settings managers).', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Force selected frontend roles to always land on tasks page and block WordPress dashboard access (except settings managers).', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Enable Employee Task Filter', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Enable Employee Task Filter', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="admin_employee_filter_enabled" value="1" <?php checked(! empty($settings['admin_employee_filter_enabled'])); ?> />
-                                <?php echo esc_html__('Show employee-name filter for admin/editor task tables (backend and frontend dashboard).', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Show employee-name filter for admin/editor task tables (backend and frontend dashboard).', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Enable Auto Refresh', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Enable Auto Refresh', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="auto_refresh_enabled" value="1" <?php checked(! empty($settings['auto_refresh_enabled'])); ?> <?php disabled($lock_auto_refresh); ?> />
-                                <?php echo esc_html__('Auto-refresh task dashboards for latest updates.', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Auto-refresh task dashboards for latest updates.', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Auto Refresh On', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Auto Refresh On', 'neura-task-manager'); ?></th>
                         <td>
                             <label style="display:block;margin-bottom:4px;">
                                 <input type="checkbox" name="auto_refresh_frontend" value="1" <?php checked(! empty($settings['auto_refresh_frontend'])); ?> <?php disabled($lock_auto_refresh); ?> />
-                                <?php echo esc_html__('Frontend dashboard', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Frontend dashboard', 'neura-task-manager'); ?>
                             </label>
                             <label style="display:block;">
                                 <input type="checkbox" name="auto_refresh_backend" value="1" <?php checked(! empty($settings['auto_refresh_backend'])); ?> <?php disabled($lock_auto_refresh); ?> />
-                                <?php echo esc_html__('Backend dashboard', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Backend dashboard', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-auto-refresh-user-scope"><?php echo esc_html__('Auto Refresh User Condition', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-auto-refresh-user-scope"><?php echo esc_html__('Auto Refresh User Condition', 'neura-task-manager'); ?></label></th>
                         <td>
                             <select id="stm-auto-refresh-user-scope" name="auto_refresh_user_scope" <?php disabled($lock_auto_refresh); ?>>
-                                <option value="all" <?php selected($settings['auto_refresh_user_scope'], 'all'); ?>><?php echo esc_html__('All users', 'simple-task-manager-lite'); ?></option>
-                                <option value="admin_editor_only" <?php selected($settings['auto_refresh_user_scope'], 'admin_editor_only'); ?>><?php echo esc_html__('Admin/Editor only', 'simple-task-manager-lite'); ?></option>
-                                <option value="users_only" <?php selected($settings['auto_refresh_user_scope'], 'users_only'); ?>><?php echo esc_html__('Non admin/editor users only', 'simple-task-manager-lite'); ?></option>
+                                <option value="all" <?php selected($settings['auto_refresh_user_scope'], 'all'); ?>><?php echo esc_html__('All users', 'neura-task-manager'); ?></option>
+                                <option value="admin_editor_only" <?php selected($settings['auto_refresh_user_scope'], 'admin_editor_only'); ?>><?php echo esc_html__('Admin/Editor only', 'neura-task-manager'); ?></option>
+                                <option value="users_only" <?php selected($settings['auto_refresh_user_scope'], 'users_only'); ?>><?php echo esc_html__('Non admin/editor users only', 'neura-task-manager'); ?></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Refresh Only When Tab Is Active', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Refresh Only When Tab Is Active', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="auto_refresh_only_visible" value="1" <?php checked(! empty($settings['auto_refresh_only_visible'])); ?> <?php disabled($lock_auto_refresh); ?> />
-                                <?php echo esc_html__('Skip auto refresh when browser tab is in background.', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Skip auto refresh when browser tab is in background.', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-auto-refresh-interval"><?php echo esc_html__('Refresh Interval (seconds)', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-auto-refresh-interval"><?php echo esc_html__('Refresh Interval (seconds)', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-auto-refresh-interval" type="number" min="10" max="3600" name="auto_refresh_interval" value="<?php echo esc_attr((string) $settings['auto_refresh_interval']); ?>" <?php disabled($lock_auto_refresh); ?> />
-                            <p class="description"><?php echo esc_html__('Recommended: 30 to 120 seconds.', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Recommended: 30 to 120 seconds.', 'neura-task-manager'); ?></p>
                             <?php if ($lock_auto_refresh) : ?>
-                                <p class="description"><strong><?php echo esc_html__('Pro feature:', 'simple-task-manager-lite'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock auto refresh settings', 'simple-task-manager-lite'); ?></a></p>
+                                <p class="description"><strong><?php echo esc_html__('Pro feature:', 'neura-task-manager'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock auto refresh settings', 'neura-task-manager'); ?></a></p>
                             <?php endif; ?>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-tasks-per-page"><?php echo esc_html__('Tasks Per Page', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-tasks-per-page"><?php echo esc_html__('Tasks Per Page', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-tasks-per-page" type="number" min="1" max="100" name="tasks_per_page" value="<?php echo esc_attr((string) $settings['tasks_per_page']); ?>" <?php disabled($lock_tasks_per_page); ?> />
-                            <p class="description"><?php echo esc_html__('Controls pagination size on frontend and backend task lists.', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Controls pagination size on frontend and backend task lists.', 'neura-task-manager'); ?></p>
                             <?php if ($lock_tasks_per_page) : ?>
-                                <p class="description"><strong><?php echo esc_html__('Pro feature:', 'simple-task-manager-lite'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock pagination control', 'simple-task-manager-lite'); ?></a></p>
+                                <p class="description"><strong><?php echo esc_html__('Pro feature:', 'neura-task-manager'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock pagination control', 'neura-task-manager'); ?></a></p>
                             <?php endif; ?>
                         </td>
                     </tr>
                 </table>
 
-                <h2><?php echo esc_html__('Slack Integration', 'simple-task-manager-lite'); ?></h2>
+                <h2><?php echo esc_html__('Slack Integration', 'neura-task-manager'); ?></h2>
                 <?php if (self::is_slack_available()) : ?>
                 <table class="form-table" role="presentation">
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Enable Slack Integration', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Enable Slack Integration', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="slack_enabled" value="1" <?php checked(! empty($settings['slack_enabled'])); ?> />
-                                <?php echo esc_html__('Allow Slack channel task creation and assignment notifications.', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Allow Slack channel task creation and assignment notifications.', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-slack-command-endpoint"><?php echo esc_html__('Slack Command Endpoint', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-slack-command-endpoint"><?php echo esc_html__('Slack Command Endpoint', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-slack-command-endpoint" type="text" readonly class="regular-text code" value="<?php echo esc_attr($slack_command_endpoint); ?>" />
-                            <p class="description"><?php echo esc_html__('Use this URL in your Slack Slash Command request URL.', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Use this URL in your Slack Slash Command request URL.', 'neura-task-manager'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Integration Guide', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Integration Guide', 'neura-task-manager'); ?></th>
                         <td>
-                            <a class="button button-secondary" href="<?php echo esc_url($slack_guide_pdf_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Open Slack Guide (PDF)', 'simple-task-manager-lite'); ?></a>
-                            <a class="button button-link" href="<?php echo esc_url($slack_guide_text_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Open Text Version', 'simple-task-manager-lite'); ?></a>
-                            <p class="description"><?php echo esc_html__('Guide files are bundled with this plugin package.', 'simple-task-manager-lite'); ?></p>
+                            <a class="button button-secondary" href="<?php echo esc_url($slack_guide_pdf_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Open Slack Guide (PDF)', 'neura-task-manager'); ?></a>
+                            <a class="button button-link" href="<?php echo esc_url($slack_guide_text_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Open Text Version', 'neura-task-manager'); ?></a>
+                            <p class="description"><?php echo esc_html__('Guide files are bundled with this plugin package.', 'neura-task-manager'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-slack-signing-secret"><?php echo esc_html__('Slack Signing Secret', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-slack-signing-secret"><?php echo esc_html__('Slack Signing Secret', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-slack-signing-secret" type="text" name="slack_signing_secret" value="<?php echo esc_attr((string) $settings['slack_signing_secret']); ?>" class="regular-text" />
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-slack-bot-token"><?php echo esc_html__('Slack Bot Token', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-slack-bot-token"><?php echo esc_html__('Slack Bot Token', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-slack-bot-token" type="text" name="slack_bot_token" value="<?php echo esc_attr((string) $settings['slack_bot_token']); ?>" class="regular-text" />
-                            <p class="description"><?php echo esc_html__('Required for posting assignment notifications. Recommended bot scopes: chat:write, im:write.', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Required for posting assignment notifications. Recommended bot scopes: chat:write, im:write.', 'neura-task-manager'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-slack-channel-id"><?php echo esc_html__('Slack Channel ID', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-slack-channel-id"><?php echo esc_html__('Slack Channel ID', 'neura-task-manager'); ?></label></th>
                         <td>
                             <input id="stm-slack-channel-id" type="text" name="slack_channel_id" value="<?php echo esc_attr((string) $settings['slack_channel_id']); ?>" class="regular-text" />
-                            <p class="description"><?php echo esc_html__('Example: C0123456789. Restricts command channel and sets notification destination.', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Example: C0123456789. Restricts command channel and sets notification destination.', 'neura-task-manager'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Allow Task Create From Slack Command', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Allow Task Create From Slack Command', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="slack_allow_create_from_command" value="1" <?php checked(! empty($settings['slack_allow_create_from_command'])); ?> />
-                                <?php echo esc_html__('Create tasks from Slack slash command requests.', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Create tasks from Slack slash command requests.', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Notify On Assignment', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Notify On Assignment', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="slack_notify_on_assign" value="1" <?php checked(! empty($settings['slack_notify_on_assign'])); ?> />
-                                <?php echo esc_html__('Send Slack channel notification when a task is assigned.', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Send Slack channel notification when a task is assigned.', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Notify Assigned User In DM', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Notify Assigned User In DM', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="slack_notify_on_assign_dm" value="1" <?php checked(! empty($settings['slack_notify_on_assign_dm'])); ?> />
-                                <?php echo esc_html__('Send direct bot message to assigned user chat when task is assigned (requires user mapping).', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Send direct bot message to assigned user chat when task is assigned (requires user mapping).', 'neura-task-manager'); ?>
                             </label>
-                            <p class="description"><?php echo esc_html__('If DM fails, add im:write scope in Slack app and reinstall the app.', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('If DM fails, add im:write scope in Slack app and reinstall the app.', 'neura-task-manager'); ?></p>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('User Mapping (WordPress -> Slack User ID)', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('User Mapping (WordPress -> Slack User ID)', 'neura-task-manager'); ?></th>
                         <td>
                             <?php foreach ($assignable_users as $assignable_user) : ?>
                                 <?php $mapped_id = isset($settings['slack_user_map'][(int) $assignable_user->ID]) ? (string) $settings['slack_user_map'][(int) $assignable_user->ID] : ''; ?>
@@ -4464,48 +4464,48 @@ final class STM_Simple_Task_Management {
                                     <input type="text" name="slack_user_map[<?php echo esc_attr((string) (int) $assignable_user->ID); ?>]" value="<?php echo esc_attr($mapped_id); ?>" placeholder="U012ABCDEF" />
                                 </label>
                             <?php endforeach; ?>
-                            <p class="description"><?php echo esc_html__('Slash command format: @username|Task title|Description|due:YYYY-MM-DD|priority:high|reward:20', 'simple-task-manager-lite'); ?></p>
+                            <p class="description"><?php echo esc_html__('Slash command format: @username|Task title|Description|due:YYYY-MM-DD|priority:high|reward:20', 'neura-task-manager'); ?></p>
                         </td>
                     </tr>
                 </table>
                 <?php else : ?>
                     <table class="form-table" role="presentation">
                         <tr>
-                            <th scope="row"><?php echo esc_html__('Slack Integration', 'simple-task-manager-lite'); ?></th>
+                            <th scope="row"><?php echo esc_html__('Slack Integration', 'neura-task-manager'); ?></th>
                             <td>
-                                <p><?php echo esc_html__('Slack command creation and notifications are available in Pro.', 'simple-task-manager-lite'); ?></p>
-                                <p><a class="button button-secondary" href="https://wpneura.com/simple-task-manager/" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to Pro', 'simple-task-manager-lite'); ?></a></p>
+                                <p><?php echo esc_html__('Slack command creation and notifications are available in Pro.', 'neura-task-manager'); ?></p>
+                                <p><a class="button button-secondary" href="https://wpneura.com/simple-task-manager/" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to Pro', 'neura-task-manager'); ?></a></p>
                             </td>
                         </tr>
                     </table>
                 <?php endif; ?>
 
-                <h2><?php echo esc_html__('Task Permissions', 'simple-task-manager-lite'); ?></h2>
+                <h2><?php echo esc_html__('Task Permissions', 'neura-task-manager'); ?></h2>
                 <table class="form-table" role="presentation">
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Allow User Edit', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Allow User Edit', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="allow_user_edit" value="1" <?php checked(! empty($settings['allow_user_edit'])); ?> />
-                                <?php echo esc_html__('Allow non-settings users to edit tasks.', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Allow non-settings users to edit tasks.', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Allow User Delete', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Allow User Delete', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="allow_user_delete" value="1" <?php checked(! empty($settings['allow_user_delete'])); ?> />
-                                <?php echo esc_html__('Allow non-settings users to delete tasks.', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Allow non-settings users to delete tasks.', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                 </table>
 
-                <h2><?php echo esc_html__('Task Defaults', 'simple-task-manager-lite'); ?></h2>
+                <h2><?php echo esc_html__('Task Defaults', 'neura-task-manager'); ?></h2>
                 <table class="form-table" role="presentation">
                     <tr>
-                        <th scope="row"><label for="stm-default-status"><?php echo esc_html__('Default New Task Status', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-default-status"><?php echo esc_html__('Default New Task Status', 'neura-task-manager'); ?></label></th>
                         <td>
                             <select id="stm-default-status" name="default_status">
                                 <?php foreach ($statuses as $status_key => $status_label) : ?>
@@ -4515,7 +4515,7 @@ final class STM_Simple_Task_Management {
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-default-priority"><?php echo esc_html__('Default New Task Priority', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-default-priority"><?php echo esc_html__('Default New Task Priority', 'neura-task-manager'); ?></label></th>
                         <td>
                             <select id="stm-default-priority" name="default_priority">
                                 <?php foreach ($priorities as $priority_key => $priority_label) : ?>
@@ -4525,99 +4525,99 @@ final class STM_Simple_Task_Management {
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Require Due Date', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Require Due Date', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="require_due_date" value="1" <?php checked(! empty($settings['require_due_date'])); ?> />
-                                <?php echo esc_html__('Make due date mandatory for all tasks.', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Make due date mandatory for all tasks.', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                 </table>
 
-                <h2><?php echo esc_html__('Rewards', 'simple-task-manager-lite'); ?></h2>
+                <h2><?php echo esc_html__('Rewards', 'neura-task-manager'); ?></h2>
                 <table class="form-table" role="presentation">
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Enable Rewards', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Enable Rewards', 'neura-task-manager'); ?></th>
                         <td>
                             <label>
                                 <input type="checkbox" name="rewards_enabled" value="1" <?php checked(! empty($settings['rewards_enabled'])); ?> />
-                                <?php echo esc_html__('Award points when task is completed.', 'simple-task-manager-lite'); ?>
+                                <?php echo esc_html__('Award points when task is completed.', 'neura-task-manager'); ?>
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><label for="stm-reward-award-mode"><?php echo esc_html__('Award Mode', 'simple-task-manager-lite'); ?></label></th>
+                        <th scope="row"><label for="stm-reward-award-mode"><?php echo esc_html__('Award Mode', 'neura-task-manager'); ?></label></th>
                         <td>
                             <select id="stm-reward-award-mode" name="reward_award_mode">
-                                <option value="once" <?php selected($settings['reward_award_mode'], 'once'); ?>><?php echo esc_html__('Once per task', 'simple-task-manager-lite'); ?></option>
-                                <option value="repeat" <?php selected($settings['reward_award_mode'], 'repeat'); ?>><?php echo esc_html__('Every completion (re-open allowed)', 'simple-task-manager-lite'); ?></option>
+                                <option value="once" <?php selected($settings['reward_award_mode'], 'once'); ?>><?php echo esc_html__('Once per task', 'neura-task-manager'); ?></option>
+                                <option value="repeat" <?php selected($settings['reward_award_mode'], 'repeat'); ?>><?php echo esc_html__('Every completion (re-open allowed)', 'neura-task-manager'); ?></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <th scope="row"><?php echo esc_html__('Default Points by Priority', 'simple-task-manager-lite'); ?></th>
+                        <th scope="row"><?php echo esc_html__('Default Points by Priority', 'neura-task-manager'); ?></th>
                         <td>
-                            <label><?php echo esc_html__('Low', 'simple-task-manager-lite'); ?> <input type="number" min="0" name="reward_low" value="<?php echo esc_attr((string) $settings['reward_low']); ?>" /></label>
+                            <label><?php echo esc_html__('Low', 'neura-task-manager'); ?> <input type="number" min="0" name="reward_low" value="<?php echo esc_attr((string) $settings['reward_low']); ?>" /></label>
                             &nbsp;&nbsp;
-                            <label><?php echo esc_html__('Medium', 'simple-task-manager-lite'); ?> <input type="number" min="0" name="reward_medium" value="<?php echo esc_attr((string) $settings['reward_medium']); ?>" /></label>
+                            <label><?php echo esc_html__('Medium', 'neura-task-manager'); ?> <input type="number" min="0" name="reward_medium" value="<?php echo esc_attr((string) $settings['reward_medium']); ?>" /></label>
                             &nbsp;&nbsp;
-                            <label><?php echo esc_html__('High', 'simple-task-manager-lite'); ?> <input type="number" min="0" name="reward_high" value="<?php echo esc_attr((string) $settings['reward_high']); ?>" /></label>
+                            <label><?php echo esc_html__('High', 'neura-task-manager'); ?> <input type="number" min="0" name="reward_high" value="<?php echo esc_attr((string) $settings['reward_high']); ?>" /></label>
                         </td>
                     </tr>
                 </table>
 
-                <?php submit_button(__('Save Settings', 'simple-task-manager-lite')); ?>
-                <a class="button" href="<?php echo esc_url(admin_url('admin.php?page=stm-task-manager')); ?>"><?php echo esc_html__('Back to Tasks', 'simple-task-manager-lite'); ?></a>
+                <?php submit_button(__('Save Settings', 'neura-task-manager')); ?>
+                <a class="button" href="<?php echo esc_url(admin_url('admin.php?page=stm-task-manager')); ?>"><?php echo esc_html__('Back to Tasks', 'neura-task-manager'); ?></a>
             </form>
 
             <hr style="margin:24px 0;" />
-            <h2><?php echo esc_html__('Leaderboard Management', 'simple-task-manager-lite'); ?></h2>
-            <p><?php echo esc_html__('Reset all points, remove a single user from leaderboard, or manually set user points.', 'simple-task-manager-lite'); ?></p>
+            <h2><?php echo esc_html__('Leaderboard Management', 'neura-task-manager'); ?></h2>
+            <p><?php echo esc_html__('Reset all points, remove a single user from leaderboard, or manually set user points.', 'neura-task-manager'); ?></p>
 
             <table class="form-table" role="presentation">
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Reset All Points', 'simple-task-manager-lite'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Reset All Points', 'neura-task-manager'); ?></th>
                     <td>
                         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:inline-block;">
                             <input type="hidden" name="action" value="stm_manage_leaderboard" />
                             <input type="hidden" name="operation" value="reset_all" />
                             <?php wp_nonce_field('stm_manage_leaderboard'); ?>
-                            <button type="submit" class="button button-secondary" onclick="return confirm('Reset points for all users?');" <?php disabled($lock_leaderboard_reset); ?>><?php echo esc_html__('Reset Leaderboard', 'simple-task-manager-lite'); ?></button>
+                            <button type="submit" class="button button-secondary" onclick="return confirm('Reset points for all users?');" <?php disabled($lock_leaderboard_reset); ?>><?php echo esc_html__('Reset Leaderboard', 'neura-task-manager'); ?></button>
                         </form>
                         <?php if ($lock_leaderboard_reset) : ?>
-                            <p class="description"><strong><?php echo esc_html__('Pro feature:', 'simple-task-manager-lite'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock leaderboard reset', 'simple-task-manager-lite'); ?></a></p>
+                            <p class="description"><strong><?php echo esc_html__('Pro feature:', 'neura-task-manager'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock leaderboard reset', 'neura-task-manager'); ?></a></p>
                         <?php endif; ?>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Remove User', 'simple-task-manager-lite'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Remove User', 'neura-task-manager'); ?></th>
                     <td>
                         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
                             <input type="hidden" name="action" value="stm_manage_leaderboard" />
                             <input type="hidden" name="operation" value="remove_user" />
                             <?php wp_nonce_field('stm_manage_leaderboard'); ?>
                             <select name="user_id" required>
-                                <option value=""><?php echo esc_html__('Select user from leaderboard', 'simple-task-manager-lite'); ?></option>
+                                <option value=""><?php echo esc_html__('Select user from leaderboard', 'neura-task-manager'); ?></option>
                                 <?php foreach ($leaderboard_users as $lb_user) : ?>
                                     <option value="<?php echo esc_attr((string) $lb_user->ID); ?>">
                                         <?php echo esc_html($lb_user->display_name . ' (' . (int) get_user_meta($lb_user->ID, self::USER_POINTS_META, true) . ' pts)'); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
-                            <button type="submit" class="button button-secondary" onclick="return confirm('Remove this user from leaderboard?');"><?php echo esc_html__('Remove User', 'simple-task-manager-lite'); ?></button>
+                            <button type="submit" class="button button-secondary" onclick="return confirm('Remove this user from leaderboard?');"><?php echo esc_html__('Remove User', 'neura-task-manager'); ?></button>
                         </form>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Set User Points', 'simple-task-manager-lite'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Set User Points', 'neura-task-manager'); ?></th>
                     <td>
                         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
                             <input type="hidden" name="action" value="stm_manage_leaderboard" />
                             <input type="hidden" name="operation" value="set_points" />
                             <?php wp_nonce_field('stm_manage_leaderboard'); ?>
                             <select name="user_id" required>
-                                <option value=""><?php echo esc_html__('Select user', 'simple-task-manager-lite'); ?></option>
+                                <option value=""><?php echo esc_html__('Select user', 'neura-task-manager'); ?></option>
                                 <?php foreach ($assignable_users as $assignable_user) : ?>
                                     <option value="<?php echo esc_attr((string) $assignable_user->ID); ?>">
                                         <?php echo esc_html($assignable_user->display_name . ' (' . (int) get_user_meta($assignable_user->ID, self::USER_POINTS_META, true) . ' pts)'); ?>
@@ -4625,49 +4625,49 @@ final class STM_Simple_Task_Management {
                                 <?php endforeach; ?>
                             </select>
                             <input type="number" min="0" name="points" value="0" required />
-                            <button type="submit" class="button button-primary"><?php echo esc_html__('Update Points', 'simple-task-manager-lite'); ?></button>
+                            <button type="submit" class="button button-primary"><?php echo esc_html__('Update Points', 'neura-task-manager'); ?></button>
                         </form>
                     </td>
                 </tr>
             </table>
 
             <hr style="margin:24px 0;" />
-            <h2><?php echo esc_html__('Task Data Tools', 'simple-task-manager-lite'); ?></h2>
+            <h2><?php echo esc_html__('Task Data Tools', 'neura-task-manager'); ?></h2>
             <?php if (self::is_data_tools_available()) : ?>
-            <p><?php echo esc_html__('Reset all tasks or export task data in table format.', 'simple-task-manager-lite'); ?></p>
+            <p><?php echo esc_html__('Reset all tasks or export task data in table format.', 'neura-task-manager'); ?></p>
             <table class="form-table" role="presentation">
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Reset Tasks', 'simple-task-manager-lite'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Reset Tasks', 'neura-task-manager'); ?></th>
                     <td>
                         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:inline-block;">
                             <input type="hidden" name="action" value="stm_task_data_tools" />
                             <input type="hidden" name="operation" value="reset_tasks" />
                             <?php wp_nonce_field('stm_task_data_tools'); ?>
-                            <button type="submit" class="button button-secondary" onclick="return confirm('Reset all tasks? This cannot be undone.');"><?php echo esc_html__('Reset All Tasks', 'simple-task-manager-lite'); ?></button>
+                            <button type="submit" class="button button-secondary" onclick="return confirm('Reset all tasks? This cannot be undone.');"><?php echo esc_html__('Reset All Tasks', 'neura-task-manager'); ?></button>
                         </form>
                     </td>
                 </tr>
                 <tr>
-                    <th scope="row"><?php echo esc_html__('Export Tasks', 'simple-task-manager-lite'); ?></th>
+                    <th scope="row"><?php echo esc_html__('Export Tasks', 'neura-task-manager'); ?></th>
                     <td>
                         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
                             <input type="hidden" name="action" value="stm_task_data_tools" />
                             <input type="hidden" name="operation" value="export_tasks" />
                             <?php wp_nonce_field('stm_task_data_tools'); ?>
                             <select name="export_format">
-                                <option value="csv"><?php echo esc_html__('CSV', 'simple-task-manager-lite'); ?></option>
-                                <option value="xlsx"><?php echo esc_html__('Excel (.xls)', 'simple-task-manager-lite'); ?></option>
-                                <option value="pdf"><?php echo esc_html__('PDF Ready (HTML Table)', 'simple-task-manager-lite'); ?></option>
+                                <option value="csv"><?php echo esc_html__('CSV', 'neura-task-manager'); ?></option>
+                                <option value="xlsx"><?php echo esc_html__('Excel (.xls)', 'neura-task-manager'); ?></option>
+                                <option value="pdf"><?php echo esc_html__('PDF Ready (HTML Table)', 'neura-task-manager'); ?></option>
                             </select>
-                            <button type="submit" class="button button-primary"><?php echo esc_html__('Download Export', 'simple-task-manager-lite'); ?></button>
+                            <button type="submit" class="button button-primary"><?php echo esc_html__('Download Export', 'neura-task-manager'); ?></button>
                         </form>
-                        <p class="description"><?php echo esc_html__('PDF Ready exports a print-friendly table file that can be saved as PDF from browser print dialog.', 'simple-task-manager-lite'); ?></p>
+                        <p class="description"><?php echo esc_html__('PDF Ready exports a print-friendly table file that can be saved as PDF from browser print dialog.', 'neura-task-manager'); ?></p>
                     </td>
                 </tr>
             </table>
             <?php else : ?>
-                <p><?php echo esc_html__('Data export and reset tools are available in Pro.', 'simple-task-manager-lite'); ?></p>
-                <p><a class="button button-secondary" href="https://wpneura.com/simple-task-manager/" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to Pro', 'simple-task-manager-lite'); ?></a></p>
+                <p><?php echo esc_html__('Data export and reset tools are available in Pro.', 'neura-task-manager'); ?></p>
+                <p><a class="button button-secondary" href="https://wpneura.com/simple-task-manager/" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to Pro', 'neura-task-manager'); ?></a></p>
             <?php endif; ?>
         </div>
         <?php
