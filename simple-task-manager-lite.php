@@ -250,14 +250,36 @@ final class STM_Simple_Task_Management {
 
     private static function table_name() {
         global $wpdb;
-
-        return $wpdb->prefix . 'stm_tasks';
+        $primary_table = $wpdb->prefix . 'neuratm_tasks';
+        $legacy_table = $wpdb->prefix . 'stm_tasks';
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+        $primary_exists = (string) $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $primary_table));
+        if ($primary_exists === $primary_table) {
+            return $primary_table;
+        }
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+        $legacy_exists = (string) $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $legacy_table));
+        if ($legacy_exists === $legacy_table) {
+            return $legacy_table;
+        }
+        return $primary_table;
     }
 
     private static function reward_log_table_name() {
         global $wpdb;
-
-        return $wpdb->prefix . 'stm_reward_logs';
+        $primary_table = $wpdb->prefix . 'neuratm_reward_logs';
+        $legacy_table = $wpdb->prefix . 'stm_reward_logs';
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+        $primary_exists = (string) $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $primary_table));
+        if ($primary_exists === $primary_table) {
+            return $primary_table;
+        }
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
+        $legacy_exists = (string) $wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $legacy_table));
+        if ($legacy_exists === $legacy_table) {
+            return $legacy_table;
+        }
+        return $primary_table;
     }
 
     private static function escaped_table_name($table_name) {
@@ -329,16 +351,31 @@ final class STM_Simple_Task_Management {
 
     private static function ensure_default_settings() {
         $current = get_option(self::OPTION_SETTINGS, array());
+        if (! is_array($current) || empty($current)) {
+            $legacy = get_option(self::LEGACY_OPTION_SETTINGS, array());
+            if (is_array($legacy) && ! empty($legacy)) {
+                $current = $legacy;
+            }
+        }
         if (! is_array($current)) {
             $current = array();
         }
 
         $merged = wp_parse_args($current, self::default_settings());
         update_option(self::OPTION_SETTINGS, self::sanitize_settings($merged));
+        if (false !== get_option(self::LEGACY_OPTION_SETTINGS, false)) {
+            delete_option(self::LEGACY_OPTION_SETTINGS);
+        }
     }
 
     private static function get_settings() {
         $saved = get_option(self::OPTION_SETTINGS, array());
+        if (! is_array($saved) || empty($saved)) {
+            $legacy = get_option(self::LEGACY_OPTION_SETTINGS, array());
+            if (is_array($legacy) && ! empty($legacy)) {
+                $saved = $legacy;
+            }
+        }
         if (! is_array($saved)) {
             $saved = array();
         }
