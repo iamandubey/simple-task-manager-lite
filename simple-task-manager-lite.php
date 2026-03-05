@@ -79,31 +79,23 @@ final class STM_Simple_Task_Management {
     }
 
     public static function render_admin_icon_css() {
-        echo '<style>
-            #adminmenu .toplevel_page_stm-task-manager .wp-menu-image,
-            #adminmenu .toplevel_page_stm-task-manager:hover .wp-menu-image,
-            #adminmenu .toplevel_page_stm-task-manager.wp-has-current-submenu .wp-menu-image,
-            #adminmenu .toplevel_page_stm-task-manager.current .wp-menu-image {
-                filter: none !important;
-            }
-            #adminmenu .toplevel_page_stm-task-manager .wp-menu-image img,
-            #adminmenu .toplevel_page_stm-task-manager .wp-menu-image::before {
-                width: 20px !important;
-                height: 20px !important;
-                max-width: 20px !important;
-                max-height: 20px !important;
-                filter: none !important;
-            }
-            #adminmenu .toplevel_page_stm-task-manager:hover .wp-menu-image img,
-            #adminmenu .toplevel_page_stm-task-manager.wp-has-current-submenu .wp-menu-image img,
-            #adminmenu .toplevel_page_stm-task-manager.current .wp-menu-image img,
-            #adminmenu .toplevel_page_stm-task-manager:hover .wp-menu-image::before,
-            #adminmenu .toplevel_page_stm-task-manager.wp-has-current-submenu .wp-menu-image::before,
-            #adminmenu .toplevel_page_stm-task-manager.current .wp-menu-image::before {
-                filter: none !important;
-                opacity: 1 !important;
-            }
-        </style>';
+        wp_register_style('neura-task-manager-admin-icon', false, array(), self::VERSION);
+        wp_enqueue_style('neura-task-manager-admin-icon');
+        wp_add_inline_style(
+            'neura-task-manager-admin-icon',
+            '#adminmenu .toplevel_page_stm-task-manager .wp-menu-image,'
+            . '#adminmenu .toplevel_page_stm-task-manager:hover .wp-menu-image,'
+            . '#adminmenu .toplevel_page_stm-task-manager.wp-has-current-submenu .wp-menu-image,'
+            . '#adminmenu .toplevel_page_stm-task-manager.current .wp-menu-image{filter:none!important;}'
+            . '#adminmenu .toplevel_page_stm-task-manager .wp-menu-image img,'
+            . '#adminmenu .toplevel_page_stm-task-manager .wp-menu-image::before{width:20px!important;height:20px!important;max-width:20px!important;max-height:20px!important;filter:none!important;}'
+            . '#adminmenu .toplevel_page_stm-task-manager:hover .wp-menu-image img,'
+            . '#adminmenu .toplevel_page_stm-task-manager.wp-has-current-submenu .wp-menu-image img,'
+            . '#adminmenu .toplevel_page_stm-task-manager.current .wp-menu-image img,'
+            . '#adminmenu .toplevel_page_stm-task-manager:hover .wp-menu-image::before,'
+            . '#adminmenu .toplevel_page_stm-task-manager.wp-has-current-submenu .wp-menu-image::before,'
+            . '#adminmenu .toplevel_page_stm-task-manager.current .wp-menu-image::before{filter:none!important;opacity:1!important;}'
+        );
     }
 
     public static function activate() {
