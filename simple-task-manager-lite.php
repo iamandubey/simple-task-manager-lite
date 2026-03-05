@@ -32,23 +32,23 @@ final class STM_Simple_Task_Management {
         add_action('admin_init', array(__CLASS__, 'maybe_restrict_dashboard_access'));
         add_action('admin_head', array(__CLASS__, 'render_admin_icon_css'));
         add_action('admin_menu', array(__CLASS__, 'register_admin_menu'));
-        add_shortcode('stm_frontend_dashboard', array(__CLASS__, 'render_frontend_dashboard_shortcode'));
+        add_shortcode('neuratm_frontend_dashboard', array(__CLASS__, 'render_frontend_dashboard_shortcode'));
         add_filter('login_redirect', array(__CLASS__, 'filter_login_redirect'), 10, 3);
         add_filter('logout_redirect', array(__CLASS__, 'filter_logout_redirect'), 10, 3);
-        add_action('admin_post_stm_save_task', array(__CLASS__, 'handle_save_task'));
-        add_action('admin_post_stm_delete_task', array(__CLASS__, 'handle_delete_task'));
-        add_action('admin_post_stm_update_status', array(__CLASS__, 'handle_update_status'));
-        add_action('admin_post_stm_save_settings', array(__CLASS__, 'handle_save_settings'));
-        add_action('admin_post_stm_manage_leaderboard', array(__CLASS__, 'handle_manage_leaderboard'));
+        add_action('admin_post_neuratm_save_task', array(__CLASS__, 'handle_save_task'));
+        add_action('admin_post_neuratm_delete_task', array(__CLASS__, 'handle_delete_task'));
+        add_action('admin_post_neuratm_update_status', array(__CLASS__, 'handle_update_status'));
+        add_action('admin_post_neuratm_save_settings', array(__CLASS__, 'handle_save_settings'));
+        add_action('admin_post_neuratm_manage_leaderboard', array(__CLASS__, 'handle_manage_leaderboard'));
         if (self::is_slack_available()) {
             add_action('rest_api_init', array(__CLASS__, 'register_rest_routes'));
         }
         if (self::is_data_tools_available()) {
-            add_action('admin_post_stm_task_data_tools', array(__CLASS__, 'handle_task_data_tools'));
+            add_action('admin_post_neuratm_task_data_tools', array(__CLASS__, 'handle_task_data_tools'));
         }
         if (self::is_overdue_workflow_available()) {
-            add_action('admin_post_stm_submit_overdue_reason', array(__CLASS__, 'handle_submit_overdue_reason'));
-            add_action('admin_post_stm_review_overdue_reason', array(__CLASS__, 'handle_review_overdue_reason'));
+            add_action('admin_post_neuratm_submit_overdue_reason', array(__CLASS__, 'handle_submit_overdue_reason'));
+            add_action('admin_post_neuratm_review_overdue_reason', array(__CLASS__, 'handle_review_overdue_reason'));
         }
     }
 
@@ -1223,7 +1223,7 @@ final class STM_Simple_Task_Management {
             wp_die(esc_html__('You are not allowed to manage settings.', 'neura-task-manager'));
         }
 
-        check_admin_referer('stm_save_settings');
+        check_admin_referer('neuratm_save_settings');
 
         $roles         = self::available_roles();
         $access_roles   = self::unslashed_post_array('access_roles');
@@ -1292,7 +1292,7 @@ final class STM_Simple_Task_Management {
             wp_die(esc_html__('You are not allowed to manage leaderboard.', 'neura-task-manager'));
         }
 
-        check_admin_referer('stm_manage_leaderboard');
+        check_admin_referer('neuratm_manage_leaderboard');
 
         $operation = isset($_POST['operation']) ? sanitize_key(wp_unslash($_POST['operation'])) : '';
 
@@ -1340,7 +1340,7 @@ final class STM_Simple_Task_Management {
             wp_die(esc_html__('You are not allowed to manage task data tools.', 'neura-task-manager'));
         }
 
-        check_admin_referer('stm_task_data_tools');
+        check_admin_referer('neuratm_task_data_tools');
 
         $operation = isset($_POST['operation']) ? sanitize_key(wp_unslash($_POST['operation'])) : '';
 
@@ -1629,7 +1629,7 @@ final class STM_Simple_Task_Management {
             wp_die(esc_html__('You are not allowed to perform this action.', 'neura-task-manager'));
         }
 
-        check_admin_referer('stm_save_task');
+        check_admin_referer('neuratm_save_task');
 
         global $wpdb;
 
@@ -1754,7 +1754,7 @@ final class STM_Simple_Task_Management {
             wp_die(esc_html__('You are not allowed to perform this action.', 'neura-task-manager'));
         }
 
-        check_admin_referer('stm_delete_task');
+        check_admin_referer('neuratm_delete_task');
 
         global $wpdb;
 
@@ -1788,7 +1788,7 @@ final class STM_Simple_Task_Management {
             wp_die(esc_html__('You are not allowed to perform this action.', 'neura-task-manager'));
         }
 
-        check_admin_referer('stm_update_status');
+        check_admin_referer('neuratm_update_status');
 
         global $wpdb;
 
@@ -1878,7 +1878,7 @@ final class STM_Simple_Task_Management {
             wp_die(esc_html__('You are not allowed to perform this action.', 'neura-task-manager'));
         }
 
-        check_admin_referer('stm_submit_overdue_reason');
+        check_admin_referer('neuratm_submit_overdue_reason');
 
         global $wpdb;
 
@@ -1923,14 +1923,14 @@ final class STM_Simple_Task_Management {
             self::redirect_with_notice('error', 'Failed to submit overdue reason. Please try again.');
         }
 
-        $return_url = isset($_POST['stm_return']) ? esc_url_raw(wp_unslash($_POST['stm_return'])) : '';
+        $return_url = isset($_POST['neuratm_return']) ? esc_url_raw(wp_unslash($_POST['neuratm_return'])) : '';
         if ($return_url) {
-            $url = remove_query_arg(array('stm_notice', 'stm_msg', 'edit_task'), $return_url);
+            $url = remove_query_arg(array('neuratm_notice', 'neuratm_msg', 'edit_task'), $return_url);
             $url = add_query_arg(
                 array(
-                    'stm_notice'        => 'success',
-                    'stm_msg'           => rawurlencode('Overdue reason submitted for review.'),
-                    'stm_overdue_ok_id' => (int) $task_id,
+                    'neuratm_notice'        => 'success',
+                    'neuratm_msg'           => rawurlencode('Overdue reason submitted for review.'),
+                    'neuratm_overdue_ok_id' => (int) $task_id,
                 ),
                 $url
             );
@@ -1950,7 +1950,7 @@ final class STM_Simple_Task_Management {
             wp_die(esc_html__('You are not allowed to perform this action.', 'neura-task-manager'));
         }
 
-        check_admin_referer('stm_review_overdue_reason');
+        check_admin_referer('neuratm_review_overdue_reason');
 
         global $wpdb;
 
@@ -2241,14 +2241,14 @@ final class STM_Simple_Task_Management {
 
     private static function redirect_with_notice($type, $text, $page = 'stm-task-manager') {
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Used only as optional redirect destination after protected actions.
-        $return_url = isset($_REQUEST['stm_return']) ? esc_url_raw(wp_unslash($_REQUEST['stm_return'])) : '';
+        $return_url = isset($_REQUEST['neuratm_return']) ? esc_url_raw(wp_unslash($_REQUEST['neuratm_return'])) : '';
 
         if ($return_url) {
-            $url = remove_query_arg(array('stm_notice', 'stm_msg', 'edit_task'), $return_url);
+            $url = remove_query_arg(array('neuratm_notice', 'neuratm_msg', 'edit_task'), $return_url);
             $url = add_query_arg(
                 array(
-                    'stm_notice' => sanitize_key($type),
-                    'stm_msg'    => rawurlencode($text),
+                    'neuratm_notice' => sanitize_key($type),
+                    'neuratm_msg'    => rawurlencode($text),
                 ),
                 $url
             );
@@ -2256,8 +2256,8 @@ final class STM_Simple_Task_Management {
             $url = add_query_arg(
                 array(
                     'page'       => $page,
-                    'stm_notice' => sanitize_key($type),
-                    'stm_msg'    => rawurlencode($text),
+                    'neuratm_notice' => sanitize_key($type),
+                    'neuratm_msg'    => rawurlencode($text),
                 ),
                 admin_url('admin.php')
             );
@@ -2411,9 +2411,9 @@ final class STM_Simple_Task_Management {
         nocache_headers();
 
         $current_url = self::current_request_url();
-        $base_return_url = remove_query_arg(array('stm_notice', 'stm_msg', 'edit_task', 'stm_overdue_ok_id', 'stmf_search', 'stmf_status', 'stmf_assigned_user_filter', 'stm_refresh'), $current_url);
+        $base_return_url = remove_query_arg(array('neuratm_notice', 'neuratm_msg', 'edit_task', 'neuratm_overdue_ok_id', 'stmf_search', 'stmf_status', 'stmf_assigned_user_filter', 'neuratm_refresh'), $current_url);
         $tasks_page_url = self::frontend_tasks_home_url();
-        $frontend_refresh_url = add_query_arg('stm_refresh', time(), $tasks_page_url);
+        $frontend_refresh_url = add_query_arg('neuratm_refresh', time(), $tasks_page_url);
         $settings = self::get_settings();
         $guest_login_title = (string) $settings['guest_login_title'];
         $guest_login_subtitle = (string) $settings['guest_login_subtitle'];
@@ -2496,18 +2496,18 @@ final class STM_Simple_Task_Management {
         }
         $tasks = array_slice($all_tasks, ($current_page - 1) * $per_page, $per_page);
         $frontend_pagination_base_url = remove_query_arg(
-            array('stm_notice', 'stm_msg', 'edit_task', 'stm_overdue_ok_id', 'stm_refresh', 'stmf_page'),
+            array('neuratm_notice', 'neuratm_msg', 'edit_task', 'neuratm_overdue_ok_id', 'neuratm_refresh', 'stmf_page'),
             $current_url
         );
         $overdue_tasks = self::get_overdue_tasks_for_current_user();
         $pending_overdue = $is_settings_manager ? self::get_pending_overdue_for_review() : array();
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $notice_type = isset($_GET['stm_notice']) ? sanitize_key(wp_unslash($_GET['stm_notice'])) : '';
+        $notice_type = isset($_GET['neuratm_notice']) ? sanitize_key(wp_unslash($_GET['neuratm_notice'])) : '';
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-        $notice_msg  = isset($_GET['stm_msg']) ? sanitize_text_field(rawurldecode(wp_unslash($_GET['stm_msg']))) : '';
+        $notice_msg  = isset($_GET['neuratm_msg']) ? sanitize_text_field(rawurldecode(wp_unslash($_GET['neuratm_msg']))) : '';
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $overdue_ok_id = isset($_GET['stm_overdue_ok_id']) ? absint($_GET['stm_overdue_ok_id']) : 0;
+        $overdue_ok_id = isset($_GET['neuratm_overdue_ok_id']) ? absint($_GET['neuratm_overdue_ok_id']) : 0;
         $suppress_top_notice = ('Overdue reason submitted for review.' === $notice_msg);
 
         $todo = 0;
@@ -2586,10 +2586,10 @@ final class STM_Simple_Task_Management {
                                 <?php else : ?>
                                     <p style="margin:0 0 8px;"><?php echo esc_html__('Task is overdue. Submit reason for late completion/review.', 'neura-task-manager'); ?></p>
                                     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-                                        <input type="hidden" name="action" value="stm_submit_overdue_reason">
+                                        <input type="hidden" name="action" value="neuratm_submit_overdue_reason">
                                         <input type="hidden" name="task_id" value="<?php echo esc_attr((string) (int) $overdue_task->id); ?>">
-                                        <input type="hidden" name="stm_return" value="<?php echo esc_attr($base_return_url); ?>">
-                                        <?php wp_nonce_field('stm_submit_overdue_reason'); ?>
+                                        <input type="hidden" name="neuratm_return" value="<?php echo esc_attr($base_return_url); ?>">
+                                        <?php wp_nonce_field('neuratm_submit_overdue_reason'); ?>
                                         <textarea class="overdue-reason" name="overdue_reason" required placeholder="<?php echo esc_attr__('Why was this task delayed?', 'neura-task-manager'); ?>"><?php echo esc_textarea((string) $overdue_task->overdue_reason); ?></textarea>
                                         <div style="margin-top:8px;">
                                             <button type="submit" class="tiny"><?php echo esc_html__('Submit Reason', 'neura-task-manager'); ?></button>
@@ -2620,26 +2620,26 @@ final class STM_Simple_Task_Management {
                                 $accept_url = wp_nonce_url(
                                     add_query_arg(
                                         array(
-                                            'action'     => 'stm_review_overdue_reason',
+                                            'action'     => 'neuratm_review_overdue_reason',
                                             'task_id'    => (int) $pending_task->id,
                                             'decision'   => 'accept',
-                                            'stm_return' => $base_return_url,
+                                            'neuratm_return' => $base_return_url,
                                         ),
                                         admin_url('admin-post.php')
                                     ),
-                                    'stm_review_overdue_reason'
+                                    'neuratm_review_overdue_reason'
                                 );
                                 $reject_url = wp_nonce_url(
                                     add_query_arg(
                                         array(
-                                            'action'     => 'stm_review_overdue_reason',
+                                            'action'     => 'neuratm_review_overdue_reason',
                                             'task_id'    => (int) $pending_task->id,
                                             'decision'   => 'reject',
-                                            'stm_return' => $base_return_url,
+                                            'neuratm_return' => $base_return_url,
                                         ),
                                         admin_url('admin-post.php')
                                     ),
-                                    'stm_review_overdue_reason'
+                                    'neuratm_review_overdue_reason'
                                 );
                                 ?>
                                 <a class="tiny" href="<?php echo esc_url($accept_url); ?>">✅ <?php echo esc_html__('Accept', 'neura-task-manager'); ?></a>
@@ -2655,10 +2655,10 @@ final class STM_Simple_Task_Management {
                         <div class="stm-wrap" style="margin-bottom:12px;">
                             <h4 style="margin:0 0 10px;"><?php echo esc_html($editing_task ? 'Edit Task' : 'Add New Task'); ?></h4>
                             <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-                                <input type="hidden" name="action" value="stm_save_task" />
+                                <input type="hidden" name="action" value="neuratm_save_task" />
                                 <input type="hidden" name="task_id" value="<?php echo esc_attr($editing_task ? (int) $editing_task->id : 0); ?>" />
-                                <input type="hidden" name="stm_return" value="<?php echo esc_attr($base_return_url); ?>" />
-                                <?php wp_nonce_field('stm_save_task'); ?>
+                                <input type="hidden" name="neuratm_return" value="<?php echo esc_attr($base_return_url); ?>" />
+                                <?php wp_nonce_field('neuratm_save_task'); ?>
                                 <p><input class="stm-input" name="title" required placeholder="<?php echo esc_attr__('Task title', 'neura-task-manager'); ?>" value="<?php echo esc_attr($editing_task ? $editing_task->title : ''); ?>"></p>
                                 <p><textarea class="stm-textarea stm-input" name="description" placeholder="<?php echo esc_attr__('Description', 'neura-task-manager'); ?>"><?php echo esc_textarea($editing_task ? $editing_task->description : ''); ?></textarea></p>
                                 <p><select class="stm-select stm-input" name="assigned_to"><option value="0"><?php echo esc_html__('Unassigned', 'neura-task-manager'); ?></option><?php foreach ($assignable_users as $assignable_user) : ?><option value="<?php echo esc_attr((string) $assignable_user->ID); ?>" <?php selected($editing_task ? (int) $editing_task->assigned_to : 0, (int) $assignable_user->ID); ?>><?php echo esc_html($assignable_user->display_name); ?></option><?php endforeach; ?></select></p>
@@ -2752,12 +2752,12 @@ final class STM_Simple_Task_Management {
                                                         <span class="dashicons dashicons-visibility"></span>
                                                     </button>
                                                     <?php
-                                                    $base_action_args = array('stm_return' => $base_return_url, 'task_id' => (int) $task->id);
+                                                    $base_action_args = array('neuratm_return' => $base_return_url, 'task_id' => (int) $task->id);
                                                     if ('todo' === $task->status) { $next_status = 'in_progress'; $next_label = __('Start', 'neura-task-manager'); $next_icon = 'dashicons-controls-play'; }
                                                     elseif ('in_progress' === $task->status) { $next_status = 'done'; $next_label = __('Complete', 'neura-task-manager'); $next_icon = 'dashicons-yes-alt'; }
                                                     else { $next_status = 'todo'; $next_label = __('Reopen', 'neura-task-manager'); $next_icon = 'dashicons-update'; }
-                                                    $status_url = wp_nonce_url(add_query_arg(array_merge($base_action_args, array('action' => 'stm_update_status', 'status' => $next_status)), admin_url('admin-post.php')), 'stm_update_status');
-                                                    $delete_url = wp_nonce_url(add_query_arg(array_merge($base_action_args, array('action' => 'stm_delete_task')), admin_url('admin-post.php')), 'stm_delete_task');
+                                                    $status_url = wp_nonce_url(add_query_arg(array_merge($base_action_args, array('action' => 'neuratm_update_status', 'status' => $next_status)), admin_url('admin-post.php')), 'neuratm_update_status');
+                                                    $delete_url = wp_nonce_url(add_query_arg(array_merge($base_action_args, array('action' => 'neuratm_delete_task')), admin_url('admin-post.php')), 'neuratm_delete_task');
                                                     $edit_url = add_query_arg('edit_task', (int) $task->id, $base_return_url);
                                                     ?>
                                                     <?php if (self::current_user_can_edit_task_item($task)) : ?><a class="tiny edit action-icon" data-tip="<?php echo esc_attr__('Edit Task', 'neura-task-manager'); ?>" title="<?php echo esc_attr__('Edit Task', 'neura-task-manager'); ?>" aria-label="<?php echo esc_attr__('Edit Task', 'neura-task-manager'); ?>" href="<?php echo esc_url($edit_url); ?>"><span class="dashicons dashicons-edit"></span></a><?php endif; ?>
@@ -2812,12 +2812,12 @@ final class STM_Simple_Task_Management {
                                                 <?php echo esc_html__('View', 'neura-task-manager'); ?>
                                             </button>
                                             <?php
-                                            $base_action_args_m = array('stm_return' => $base_return_url, 'task_id' => (int) $task->id);
+                                            $base_action_args_m = array('neuratm_return' => $base_return_url, 'task_id' => (int) $task->id);
                                             if ('todo' === $task->status) { $next_status_m = 'in_progress'; $next_label_m = __('Start', 'neura-task-manager'); $next_icon_m = 'dashicons-controls-play'; }
                                             elseif ('in_progress' === $task->status) { $next_status_m = 'done'; $next_label_m = __('Complete', 'neura-task-manager'); $next_icon_m = 'dashicons-yes-alt'; }
                                             else { $next_status_m = 'todo'; $next_label_m = __('Reopen', 'neura-task-manager'); $next_icon_m = 'dashicons-update'; }
-                                            $status_url_m = wp_nonce_url(add_query_arg(array_merge($base_action_args_m, array('action' => 'stm_update_status', 'status' => $next_status_m)), admin_url('admin-post.php')), 'stm_update_status');
-                                            $delete_url_m = wp_nonce_url(add_query_arg(array_merge($base_action_args_m, array('action' => 'stm_delete_task')), admin_url('admin-post.php')), 'stm_delete_task');
+                                            $status_url_m = wp_nonce_url(add_query_arg(array_merge($base_action_args_m, array('action' => 'neuratm_update_status', 'status' => $next_status_m)), admin_url('admin-post.php')), 'neuratm_update_status');
+                                            $delete_url_m = wp_nonce_url(add_query_arg(array_merge($base_action_args_m, array('action' => 'neuratm_delete_task')), admin_url('admin-post.php')), 'neuratm_delete_task');
                                             $edit_url_m = add_query_arg('edit_task', (int) $task->id, $base_return_url);
                                             ?>
                                             <?php if (self::current_user_can_edit_task_item($task)) : ?><a class="tiny edit" href="<?php echo esc_url($edit_url_m); ?>"><span class="dashicons dashicons-edit"></span><?php echo esc_html__('Edit', 'neura-task-manager'); ?></a><?php endif; ?>
@@ -2854,10 +2854,10 @@ final class STM_Simple_Task_Management {
                 </div>
                 <div class="stm-dialog-body">
                     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-                        <input type="hidden" name="action" value="stm_save_task" />
+                        <input type="hidden" name="action" value="neuratm_save_task" />
                         <input type="hidden" name="task_id" value="<?php echo esc_attr($editing_task ? (int) $editing_task->id : 0); ?>" />
-                        <input type="hidden" name="stm_return" value="<?php echo esc_attr($base_return_url); ?>" />
-                        <?php wp_nonce_field('stm_save_task'); ?>
+                        <input type="hidden" name="neuratm_return" value="<?php echo esc_attr($base_return_url); ?>" />
+                        <?php wp_nonce_field('neuratm_save_task'); ?>
                         <p><input class="stm-input" name="title" required placeholder="<?php echo esc_attr__('Task title', 'neura-task-manager'); ?>" value="<?php echo esc_attr($editing_task ? $editing_task->title : ''); ?>"></p>
                         <p><textarea class="stm-textarea stm-input" name="description" placeholder="<?php echo esc_attr__('Description', 'neura-task-manager'); ?>"><?php echo esc_textarea($editing_task ? $editing_task->description : ''); ?></textarea></p>
                         <p><select class="stm-select stm-input" name="assigned_to"><option value="0"><?php echo esc_html__('Unassigned', 'neura-task-manager'); ?></option><?php foreach ($assignable_users as $assignable_user) : ?><option value="<?php echo esc_attr((string) $assignable_user->ID); ?>" <?php selected($editing_task ? (int) $editing_task->assigned_to : 0, (int) $assignable_user->ID); ?>><?php echo esc_html($assignable_user->display_name); ?></option><?php endforeach; ?></select></p>
@@ -2954,9 +2954,9 @@ final class STM_Simple_Task_Management {
         }
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $notice_type = isset($_GET['stm_notice']) ? sanitize_key(wp_unslash($_GET['stm_notice'])) : '';
+        $notice_type = isset($_GET['neuratm_notice']) ? sanitize_key(wp_unslash($_GET['neuratm_notice'])) : '';
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-        $notice_msg  = isset($_GET['stm_msg']) ? sanitize_text_field(rawurldecode(wp_unslash($_GET['stm_msg']))) : '';
+        $notice_msg  = isset($_GET['neuratm_msg']) ? sanitize_text_field(rawurldecode(wp_unslash($_GET['neuratm_msg']))) : '';
 
         $count_todo        = 0;
         $count_in_progress = 0;
@@ -3000,7 +3000,7 @@ final class STM_Simple_Task_Management {
                     <h1 class="stm-title"><?php echo esc_html($dashboard_title); ?></h1>
                     <div class="stm-top-right">
                         <a class="stm-top-link" href="<?php echo esc_url(self::frontend_tasks_home_url()); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Tasks Home', 'neura-task-manager'); ?></a>
-                        <a class="stm-top-link" href="<?php echo esc_url(add_query_arg('stm_refresh', time(), admin_url('admin.php?page=stm-task-manager'))); ?>"><?php echo esc_html__('Refresh', 'neura-task-manager'); ?></a>
+                        <a class="stm-top-link" href="<?php echo esc_url(add_query_arg('neuratm_refresh', time(), admin_url('admin.php?page=stm-task-manager'))); ?>"><?php echo esc_html__('Refresh', 'neura-task-manager'); ?></a>
                         <div class="stm-user-chip">
                             <span class="dashicons dashicons-admin-users" style="font-size:16px;line-height:1.1;"></span>
                             <?php echo esc_html(wp_get_current_user()->display_name); ?>
@@ -3061,24 +3061,24 @@ final class STM_Simple_Task_Management {
                                     $accept_u = wp_nonce_url(
                                         add_query_arg(
                                             array(
-                                                'action'  => 'stm_review_overdue_reason',
+                                                'action'  => 'neuratm_review_overdue_reason',
                                                 'task_id' => (int) $pending_item->id,
                                                 'decision'=> 'accept',
                                             ),
                                             admin_url('admin-post.php')
                                         ),
-                                        'stm_review_overdue_reason'
+                                        'neuratm_review_overdue_reason'
                                     );
                                     $reject_u = wp_nonce_url(
                                         add_query_arg(
                                             array(
-                                                'action'  => 'stm_review_overdue_reason',
+                                                'action'  => 'neuratm_review_overdue_reason',
                                                 'task_id' => (int) $pending_item->id,
                                                 'decision'=> 'reject',
                                             ),
                                             admin_url('admin-post.php')
                                         ),
-                                        'stm_review_overdue_reason'
+                                        'neuratm_review_overdue_reason'
                                     );
                                     ?>
                                     <a class="stm-btn stm-btn-status" href="<?php echo esc_url($accept_u); ?>">✅ <?php echo esc_html__('Accept', 'neura-task-manager'); ?></a>
@@ -3096,9 +3096,9 @@ final class STM_Simple_Task_Management {
                             <div class="stm-card-header"><?php echo esc_html($task ? 'Edit Task' : 'Add New Task'); ?></div>
                             <div class="stm-card-body">
                                 <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-                                    <input type="hidden" name="action" value="stm_save_task" />
+                                    <input type="hidden" name="action" value="neuratm_save_task" />
                                     <input type="hidden" name="task_id" value="<?php echo esc_attr($task ? (int) $task->id : 0); ?>" />
-                                    <?php wp_nonce_field('stm_save_task'); ?>
+                                    <?php wp_nonce_field('neuratm_save_task'); ?>
 
                                     <div class="stm-form-row">
                                         <label for="stm-title"><?php echo esc_html__('Task Title', 'neura-task-manager'); ?></label>
@@ -3288,13 +3288,13 @@ final class STM_Simple_Task_Management {
                                                                 $status_url = wp_nonce_url(
                                                                     add_query_arg(
                                                                         array(
-                                                                            'action'  => 'stm_update_status',
+                                                                            'action'  => 'neuratm_update_status',
                                                                             'task_id' => (int) $item->id,
                                                                             'status'  => $next_status,
                                                                         ),
                                                                         admin_url('admin-post.php')
                                                                     ),
-                                                                    'stm_update_status'
+                                                                    'neuratm_update_status'
                                                                 );
                                                                 ?>
                                                                 <a class="stm-btn stm-btn-status action-icon" data-tip="<?php echo esc_attr($next_label); ?>" title="<?php echo esc_attr($next_label); ?>" aria-label="<?php echo esc_attr($next_label); ?>" href="<?php echo esc_url($status_url); ?>">
@@ -3307,12 +3307,12 @@ final class STM_Simple_Task_Management {
                                                                 $delete_url = wp_nonce_url(
                                                                     add_query_arg(
                                                                         array(
-                                                                            'action'  => 'stm_delete_task',
+                                                                            'action'  => 'neuratm_delete_task',
                                                                             'task_id' => (int) $item->id,
                                                                         ),
                                                                         admin_url('admin-post.php')
                                                                     ),
-                                                                    'stm_delete_task'
+                                                                    'neuratm_delete_task'
                                                                 );
                                                                 ?>
                                                                 <a class="stm-btn stm-btn-delete action-icon" data-tip="<?php echo esc_attr__('Delete Task', 'neura-task-manager'); ?>" title="<?php echo esc_attr__('Delete Task', 'neura-task-manager'); ?>" aria-label="<?php echo esc_attr__('Delete Task', 'neura-task-manager'); ?>" href="<?php echo esc_url($delete_url); ?>" onclick="return confirm('Delete this task?');">
@@ -3367,7 +3367,7 @@ final class STM_Simple_Task_Management {
                                                 <?php endif; ?>
 
                                                 <?php if (self::current_user_can_delete_task_item($item)) : ?>
-                                                    <?php $delete_url_m = wp_nonce_url(add_query_arg(array('action' => 'stm_delete_task', 'task_id' => (int) $item->id), admin_url('admin-post.php')), 'stm_delete_task'); ?>
+                                                    <?php $delete_url_m = wp_nonce_url(add_query_arg(array('action' => 'neuratm_delete_task', 'task_id' => (int) $item->id), admin_url('admin-post.php')), 'neuratm_delete_task'); ?>
                                                     <a class="stm-btn stm-btn-delete" href="<?php echo esc_url($delete_url_m); ?>" onclick="return confirm('Delete this task?');"><?php echo esc_html__('Delete', 'neura-task-manager'); ?></a>
                                                 <?php endif; ?>
                                             </div>
@@ -3401,9 +3401,9 @@ final class STM_Simple_Task_Management {
                 </div>
                 <div class="stm-dialog-body">
                     <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-                        <input type="hidden" name="action" value="stm_save_task" />
+                        <input type="hidden" name="action" value="neuratm_save_task" />
                         <input type="hidden" name="task_id" value="<?php echo esc_attr($task ? (int) $task->id : 0); ?>" />
-                        <?php wp_nonce_field('stm_save_task'); ?>
+                        <?php wp_nonce_field('neuratm_save_task'); ?>
                         <div class="stm-form-row">
                             <label><?php echo esc_html__('Task Title', 'neura-task-manager'); ?></label>
                             <input name="title" type="text" class="stm-input" required value="<?php echo esc_attr($task ? $task->title : ''); ?>" />
@@ -3519,9 +3519,9 @@ final class STM_Simple_Task_Management {
         $lock_leaderboard_reset = ! self::is_leaderboard_reset_available();
 
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-        $notice_type = isset($_GET['stm_notice']) ? sanitize_key(wp_unslash($_GET['stm_notice'])) : '';
+        $notice_type = isset($_GET['neuratm_notice']) ? sanitize_key(wp_unslash($_GET['neuratm_notice'])) : '';
         // phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-        $notice_msg  = isset($_GET['stm_msg']) ? sanitize_text_field(rawurldecode(wp_unslash($_GET['stm_msg']))) : '';
+        $notice_msg  = isset($_GET['neuratm_msg']) ? sanitize_text_field(rawurldecode(wp_unslash($_GET['neuratm_msg']))) : '';
 
         ?>
         <div class="wrap">
@@ -3534,8 +3534,8 @@ final class STM_Simple_Task_Management {
             <?php endif; ?>
 
             <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
-                <input type="hidden" name="action" value="stm_save_settings" />
-                <?php wp_nonce_field('stm_save_settings'); ?>
+                <input type="hidden" name="action" value="neuratm_save_settings" />
+                <?php wp_nonce_field('neuratm_save_settings'); ?>
 
                 <h2><?php echo esc_html__('Access & Visibility', 'neura-task-manager'); ?></h2>
                 <table class="form-table" role="presentation">
@@ -3590,7 +3590,7 @@ final class STM_Simple_Task_Management {
                                 <input type="checkbox" name="frontend_enabled" value="1" <?php checked(! empty($settings['frontend_enabled'])); ?> />
                                 <?php echo esc_html__('Allow selected roles to use dashboard shortcode on frontend.', 'neura-task-manager'); ?>
                             </label>
-                            <p class="description"><?php echo esc_html__('Use shortcode: [stm_frontend_dashboard]', 'neura-task-manager'); ?></p>
+                            <p class="description"><?php echo esc_html__('Use shortcode: [neuratm_frontend_dashboard]', 'neura-task-manager'); ?></p>
                         </td>
                     </tr>
                     <tr>
@@ -3995,9 +3995,9 @@ final class STM_Simple_Task_Management {
                     <th scope="row"><?php echo esc_html__('Reset All Points', 'neura-task-manager'); ?></th>
                     <td>
                         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:inline-block;">
-                            <input type="hidden" name="action" value="stm_manage_leaderboard" />
+                            <input type="hidden" name="action" value="neuratm_manage_leaderboard" />
                             <input type="hidden" name="operation" value="reset_all" />
-                            <?php wp_nonce_field('stm_manage_leaderboard'); ?>
+                            <?php wp_nonce_field('neuratm_manage_leaderboard'); ?>
                             <button type="submit" class="button button-secondary" onclick="return confirm('Reset points for all users?');" <?php disabled($lock_leaderboard_reset); ?>><?php echo esc_html__('Reset Leaderboard', 'neura-task-manager'); ?></button>
                         </form>
                         <?php if ($lock_leaderboard_reset) : ?>
@@ -4009,9 +4009,9 @@ final class STM_Simple_Task_Management {
                     <th scope="row"><?php echo esc_html__('Remove User', 'neura-task-manager'); ?></th>
                     <td>
                         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-                            <input type="hidden" name="action" value="stm_manage_leaderboard" />
+                            <input type="hidden" name="action" value="neuratm_manage_leaderboard" />
                             <input type="hidden" name="operation" value="remove_user" />
-                            <?php wp_nonce_field('stm_manage_leaderboard'); ?>
+                            <?php wp_nonce_field('neuratm_manage_leaderboard'); ?>
                             <select name="user_id" required>
                                 <option value=""><?php echo esc_html__('Select user from leaderboard', 'neura-task-manager'); ?></option>
                                 <?php foreach ($leaderboard_users as $lb_user) : ?>
@@ -4028,9 +4028,9 @@ final class STM_Simple_Task_Management {
                     <th scope="row"><?php echo esc_html__('Set User Points', 'neura-task-manager'); ?></th>
                     <td>
                         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-                            <input type="hidden" name="action" value="stm_manage_leaderboard" />
+                            <input type="hidden" name="action" value="neuratm_manage_leaderboard" />
                             <input type="hidden" name="operation" value="set_points" />
-                            <?php wp_nonce_field('stm_manage_leaderboard'); ?>
+                            <?php wp_nonce_field('neuratm_manage_leaderboard'); ?>
                             <select name="user_id" required>
                                 <option value=""><?php echo esc_html__('Select user', 'neura-task-manager'); ?></option>
                                 <?php foreach ($assignable_users as $assignable_user) : ?>
@@ -4055,9 +4055,9 @@ final class STM_Simple_Task_Management {
                     <th scope="row"><?php echo esc_html__('Reset Tasks', 'neura-task-manager'); ?></th>
                     <td>
                         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:inline-block;">
-                            <input type="hidden" name="action" value="stm_task_data_tools" />
+                            <input type="hidden" name="action" value="neuratm_task_data_tools" />
                             <input type="hidden" name="operation" value="reset_tasks" />
-                            <?php wp_nonce_field('stm_task_data_tools'); ?>
+                            <?php wp_nonce_field('neuratm_task_data_tools'); ?>
                             <button type="submit" class="button button-secondary" onclick="return confirm('Reset all tasks? This cannot be undone.');"><?php echo esc_html__('Reset All Tasks', 'neura-task-manager'); ?></button>
                         </form>
                     </td>
@@ -4066,9 +4066,9 @@ final class STM_Simple_Task_Management {
                     <th scope="row"><?php echo esc_html__('Export Tasks', 'neura-task-manager'); ?></th>
                     <td>
                         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-                            <input type="hidden" name="action" value="stm_task_data_tools" />
+                            <input type="hidden" name="action" value="neuratm_task_data_tools" />
                             <input type="hidden" name="operation" value="export_tasks" />
-                            <?php wp_nonce_field('stm_task_data_tools'); ?>
+                            <?php wp_nonce_field('neuratm_task_data_tools'); ?>
                             <select name="export_format">
                                 <option value="csv"><?php echo esc_html__('CSV', 'neura-task-manager'); ?></option>
                                 <option value="xlsx"><?php echo esc_html__('Excel (.xls)', 'neura-task-manager'); ?></option>
