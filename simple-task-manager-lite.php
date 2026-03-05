@@ -2502,7 +2502,7 @@ final class STM_Simple_Task_Management {
             }
         }
 
-        $my_points = (int) get_user_meta(get_current_user_id(), self::USER_POINTS_META, true);
+        $my_points = self::get_user_points(get_current_user_id());
         $auto_refresh_enabled = ! empty($settings['auto_refresh_enabled'])
             && ! empty($settings['auto_refresh_frontend'])
             && self::auto_refresh_allowed_for_scope((string) $settings['auto_refresh_user_scope'], $is_settings_manager);
@@ -2950,7 +2950,7 @@ final class STM_Simple_Task_Management {
             }
         }
 
-        $my_points = (int) get_user_meta(get_current_user_id(), self::USER_POINTS_META, true);
+        $my_points = self::get_user_points(get_current_user_id());
         $auto_refresh_enabled = ! empty($settings['auto_refresh_enabled'])
             && ! empty($settings['auto_refresh_backend'])
             && self::auto_refresh_allowed_for_scope((string) $settings['auto_refresh_user_scope'], $is_settings_manager);
