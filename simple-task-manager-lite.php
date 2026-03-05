@@ -2989,7 +2989,7 @@ final class STM_Simple_Task_Management {
         ?>
         <div class="wrap">
 
-            <?php if ( && ) : ?>
+            <?php if ($notice_type && $notice_msg) : ?>
                 <div class="notice notice-<?php echo esc_attr('success' === $notice_type ? 'success' : 'error'); ?> is-dismissible">
                     <p><?php echo esc_html($notice_msg); ?></p>
                 </div>
