@@ -175,6 +175,7 @@ final class STM_Simple_Task_Management {
     public static function activate() {
         self::run_db_migration();
         self::ensure_default_settings();
+        self::migrate_legacy_user_points_meta();
     }
 
     public static function maybe_upgrade() {
@@ -186,6 +187,7 @@ final class STM_Simple_Task_Management {
         if (version_compare((string) $stored_version, self::VERSION, '<')) {
             self::run_db_migration();
             self::ensure_default_settings();
+            self::migrate_legacy_user_points_meta();
         }
     }
 
@@ -2047,6 +2049,26 @@ final class STM_Simple_Task_Management {
         $points  = (int) $points;
         update_user_meta($user_id, self::USER_POINTS_META, $points);
         update_user_meta($user_id, self::LEGACY_USER_POINTS_META, $points);
+    }
+
+    private static function migrate_legacy_user_points_meta() {
+        $users = get_users(
+            array(
+                'meta_key' => self::LEGACY_USER_POINTS_META,
+                'fields'   => array('ID'),
+            )
+        );
+        if (! is_array($users)) {
+            return;
+        }
+        foreach ($users as $user) {
+            $user_id = (int) $user->ID;
+            $current = get_user_meta($user_id, self::USER_POINTS_META, true);
+            if ('' === (string) $current) {
+                $legacy_points = (int) get_user_meta($user_id, self::LEGACY_USER_POINTS_META, true);
+                update_user_meta($user_id, self::USER_POINTS_META, $legacy_points);
+            }
+        }
     }
 
     private static function has_award_for_task($task_id) {
