@@ -4091,7 +4091,7 @@ final class STM_Simple_Task_Management {
         $pages      = get_pages(array('sort_column' => 'post_title', 'sort_order' => 'ASC'));
         $leaderboard_users = self::get_leaderboard(200);
         $assignable_users = self::get_assignable_users();
-        $slack_command_endpoint = rest_url('stm/v1/slack-command');
+        $slack_command_endpoint = rest_url('neura-task-manager/v1/slack-command');
         $slack_guide_pdf_url = plugins_url('Slack-Integration-Guide.pdf', __FILE__);
         $slack_guide_text_url = plugins_url('Slack-Integration-Guide-Clean.txt', __FILE__);
         $pro_upgrade_url = self::pro_upgrade_url();
