@@ -3511,7 +3511,6 @@ final class STM_Simple_Task_Management {
         $slack_command_endpoint = rest_url('neura-task-manager/v1/slack-command');
         $slack_guide_pdf_url = plugins_url('Slack-Integration-Guide.pdf', __FILE__);
         $slack_guide_text_url = plugins_url('Slack-Integration-Guide-Clean.txt', __FILE__);
-        $pro_upgrade_url = self::pro_upgrade_url();
         $lock_dashboard_title = ! self::is_pro_feature_available('custom_dashboard_title');
         $lock_guest_style = ! self::is_pro_feature_available('guest_style_controls');
         $lock_auto_refresh = ! self::is_pro_feature_available('auto_refresh_controls');
@@ -3689,9 +3688,6 @@ final class STM_Simple_Task_Management {
                                 <input id="stm-guest-login-btn-radius" type="number" min="0" max="30" step="1" name="guest_login_button_radius" value="<?php echo esc_attr((string) (int) $settings['guest_login_button_radius']); ?>" style="width:84px;" <?php disabled($lock_guest_style); ?> />
                             </label>
                             <p class="description"><?php echo esc_html__('Customize the frontend guest login button style.', 'neura-task-manager'); ?></p>
-                            <?php if ($lock_guest_style) : ?>
-                                <p class="description"><strong><?php echo esc_html__('Pro feature:', 'neura-task-manager'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock style controls', 'neura-task-manager'); ?></a></p>
-                            <?php endif; ?>
                         </td>
                     </tr>
                     <tr>
@@ -3708,9 +3704,6 @@ final class STM_Simple_Task_Management {
                         <td>
                             <input id="stm-dashboard-title" type="text" name="dashboard_title" value="<?php echo esc_attr((string) $settings['dashboard_title']); ?>" class="regular-text" <?php disabled($lock_dashboard_title); ?> />
                             <p class="description"><?php echo esc_html__('Custom title shown on frontend and backend task dashboards.', 'neura-task-manager'); ?></p>
-                            <?php if ($lock_dashboard_title) : ?>
-                                <p class="description"><strong><?php echo esc_html__('Pro feature:', 'neura-task-manager'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock custom dashboard title', 'neura-task-manager'); ?></a></p>
-                            <?php endif; ?>
                         </td>
                     </tr>
                     <tr>
@@ -3777,9 +3770,6 @@ final class STM_Simple_Task_Management {
                         <td>
                             <input id="stm-auto-refresh-interval" type="number" min="10" max="3600" name="auto_refresh_interval" value="<?php echo esc_attr((string) $settings['auto_refresh_interval']); ?>" <?php disabled($lock_auto_refresh); ?> />
                             <p class="description"><?php echo esc_html__('Recommended: 30 to 120 seconds.', 'neura-task-manager'); ?></p>
-                            <?php if ($lock_auto_refresh) : ?>
-                                <p class="description"><strong><?php echo esc_html__('Pro feature:', 'neura-task-manager'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock auto refresh settings', 'neura-task-manager'); ?></a></p>
-                            <?php endif; ?>
                         </td>
                     </tr>
                     <tr>
@@ -3787,9 +3777,6 @@ final class STM_Simple_Task_Management {
                         <td>
                             <input id="stm-tasks-per-page" type="number" min="1" max="100" name="tasks_per_page" value="<?php echo esc_attr((string) $settings['tasks_per_page']); ?>" <?php disabled($lock_tasks_per_page); ?> />
                             <p class="description"><?php echo esc_html__('Controls pagination size on frontend and backend task lists.', 'neura-task-manager'); ?></p>
-                            <?php if ($lock_tasks_per_page) : ?>
-                                <p class="description"><strong><?php echo esc_html__('Pro feature:', 'neura-task-manager'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock pagination control', 'neura-task-manager'); ?></a></p>
-                            <?php endif; ?>
                         </td>
                     </tr>
                 </table>
@@ -3888,8 +3875,7 @@ final class STM_Simple_Task_Management {
                         <tr>
                             <th scope="row"><?php echo esc_html__('Slack Integration', 'neura-task-manager'); ?></th>
                             <td>
-                                <p><?php echo esc_html__('Slack command creation and notifications are available in Pro.', 'neura-task-manager'); ?></p>
-                                <p><a class="button button-secondary" href="https://wpneura.com/simple-task-manager/" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to Pro', 'neura-task-manager'); ?></a></p>
+                                <p><?php echo esc_html__('Slack integration is currently unavailable.', 'neura-task-manager'); ?></p>
                             </td>
                         </tr>
                     </table>
@@ -4000,9 +3986,6 @@ final class STM_Simple_Task_Management {
                             <?php wp_nonce_field('neuratm_manage_leaderboard'); ?>
                             <button type="submit" class="button button-secondary" onclick="return confirm('Reset points for all users?');" <?php disabled($lock_leaderboard_reset); ?>><?php echo esc_html__('Reset Leaderboard', 'neura-task-manager'); ?></button>
                         </form>
-                        <?php if ($lock_leaderboard_reset) : ?>
-                            <p class="description"><strong><?php echo esc_html__('Pro feature:', 'neura-task-manager'); ?></strong> <a href="<?php echo esc_url($pro_upgrade_url); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to unlock leaderboard reset', 'neura-task-manager'); ?></a></p>
-                        <?php endif; ?>
                     </td>
                 </tr>
                 <tr>
@@ -4081,8 +4064,7 @@ final class STM_Simple_Task_Management {
                 </tr>
             </table>
             <?php else : ?>
-                <p><?php echo esc_html__('Data export and reset tools are available in Pro.', 'neura-task-manager'); ?></p>
-                <p><a class="button button-secondary" href="https://wpneura.com/simple-task-manager/" target="_blank" rel="noopener noreferrer"><?php echo esc_html__('Upgrade to Pro', 'neura-task-manager'); ?></a></p>
+                <p><?php echo esc_html__('Task data tools are currently unavailable.', 'neura-task-manager'); ?></p>
             <?php endif; ?>
         </div>
         <?php
