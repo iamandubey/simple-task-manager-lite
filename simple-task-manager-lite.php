@@ -2031,6 +2031,22 @@ final class STM_Simple_Task_Management {
         return (int) $fallback_user_id;
     }
 
+    private static function get_user_points($user_id) {
+        $user_id = (int) $user_id;
+        $points = (int) get_user_meta($user_id, self::USER_POINTS_META, true);
+        if (0 === $points) {
+            $points = (int) get_user_meta($user_id, self::LEGACY_USER_POINTS_META, true);
+        }
+        return $points;
+    }
+
+    private static function update_user_points($user_id, $points) {
+        $user_id = (int) $user_id;
+        $points  = (int) $points;
+        update_user_meta($user_id, self::USER_POINTS_META, $points);
+        update_user_meta($user_id, self::LEGACY_USER_POINTS_META, $points);
+    }
+
     private static function has_award_for_task($task_id) {
         global $wpdb;
         $table_name = self::escaped_table_name(self::reward_log_table_name());
